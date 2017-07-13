@@ -1,7 +1,9 @@
-package cn.com.wh.ring;
+package cn.com.wh.ring.ui.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import cn.com.wh.ring.R;
 
 public class MainActivity extends AppCompatActivity {
 

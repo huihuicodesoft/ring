@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.jakewharton.butterknife'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -22,5 +23,8 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile deps.appcompatv7
+    compile deps.butterknife
+    annotationProcessor deps.butterknife_annotationProcessor
+
     testCompile 'junit:junit:4.12'
 }
