@@ -24,6 +24,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile deps.appcompatv7
     compile deps.butterknife
+    compile deps.design
     annotationProcessor deps.butterknife_annotationProcessor
 
     testCompile 'junit:junit:4.12'
