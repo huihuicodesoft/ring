@@ -42,5 +42,8 @@ ext.deps = [
         cardviewv7             : 'com.android.support:cardview-v7:' + supportVersion,
 
         butterknife            : 'com.jakewharton:butterknife:8.4.0',
-        butterknife_annotationProcessor            : 'com.jakewharton:butterknife-compiler:8.4.0'
+        butterknife_annotationProcessor            : 'com.jakewharton:butterknife-compiler:8.4.0',
+
+        retrofit               : 'com.squareup.retrofit2:retrofit:2.3.0',
+        gson                   : 'com.squareup.retrofit2:converter-gson:2.3.0'
 ]
