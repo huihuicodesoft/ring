@@ -3,10 +3,12 @@
 buildscript {
     repositories {
         jcenter()
+        mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.android.tools.build:gradle:2.3.3'
         classpath 'com.jakewharton:butterknife-gradle-plugin:8.4.0'
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -45,5 +47,9 @@ ext.deps = [
         butterknife_annotationProcessor            : 'com.jakewharton:butterknife-compiler:8.4.0',
 
         retrofit               : 'com.squareup.retrofit2:retrofit:2.3.0',
-        gson                   : 'com.squareup.retrofit2:converter-gson:2.3.0'
+        gson                   : 'com.squareup.retrofit2:converter-gson:2.3.0',
+
+        greendao               : 'org.greenrobot:greendao:3.2.2',
+        greendao_generator     : 'org.greenrobot:greendao-generator:3.2.2'
+
 ]
