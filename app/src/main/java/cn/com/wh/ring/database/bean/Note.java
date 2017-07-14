@@ -18,7 +18,7 @@ public class Note {
     private String comment;
     private java.util.Date date;
 
-    @Generated
+    @Generated(hash = 1272611929)
     public Note() {
     }
 
@@ -26,8 +26,8 @@ public class Note {
         this.id = id;
     }
 
-    @Generated
-    public Note(Long id, String text, String comment, java.util.Date date) {
+    @Generated(hash = 1028896452)
+    public Note(Long id, @NotNull String text, String comment, java.util.Date date) {
         this.id = id;
         this.text = text;
         this.comment = comment;

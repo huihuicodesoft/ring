@@ -28,6 +28,5 @@ dependencies {
     annotationProcessor deps.butterknife_annotationProcessor
     compile deps.design
     compile deps.greendao
-    compile deps.greendao_generator
     compile project(':network')
 }
