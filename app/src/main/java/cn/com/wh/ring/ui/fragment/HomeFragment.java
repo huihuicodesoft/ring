@@ -3,12 +3,13 @@ package cn.com.wh.ring.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+
+import com.flyco.tablayout.SlidingTabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ import cn.com.wh.ring.ui.fragment.home.RedHallFragment;
  */
 
 public class HomeFragment extends TitleFragment {
-    TabLayout mTabLayout;
+    SlidingTabLayout mTabLayout;
     ViewPager mViewPager;
 
     @BindString(R.string.attention)
@@ -59,7 +60,7 @@ public class HomeFragment extends TitleFragment {
 
     @Override
     public View getTitleView() {
-        mTabLayout = (TabLayout) View.inflate(getContext(), R.layout.title_home, null);
+        mTabLayout = (SlidingTabLayout) View.inflate(getContext(), R.layout.title_home, null);
         return mTabLayout;
     }
 
@@ -81,9 +82,8 @@ public class HomeFragment extends TitleFragment {
         fragmentNames.add(new FragmentName(recommendStr, new RecommendFragment()));
         fragmentNames.add(new FragmentName(anecdoteStr, new AnecdoteFragment()));
         fragmentNames.add(new FragmentName(redHallStr, new RedHallFragment()));
-        mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         mViewPager.setAdapter(new ViewPageAdapter(getChildFragmentManager()));
-        mTabLayout.setupWithViewPager(mViewPager);
+        mTabLayout.setViewPager(mViewPager);
     }
 
     private class ViewPageAdapter extends FragmentPagerAdapter {

@@ -33,4 +33,5 @@ dependencies {
     compile deps.converter_gson
     compile deps.logging_interceptor
     compile deps.okhttp
+    compile deps.flycoTabLayout
 }

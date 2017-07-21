@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -28,6 +29,9 @@ public abstract class TitleFragment extends Fragment {
     LinearLayout mTitleLl;
 
     Unbinder mUnbinder;
+
+    @BindColor(R.color.title_back)
+    int backColor;
 
     @Nullable
     @Override
@@ -53,7 +57,7 @@ public abstract class TitleFragment extends Fragment {
     }
 
     public int getThemeColor() {
-        return R.color.colorPrimary;
+        return backColor;
     }
 
     public abstract View getTitleView();

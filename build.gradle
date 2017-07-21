@@ -53,6 +53,8 @@ ext.deps = [
         okhttp                 : 'com.squareup.okhttp3:okhttp:3.4.1',
 
         greendao               : 'org.greenrobot:greendao:3.2.2',
-        greendao_generator     : 'org.greenrobot:greendao-generator:3.2.2'
+        greendao_generator     : 'org.greenrobot:greendao-generator:3.2.2',
+
+        flycoTabLayout         :  'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
 
 ]
