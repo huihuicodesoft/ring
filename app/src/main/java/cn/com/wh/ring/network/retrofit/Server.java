@@ -1,5 +1,7 @@
 package cn.com.wh.ring.network.retrofit;
 
+import java.util.concurrent.TimeUnit;
+
 import cn.com.wh.ring.BuildConfig;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -34,6 +36,8 @@ public class Server {
             client.addInterceptor(loggingInterceptor);
         }
         client.addInterceptor(new HeaderInterceptor());
+        client.connectTimeout(8, TimeUnit.SECONDS);
+        client.retryOnConnectionFailure(false);
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(HOST)
