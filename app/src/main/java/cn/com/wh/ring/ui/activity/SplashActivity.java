@@ -7,8 +7,17 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 
 import cn.com.wh.ring.R;
+import cn.com.wh.ring.database.sp.DataCenter;
+import cn.com.wh.ring.helper.TerminalMarkHelper;
+import cn.com.wh.ring.network.request.TerminalMark;
+import cn.com.wh.ring.network.response.Response;
+import cn.com.wh.ring.network.retrofit.Server;
+import cn.com.wh.ring.network.service.Service;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 /**
  * Created by Hui on 2017/7/14.
@@ -22,6 +31,8 @@ public class SplashActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        startConfig();
+
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -29,6 +40,35 @@ public class SplashActivity extends FragmentActivity {
                 skipMain();
             }
         }, STAY_TIME);
+    }
+
+    private void startConfig() {
+        String token = DataCenter.getInstance().getToken();
+        if (TextUtils.isEmpty(token)) {
+            String terminalMark = DataCenter.getInstance().getTerminalMark();
+            if (TextUtils.isEmpty(terminalMark)) {
+                terminalMark = TerminalMarkHelper.createTerminalMark();
+                DataCenter.getInstance().setTerminalMark(terminalMark);
+            }
+            TerminalMark tm = TerminalMarkHelper.split(terminalMark);
+
+            Call<Response<String>> call = Service.touristService.getTerminalToken(tm);
+            call.enqueue(new Callback<Response<String>>() {
+                @Override
+                public void onResponse(Call<Response<String>> call, retrofit2.Response<Response<String>> response) {
+                    Response<String> rep = response.body();
+                    Server.TOKEN = rep.getPayload();
+                }
+
+                @Override
+                public void onFailure(Call<Response<String>> call, Throwable t) {
+
+                }
+            });
+
+        } else {
+            Server.TOKEN = token;
+        }
     }
 
     private void skipMain() {

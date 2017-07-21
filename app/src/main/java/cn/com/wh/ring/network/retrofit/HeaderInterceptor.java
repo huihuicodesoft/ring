@@ -1,8 +1,7 @@
-package cn.com.wh.network.retrofit;
+package cn.com.wh.ring.network.retrofit;
 
 import java.io.IOException;
 
-import cn.com.wh.network.config.ServerConstants;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -18,7 +17,9 @@ public class HeaderInterceptor implements Interceptor {
         Request originalRequest = chain.request();
 
         Request compressedRequest = originalRequest.newBuilder()
-                .header(ServerConstants.HEADER_TOKEN, "gzip")
+                .header(Server.HEADER_TOKEN, Server.TOKEN)
+                .header(Server.HEADER_API_VERSION, Server.API_VERSION)
+                .header("Content-Type", "application/json")
                 .build();
         return chain.proceed(compressedRequest);
     }

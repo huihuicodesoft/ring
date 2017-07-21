@@ -47,7 +47,10 @@ ext.deps = [
         butterknife_annotationProcessor            : 'com.jakewharton:butterknife-compiler:8.4.0',
 
         retrofit               : 'com.squareup.retrofit2:retrofit:2.3.0',
-        gson                   : 'com.squareup.retrofit2:converter-gson:2.3.0',
+        gson                   : 'com.google.code.gson:gson:2.5',
+        converter_gson         : 'com.squareup.retrofit2:converter-gson:2.3.0',
+        logging_interceptor    : 'com.squareup.okhttp3:logging-interceptor:3.4.1',
+        okhttp                 : 'com.squareup.okhttp3:okhttp:3.4.1',
 
         greendao               : 'org.greenrobot:greendao:3.2.2',
         greendao_generator     : 'org.greenrobot:greendao-generator:3.2.2'

@@ -3,8 +3,6 @@ package cn.com.wh.ring.ui.fragment.home;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +12,6 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.com.wh.ring.R;
 import cn.com.wh.ring.ui.view.ListSwipeRefreshLayout;
-import cn.com.wh.ring.ui.view.inter.OnLoadMoreListener;
 
 /**
  * Created by Hui on 2017/7/13.
@@ -40,20 +37,20 @@ public class AttentionFragment extends Fragment {
     }
 
     private void initView() {
-        mListSwipeRefreshLayout.getRecyclerView().setLayoutManager(new LinearLayoutManager(getContext()));
-        //mListSwipeRefreshLayout.getRecyclerView().setAdapter();
-        mListSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-
-            }
-        });
-        mListSwipeRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-
-            }
-        });
+//        mListSwipeRefreshLayout.getRecyclerView().setLayoutManager(new LinearLayoutManager(getContext()));
+//        //mListSwipeRefreshLayout.getRecyclerView().setAdapter();
+//        mListSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//
+//            }
+//        });
+//        mListSwipeRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+//            @Override
+//            public void onLoadMore() {
+//
+//            }
+//        });
     }
 
     @Override

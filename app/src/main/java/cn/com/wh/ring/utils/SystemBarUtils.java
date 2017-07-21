@@ -20,7 +20,7 @@ import cn.com.wh.ring.R;
  * <p/>
  * set statusBar
  */
-public class SystemBarUtils {
+public final class SystemBarUtils {
     private static final String STATUS_BAR_HEIGHT_RES_NAME = "status_bar_height";
 
     public static boolean isMoreKITKAT() {

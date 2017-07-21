@@ -15,9 +15,16 @@ public class MainApplication extends Application {
     public static final boolean ENCRYPTED = false;
     private DaoSession daoSession;
 
+    private static MainApplication mainApplication;
+
+    public static MainApplication getInstance(){
+        return mainApplication;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        mainApplication = MainApplication.this;
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, ENCRYPTED ? "notes-db-encrypted" : "notes-db");
         Database db = ENCRYPTED ? helper.getEncryptedWritableDb("super-secret") : helper.getWritableDb();
         daoSession = new DaoMaster(db).newSession();
