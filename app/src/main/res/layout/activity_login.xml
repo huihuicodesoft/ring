@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        style="@style/bar_login"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            style="@style/bar_login_text"
+            android:text="@string/phone_number" />
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/bar_login">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            style="@style/bar_login_text"
+            android:text="@string/weixin" />
+    </LinearLayout>
+
+    <View style="@style/line_horizontal" />
+
+    <LinearLayout style="@style/bar_login">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            style="@style/bar_login_text"
+            android:text="@string/sina" />
+    </LinearLayout>
+
+    <View style="@style/line_horizontal" />
+
+    <LinearLayout style="@style/bar_login">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            style="@style/bar_login_text"
+            android:text="@string/QQ" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/agree_protocol_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/agrree_protocol_check_selector"
+            android:padding="5dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/agree_app_protocol"
+            android:textSize="12sp"
+            android:textColor="@color/gray"/>
+    </LinearLayout>
+
+</LinearLayout>

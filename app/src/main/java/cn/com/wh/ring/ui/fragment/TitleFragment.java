@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -30,8 +29,6 @@ public abstract class TitleFragment extends Fragment {
 
     Unbinder mUnbinder;
 
-    @BindColor(R.color.title_back)
-    int backColor;
 
     @Nullable
     @Override
@@ -41,8 +38,6 @@ public abstract class TitleFragment extends Fragment {
         mUnbinder = ButterKnife.bind(this, root);
 
         SystemBarUtils.initStatusBarHeight(getResources(), mStatusBar);
-        mStatusBar.setBackgroundColor(getThemeColor());
-        mTitleLl.setBackgroundColor(getThemeColor());
 
         if (getTitleView() != null) {
             mTitleLl.addView(getTitleView(), new LinearLayout.LayoutParams(
@@ -54,10 +49,6 @@ public abstract class TitleFragment extends Fragment {
         }
 
         return root;
-    }
-
-    public int getThemeColor() {
-        return backColor;
     }
 
     public abstract View getTitleView();

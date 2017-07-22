@@ -11,7 +11,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import cn.com.wh.ring.R;
 import cn.com.wh.ring.ui.fragment.ActivityFragment;
 import cn.com.wh.ring.ui.fragment.FindFragment;
@@ -22,15 +21,13 @@ public class MainActivity extends FullScreenActivity {
     @BindView(R.id.unTouchViewPager)
     ViewPager mViewPager;
 
-    Unbinder mUnBinder;
-
     private List<Fragment> fragments = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mUnBinder = ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
 
         initView();
     }
@@ -55,12 +52,6 @@ public class MainActivity extends FullScreenActivity {
         mViewPager.requestDisallowInterceptTouchEvent(true);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mUnBinder.unbind();
-    }
-
     @OnClick(R.id.bottom_home_ll)
     void onHome(){
         mViewPager.setCurrentItem(0, false);
@@ -73,7 +64,7 @@ public class MainActivity extends FullScreenActivity {
 
     @OnClick(R.id.bottom_publish_ll)
     void onPublish(){
-
+        LoginActivity.start(this);
     }
 
     @OnClick(R.id.bottom_find_ll)

@@ -11,6 +11,7 @@ import cn.com.wh.ring.MainApplication;
 public class DataCenter {
     private static final String TOKEN = "token";
     private static final String TERMINAL_MARK = "terminalMark";
+    private static final String AGREE_PROTOCOL = "agreeProtocol";
 
     private SharedPreferences sp;
     private SharedPreferences.Editor mEditor;
@@ -46,5 +47,14 @@ public class DataCenter {
 
     public String getTerminalMark() {
         return sp.getString(TERMINAL_MARK, "");
+    }
+
+    public void setAgreeProtol(boolean isAgreeProtocol) {
+        mEditor.putBoolean(AGREE_PROTOCOL, isAgreeProtocol);
+        mEditor.commit();
+    }
+
+    public boolean isAgreeProtol() {
+        return sp.getBoolean(AGREE_PROTOCOL, false);
     }
 }
