@@ -23,6 +23,9 @@
         <activity android:name=".ui.activity.MainActivity"/>
         <activity android:name=".ui.activity.LoginActivity"/>
         <activity android:name=".ui.activity.ProtocolActivity"/>
+        <activity android:name=".ui.activity.LoginMobileActivity"/>
+        <activity android:name=".ui.activity.CheckMobileActivity"/>
+        <activity android:name=".ui.activity.SettingPasswordActivity"/>
     </application>
 
 </manifest>

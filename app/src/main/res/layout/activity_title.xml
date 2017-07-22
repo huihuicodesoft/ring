@@ -52,7 +52,7 @@
             android:maxWidth="100dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:textColor="@color/white"
+            android:textColor="@color/white_press_selector"
             android:textSize="15sp" />
 
     </RelativeLayout>

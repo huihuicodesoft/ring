@@ -5,6 +5,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/mobile_ll"
         style="@style/bar_login"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp">
@@ -16,11 +17,13 @@
 
         <TextView
             style="@style/bar_login_text"
-            android:text="@string/phone_number" />
+            android:text="@string/mobile_number" />
 
     </LinearLayout>
 
-    <LinearLayout style="@style/bar_login">
+    <LinearLayout
+        android:id="@+id/wx_ll"
+        style="@style/bar_login">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -34,7 +37,9 @@
 
     <View style="@style/line_horizontal" />
 
-    <LinearLayout style="@style/bar_login">
+    <LinearLayout
+        android:id="@+id/sina_ll"
+        style="@style/bar_login">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -48,7 +53,9 @@
 
     <View style="@style/line_horizontal" />
 
-    <LinearLayout style="@style/bar_login">
+    <LinearLayout
+        android:id="@+id/qq_ll"
+        style="@style/bar_login">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -71,16 +78,15 @@
             android:id="@+id/agree_protocol_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/agrree_protocol_check_selector"
             android:padding="5dp"
-            />
+            android:src="@drawable/agrree_protocol_check_selector" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/agree_app_protocol"
-            android:textSize="12sp"
-            android:textColor="@color/gray"/>
+            android:textColor="@color/gray"
+            android:textSize="12sp" />
     </LinearLayout>
 
 </LinearLayout>

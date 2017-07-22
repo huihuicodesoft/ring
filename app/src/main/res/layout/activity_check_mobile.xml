@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        style="@style/bar_input"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="@string/china_code"
+            android:textSize="16sp"
+            android:gravity="center_horizontal"
+            android:id="@+id/textView" />
+
+        <EditText
+            android:id="@+id/mobile_number_et"
+            style="@style/bar_input_et"
+            android:hint="@string/hint_mobile_number"
+            android:inputType="number"
+            android:maxLength="11" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/next_tv"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/main_btn_selector"
+        android:enabled="false"
+        android:gravity="center"
+        android:text="@string/next"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+</LinearLayout>

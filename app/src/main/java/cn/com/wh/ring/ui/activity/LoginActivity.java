@@ -37,14 +37,31 @@ public class LoginActivity extends TitleActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if  (requestCode == ProtocolActivity.REQUEST_CODE_LOGIN) {
+        if (requestCode == ProtocolActivity.REQUEST_CODE_LOGIN) {
             boolean isAgree = DataCenter.getInstance().isAgreeProtol();
             if (isAgree) {
                 mAgreeProtocolIv.setSelected(isAgree);
-            } else{
+            } else {
                 onBackPressed();
             }
         }
+    }
+
+    @OnClick(R.id.mobile_ll)
+    void onMobile() {
+        LoginMobileActivity.start(this);
+    }
+
+    @OnClick(R.id.wx_ll)
+    void onWX() {
+    }
+
+    @OnClick(R.id.sina_ll)
+    void onSina() {
+    }
+
+    @OnClick(R.id.qq_ll)
+    void onQQ() {
     }
 
     @OnClick(R.id.agree_protocol_iv)
@@ -55,7 +72,7 @@ public class LoginActivity extends TitleActivity {
         startProtocol();
     }
 
-    public void startProtocol(){
+    public void startProtocol() {
         Intent intent = new Intent(this, ProtocolActivity.class);
         startActivityForResult(intent, ProtocolActivity.REQUEST_CODE_LOGIN);
     }

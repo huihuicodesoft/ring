@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        style="@style/bar_input"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="@string/mobile_number" />
+
+        <EditText
+            style="@style/bar_input_et"
+            android:hint="@string/hint_mobile_number"
+            android:inputType="number"
+            android:maxLength="11"
+            />
+
+    </LinearLayout>
+
+    <View style="@style/line_horizontal" />
+
+    <LinearLayout
+        style="@style/bar_input">
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="@string/password" />
+
+        <EditText
+            style="@style/bar_input_et"
+            android:hint="@string/hint_password"
+            android:inputType="textPassword"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:enabled="false"
+        android:text="@string/login"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:background="@drawable/main_btn_selector"
+        />
+
+    <TextView
+        android:id="@+id/forget_password_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/forget_password"
+        android:textSize="14sp"
+        android:layout_gravity="right"
+        android:padding="10dp"
+        android:clickable="true"
+        android:textColor="@color/blue_press_selector"
+        />
+
+</LinearLayout>
