@@ -12,7 +12,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/phone" />
 
         <TextView
             style="@style/bar_login_text"
@@ -25,7 +25,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/weixin" />
 
         <TextView
             style="@style/bar_login_text"
@@ -39,7 +39,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/sina" />
 
         <TextView
             style="@style/bar_login_text"
@@ -53,7 +53,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/tencent_qq" />
 
         <TextView
             style="@style/bar_login_text"
