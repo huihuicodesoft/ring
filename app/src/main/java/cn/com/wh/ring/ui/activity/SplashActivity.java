@@ -17,7 +17,7 @@ import cn.com.wh.ring.network.response.Response;
 import cn.com.wh.ring.network.retrofit.ListenerCallBack;
 import cn.com.wh.ring.network.retrofit.NetWorkException;
 import cn.com.wh.ring.network.retrofit.Server;
-import cn.com.wh.ring.network.service.Service;
+import cn.com.wh.ring.network.service.Services;
 import retrofit2.Call;
 
 /**
@@ -53,7 +53,7 @@ public class SplashActivity extends FragmentActivity {
             }
             TerminalMark tm = TerminalMarkHelper.split(terminalMark);
 
-            Call<Response<String>> call = Service.touristService.getTerminalToken(tm);
+            Call<Response<String>> call = Services.touristService.getTerminalToken(tm);
             call.enqueue(new ListenerCallBack<String>() {
                 @Override
                 public void onSuccess(String s) {

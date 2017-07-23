@@ -44,5 +44,13 @@
 
     <string name="tip_confirm_password_diff">两次输入密码不一致</string>
     <string name="tip_verification_code_invalid">验证码错误</string>
+    <string name="tip_verification_code_send">验证码已发送，请注意查收</string>
+    <string name="tip_success_reset_password">设置密码成功</string>
+    <string name="tip_fail_reset_password">设置密码失败</string>
+    <string name="tip_success_register">注册成功</string>
+    <string name="tip_success_login">登录成功</string>
+    <string name="tip_fail_login">登录失败</string>
     <string name="tip_unkown_error">未知错误</string>
+
+    <string name="format_second">%1$d秒</string>
 </resources>

@@ -1,5 +1,7 @@
 package cn.com.wh.ring.ui.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -75,5 +77,11 @@ public class MainActivity extends FullScreenActivity {
     @OnClick(R.id.bottom_me_ll)
     void onMe(){
         mViewPager.setCurrentItem(3, false);
+    }
+
+
+    public static void start(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        context.startActivity(intent);
     }
 }

@@ -52,7 +52,7 @@ public class RSAUtils {
         Cipher cipher = null;
         try {
             // 使用默认RSA
-            cipher = Cipher.getInstance("RSA");
+            cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
             byte[] output = cipher.doFinal(plainTextData);
             return Base64Utils.encode(output);

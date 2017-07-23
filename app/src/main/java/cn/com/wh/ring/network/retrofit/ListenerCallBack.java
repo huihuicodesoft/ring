@@ -1,6 +1,8 @@
 package cn.com.wh.ring.network.retrofit;
 
 
+import java.net.ConnectException;
+
 import cn.com.wh.ring.network.response.Response;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,7 +27,9 @@ public abstract class ListenerCallBack<T> implements Callback<cn.com.wh.ring.net
 
     @Override
     public void onFailure(Call<Response<T>> call, Throwable t) {
-
+        if (t instanceof ConnectException) {
+            onFailure(new NetWorkException(ReturnCode.ERROR_APP_CONNECT, "连接失败"));
+        }
     }
 
     public abstract void onSuccess(T t);
