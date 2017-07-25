@@ -158,7 +158,7 @@ public class SettingPasswordActivity extends TitleActivity {
             @Override
             public void onSuccess(String s) {
                 ToastUtils.showLongToast(R.string.tip_success_register);
-                LoginMobileActivity.start(SettingPasswordActivity.this);
+                LoginMobileActivity.startClearTop(SettingPasswordActivity.this);
             }
 
             @Override
@@ -175,7 +175,7 @@ public class SettingPasswordActivity extends TitleActivity {
             @Override
             public void onSuccess(String s) {
                 ToastUtils.showShortToast(R.string.tip_success_reset_password);
-                LoginMobileActivity.start(SettingPasswordActivity.this);
+                LoginMobileActivity.startClearTop(SettingPasswordActivity.this);
             }
 
             @Override

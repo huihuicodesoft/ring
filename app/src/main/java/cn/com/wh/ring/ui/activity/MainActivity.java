@@ -18,6 +18,7 @@ import cn.com.wh.ring.ui.fragment.ActivityFragment;
 import cn.com.wh.ring.ui.fragment.FindFragment;
 import cn.com.wh.ring.ui.fragment.HomeFragment;
 import cn.com.wh.ring.ui.fragment.MeFragment;
+import cn.com.wh.ring.utils.ToastUtils;
 
 public class MainActivity extends FullScreenActivity {
     @BindView(R.id.unTouchViewPager)
@@ -54,6 +55,13 @@ public class MainActivity extends FullScreenActivity {
         mViewPager.requestDisallowInterceptTouchEvent(true);
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        ToastUtils.showShortToast("MainActivity onNewIntent");
+        setIntent(intent);
+    }
+
     @OnClick(R.id.bottom_home_ll)
     void onHome(){
         mViewPager.setCurrentItem(0, false);
@@ -82,6 +90,7 @@ public class MainActivity extends FullScreenActivity {
 
     public static void start(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
     }
 }

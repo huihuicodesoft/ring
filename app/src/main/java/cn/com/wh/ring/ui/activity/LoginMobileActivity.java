@@ -115,4 +115,10 @@ public class LoginMobileActivity extends TitleActivity {
         Intent intent = new Intent(context, LoginMobileActivity.class);
         context.startActivity(intent);
     }
+
+    public static void startClearTop(Context context) {
+        Intent intent = new Intent(context, LoginMobileActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(intent);
+    }
 }
