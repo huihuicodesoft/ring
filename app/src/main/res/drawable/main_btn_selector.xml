@@ -6,10 +6,16 @@
             <solid android:color="@color/un_use" />
         </shape>
     </item>
-    <item android:state_enabled="true">
+    <item android:state_enabled="true" android:state_pressed="false">
         <shape android:shape="rectangle">
             <corners android:radius="5dp" />
             <solid android:color="@color/main" />
+        </shape>
+    </item>
+    <item android:state_enabled="true" android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="5dp" />
+            <solid android:color="@color/pressed_main" />
         </shape>
     </item>
 </selector>

@@ -17,7 +17,7 @@ public class MainApplication extends Application {
 
     private static MainApplication mainApplication;
 
-    public static MainApplication getInstance(){
+    public static MainApplication getInstance() {
         return mainApplication;
     }
 

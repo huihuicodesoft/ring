@@ -21,7 +21,7 @@ public class TerminalMarkUtils {
     public static String getMacAddress() {
         String result = null;
         if (MainApplication.getInstance() != null) {
-            WifiManager wm = (WifiManager) MainApplication.getInstance().getSystemService(Context.WIFI_SERVICE);
+            WifiManager wm = (WifiManager) MainApplication.getInstance().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             result = wm.getConnectionInfo().getMacAddress();
         }
         return result;
