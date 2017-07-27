@@ -112,31 +112,31 @@ public class PTSortableNinePhotoLayout extends RecyclerView implements OnItemChi
     }
 
     private void initCustomAttr(int attr, TypedArray typedArray) {
-        if (attr == R.styleable.PTSortableNinePhotoLayout_bga_snpl_plusEnable) {
+        if (attr == R.styleable.PTSortableNinePhotoLayout_snpl_plusEnable) {
             mPlusEnable = typedArray.getBoolean(attr, mPlusEnable);
-        } else if (attr == R.styleable.PTSortableNinePhotoLayout_bga_snpl_sortable) {
+        } else if (attr == R.styleable.PTSortableNinePhotoLayout_snpl_sortable) {
             mSortable = typedArray.getBoolean(attr, mSortable);
-        } else if (attr == R.styleable.PTSortableNinePhotoLayout_bga_snpl_deleteDrawable) {
+        } else if (attr == R.styleable.PTSortableNinePhotoLayout_snpl_deleteDrawable) {
             mDeleteDrawableResId = typedArray.getResourceId(attr, mDeleteDrawableResId);
-        } else if (attr == R.styleable.PTSortableNinePhotoLayout_bga_snpl_deleteDrawableOverlapQuarter) {
+        } else if (attr == R.styleable.PTSortableNinePhotoLayout_snpl_deleteDrawableOverlapQuarter) {
             mDeleteDrawableOverlapQuarter = typedArray.getBoolean(attr, mDeleteDrawableOverlapQuarter);
-        } else if (attr == R.styleable.PTSortableNinePhotoLayout_bga_snpl_maxItemCount) {
+        } else if (attr == R.styleable.PTSortableNinePhotoLayout_snpl_maxItemCount) {
             mMaxItemCount = typedArray.getInteger(attr, mMaxItemCount);
-        } else if (attr == R.styleable.PTSortableNinePhotoLayout_bga_snpl_itemSpanCount) {
+        } else if (attr == R.styleable.PTSortableNinePhotoLayout_snpl_itemSpanCount) {
             mItemSpanCount = typedArray.getInteger(attr, mItemSpanCount);
-        } else if (attr == R.styleable.PTSortableNinePhotoLayout_bga_snpl_plusDrawable) {
+        } else if (attr == R.styleable.PTSortableNinePhotoLayout_snpl_plusDrawable) {
             mPlusDrawableResId = typedArray.getResourceId(attr, mPlusDrawableResId);
-        } else if (attr == R.styleable.PTSortableNinePhotoLayout_bga_snpl_itemCornerRadius) {
+        } else if (attr == R.styleable.PTSortableNinePhotoLayout_snpl_itemCornerRadius) {
             mItemCornerRadius = typedArray.getDimensionPixelSize(attr, 0);
-        } else if (attr == R.styleable.PTSortableNinePhotoLayout_bga_snpl_itemWhiteSpacing) {
+        } else if (attr == R.styleable.PTSortableNinePhotoLayout_snpl_itemWhiteSpacing) {
             mItemWhiteSpacing = typedArray.getDimensionPixelSize(attr, mItemWhiteSpacing);
-        } else if (attr == R.styleable.PTSortableNinePhotoLayout_bga_snpl_otherWhiteSpacing) {
+        } else if (attr == R.styleable.PTSortableNinePhotoLayout_snpl_otherWhiteSpacing) {
             mOtherWhiteSpacing = typedArray.getDimensionPixelOffset(attr, mOtherWhiteSpacing);
-        } else if (attr == R.styleable.PTSortableNinePhotoLayout_bga_snpl_placeholderDrawable) {
+        } else if (attr == R.styleable.PTSortableNinePhotoLayout_snpl_placeholderDrawable) {
             mPlaceholderDrawableResId = typedArray.getResourceId(attr, mPlaceholderDrawableResId);
-        } else if (attr == R.styleable.PTSortableNinePhotoLayout_bga_snpl_editable) {
+        } else if (attr == R.styleable.PTSortableNinePhotoLayout_snpl_editable) {
             mEditable = typedArray.getBoolean(attr, mEditable);
-        } else if (attr == R.styleable.PTSortableNinePhotoLayout_bga_snpl_itemWidth) {
+        } else if (attr == R.styleable.PTSortableNinePhotoLayout_snpl_itemWidth) {
             mItemWidth = typedArray.getDimensionPixelSize(attr, mItemWidth);
         }
     }
@@ -158,7 +158,7 @@ public class PTSortableNinePhotoLayout extends RecyclerView implements OnItemChi
 
         calculatePhotoTopRightMargin();
 
-        mPhotoAdapter = new PhotoAdapter(this);
+        mPhotoAdapter = new PhotoAdapter(this, mItemWidth);
         mPhotoAdapter.setOnItemChildClickListener(this);
         mPhotoAdapter.setOnRVItemClickListener(this);
         setAdapter(mPhotoAdapter);
@@ -410,9 +410,9 @@ public class PTSortableNinePhotoLayout extends RecyclerView implements OnItemChi
     private class PhotoAdapter extends RecyclerViewAdapter<String> {
         private int mImageSize;
 
-        public PhotoAdapter(RecyclerView recyclerView) {
+        public PhotoAdapter(RecyclerView recyclerView, int imageSize) {
             super(recyclerView, R.layout.item_nine_photo);
-            mImageSize = PhotoPickerUtil.getScreenWidth() / (mItemSpanCount > 3 ? 8 : 6);
+            mImageSize = imageSize;
         }
 
         @Override

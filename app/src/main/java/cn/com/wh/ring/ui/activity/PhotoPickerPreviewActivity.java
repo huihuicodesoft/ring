@@ -16,7 +16,6 @@
 package cn.com.wh.ring.ui.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -81,35 +80,6 @@ public class PhotoPickerPreviewActivity extends TitleActivity implements PhotoVi
      * 是否是拍完照后跳转过来
      */
     private boolean mIsFromTakePhoto;
-
-    /**
-     * @param context         应用程序上下文
-     * @param maxChooseCount  图片选择张数的最大值
-     * @param selectedImages  当前已选中的图片路径集合，可以传null
-     * @param previewImages   当前预览的图片目录里的图片路径集合
-     * @param currentPosition 当前预览图片的位置
-     * @param isFromTakePhoto 是否是拍完照后跳转过来
-     * @return
-     */
-    public static Intent newIntent(Context context, int maxChooseCount, ArrayList<String> selectedImages, ArrayList<String> previewImages, int currentPosition, boolean isFromTakePhoto) {
-        Intent intent = new Intent(context, PhotoPickerPreviewActivity.class);
-        intent.putStringArrayListExtra(EXTRA_SELECTED_IMAGES, selectedImages);
-        intent.putStringArrayListExtra(EXTRA_PREVIEW_IMAGES, previewImages);
-        intent.putExtra(EXTRA_MAX_CHOOSE_COUNT, maxChooseCount);
-        intent.putExtra(EXTRA_CURRENT_POSITION, currentPosition);
-        intent.putExtra(EXTRA_IS_FROM_TAKE_PHOTO, isFromTakePhoto);
-        return intent;
-    }
-
-    /**
-     * 获取已选择的图片集合
-     *
-     * @param intent
-     * @return
-     */
-    public static ArrayList<String> getSelectedImages(Intent intent) {
-        return intent.getStringArrayListExtra(EXTRA_SELECTED_IMAGES);
-    }
 
     /**
      * 是否是拍照预览
@@ -315,4 +285,34 @@ public class PhotoPickerPreviewActivity extends TitleActivity implements PhotoVi
         }
     }
 
+
+    /**
+     * @param activity        应用程序上下文
+     * @param maxChooseCount  图片选择张数的最大值
+     * @param selectedImages  当前已选中的图片路径集合，可以传null
+     * @param previewImages   当前预览的图片目录里的图片路径集合
+     * @param currentPosition 当前预览图片的位置
+     * @param isFromTakePhoto 是否是拍完照后跳转过来
+     * @param requestCode     请求码
+     * @return
+     */
+    public static void startForResult(Activity activity, int maxChooseCount, ArrayList<String> selectedImages, ArrayList<String> previewImages, int currentPosition, boolean isFromTakePhoto, int requestCode) {
+        Intent intent = new Intent(activity, PhotoPickerPreviewActivity.class);
+        intent.putStringArrayListExtra(EXTRA_SELECTED_IMAGES, selectedImages);
+        intent.putStringArrayListExtra(EXTRA_PREVIEW_IMAGES, previewImages);
+        intent.putExtra(EXTRA_MAX_CHOOSE_COUNT, maxChooseCount);
+        intent.putExtra(EXTRA_CURRENT_POSITION, currentPosition);
+        intent.putExtra(EXTRA_IS_FROM_TAKE_PHOTO, isFromTakePhoto);
+        activity.startActivityForResult(intent, requestCode);
+    }
+
+    /**
+     * 获取已选择的图片集合
+     *
+     * @param intent
+     * @return
+     */
+    public static ArrayList<String> getSelectedImages(Intent intent) {
+        return intent.getStringArrayListExtra(EXTRA_SELECTED_IMAGES);
+    }
 }

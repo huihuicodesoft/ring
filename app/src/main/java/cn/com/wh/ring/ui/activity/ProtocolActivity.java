@@ -27,7 +27,7 @@ public class ProtocolActivity extends TitleActivity {
 
     @OnClick(R.id.agree_tv)
     void onAgree(){
-        DataCenter.getInstance().setAgreeProtol(true);
+        DataCenter.getInstance().setAgreeProtocol(true);
         setResult(RESULT_OK);
         finish();
     }

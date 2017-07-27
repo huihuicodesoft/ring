@@ -87,15 +87,15 @@ public class PTImageView extends AppCompatImageView {
     private void initCustomAttr(int attr, TypedArray typedArray) {
         if (attr == R.styleable.PTImageView_android_src) {
             mDefaultImageId = typedArray.getResourceId(attr, 0);
-        } else if (attr == R.styleable.PTImageView_bga_iv_circle) {
+        } else if (attr == R.styleable.PTImageView_iv_circle) {
             mCircle = typedArray.getBoolean(attr, mCircle);
-        } else if (attr == R.styleable.PTImageView_bga_iv_cornerRadius) {
+        } else if (attr == R.styleable.PTImageView_iv_cornerRadius) {
             mCornerRadius = typedArray.getDimensionPixelSize(attr, mCornerRadius);
-        } else if (attr == R.styleable.PTImageView_bga_iv_square) {
+        } else if (attr == R.styleable.PTImageView_iv_square) {
             mSquare = typedArray.getBoolean(attr, mSquare);
-        } else if (attr == R.styleable.PTImageView_bga_iv_borderWidth) {
+        } else if (attr == R.styleable.PTImageView_iv_borderWidth) {
             mBorderWidth = typedArray.getDimensionPixelSize(attr, mBorderWidth);
-        } else if (attr == R.styleable.PTImageView_bga_iv_borderColor) {
+        } else if (attr == R.styleable.PTImageView_iv_borderColor) {
             mBorderColor = typedArray.getColor(attr, mBorderColor);
         }
     }

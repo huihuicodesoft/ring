@@ -35,6 +35,8 @@
     <string name="reset_password">重设密码</string>
     <string name="select_photo">选择图片</string>
     <string name="choose">选择</string>
+    <string name="publish_post">发帖</string>
+    <string name="publish">发布</string>
 
     <string name="hint_mobile_number">填写手机号</string>
     <string name="hint_password">填写密码</string>

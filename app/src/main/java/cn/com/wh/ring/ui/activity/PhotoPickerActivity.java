@@ -16,7 +16,6 @@
 package cn.com.wh.ring.ui.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -117,33 +116,6 @@ public class PhotoPickerActivity extends TitleActivity implements OnItemChildCli
 
     private LoadPhotoTask mLoadPhotoTask;
     private AppCompatDialog mLoadingDialog;
-
-    /**
-     * @param context        应用程序上下文
-     * @param imageDir       拍照后图片保存的目录。如果传null表示没有拍照功能，如果不为null则具有拍照功能，
-     * @param maxChooseCount 图片选择张数的最大值
-     * @param selectedImages 当前已选中的图片路径集合，可以传null
-     * @param pauseOnScroll  滚动列表时是否暂停加载图片
-     * @return
-     */
-    public static Intent newIntent(Context context, File imageDir, int maxChooseCount, ArrayList<String> selectedImages, boolean pauseOnScroll) {
-        Intent intent = new Intent(context, PhotoPickerActivity.class);
-        intent.putExtra(EXTRA_IMAGE_DIR, imageDir);
-        intent.putExtra(EXTRA_MAX_CHOOSE_COUNT, maxChooseCount);
-        intent.putStringArrayListExtra(EXTRA_SELECTED_IMAGES, selectedImages);
-        intent.putExtra(EXTRA_PAUSE_ON_SCROLL, pauseOnScroll);
-        return intent;
-    }
-
-    /**
-     * 获取已选择的图片集合
-     *
-     * @param intent
-     * @return
-     */
-    public static ArrayList<String> getSelectedImages(Intent intent) {
-        return intent.getStringArrayListExtra(EXTRA_SELECTED_IMAGES);
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -258,18 +230,6 @@ public class PhotoPickerActivity extends TitleActivity implements OnItemChildCli
         }
     }
 
-    /**
-     * 返回已选中的图片集合
-     *
-     * @param selectedImages
-     */
-    private void returnSelectedImages(ArrayList<String> selectedImages) {
-        Intent intent = new Intent();
-        intent.putStringArrayListExtra(EXTRA_SELECTED_IMAGES, selectedImages);
-        setResult(Activity.RESULT_OK, intent);
-        finish();
-    }
-
     private void toastMaxCountTip() {
         ToastUtils.showShortToast(getString(R.string.format_photo_picker_max, mMaxChooseCount));
     }
@@ -281,7 +241,7 @@ public class PhotoPickerActivity extends TitleActivity implements OnItemChildCli
             if (requestCode == REQUEST_CODE_TAKE_PHOTO) {
                 ArrayList<String> photos = new ArrayList<>();
                 photos.add(mImageCaptureManager.getCurrentPhotoPath());
-                startActivityForResult(PhotoPickerPreviewActivity.newIntent(this, 1, photos, photos, 0, true), REQUEST_CODE_PREVIEW);
+                PhotoPickerPreviewActivity.startForResult(this, 1, photos, photos, 0, true, REQUEST_CODE_PREVIEW);
             } else if (requestCode == REQUEST_CODE_PREVIEW) {
                 if (PhotoPickerPreviewActivity.getIsFromTakePhoto(data)) {
                     // 从拍照预览界面返回，刷新图库
@@ -364,8 +324,8 @@ public class PhotoPickerActivity extends TitleActivity implements OnItemChildCli
         if (mCurrentImageFolderModel.isTakePhotoEnabled()) {
             currentPosition--;
         }
-        startActivityForResult(PhotoPickerPreviewActivity.newIntent(this, mMaxChooseCount, mPicAdapter
-                        .getSelectedImages(), (ArrayList<String>) mPicAdapter.getData(), currentPosition, false),
+        PhotoPickerPreviewActivity.startForResult(this, mMaxChooseCount,
+                mPicAdapter.getSelectedImages(), (ArrayList<String>) mPicAdapter.getData(), currentPosition, false,
                 REQUEST_CODE_PREVIEW);
     }
 
@@ -480,4 +440,50 @@ public class PhotoPickerActivity extends TitleActivity implements OnItemChildCli
             mLoadPhotoTask = null;
         }
     }
+
+    /**
+     * 返回已选中的图片集合
+     *
+     * @param selectedImages
+     */
+    private void returnSelectedImages(ArrayList<String> selectedImages) {
+        Intent intent = new Intent();
+        intent.putStringArrayListExtra(EXTRA_SELECTED_IMAGES, selectedImages);
+        setResult(Activity.RESULT_OK, intent);
+        finish();
+    }
+
+    /**
+     * @param activity       应用程序上下文
+     * @param imageDir       拍照后图片保存的目录。如果传null表示没有拍照功能，如果不为null则具有拍照功能，
+     * @param maxChooseCount 图片选择张数的最大值
+     * @param selectedImages 当前已选中的图片路径集合，可以传null
+     * @param pauseOnScroll  滚动列表时是否暂停加载图片
+     * @param requestCode    请求码
+     * @return
+     */
+    public static void startForResult(Activity activity,
+                                      File imageDir,
+                                      int maxChooseCount,
+                                      ArrayList<String> selectedImages,
+                                      boolean pauseOnScroll,
+                                      int requestCode) {
+        Intent intent = new Intent(activity, PhotoPickerActivity.class);
+        intent.putExtra(EXTRA_IMAGE_DIR, imageDir);
+        intent.putExtra(EXTRA_MAX_CHOOSE_COUNT, maxChooseCount);
+        intent.putStringArrayListExtra(EXTRA_SELECTED_IMAGES, selectedImages);
+        intent.putExtra(EXTRA_PAUSE_ON_SCROLL, pauseOnScroll);
+        activity.startActivityForResult(intent, requestCode);
+    }
+
+    /**
+     * 获取已选择的图片集合
+     *
+     * @param intent
+     * @return
+     */
+    public static ArrayList<String> getSelectedImages(Intent intent) {
+        return intent.getStringArrayListExtra(EXTRA_SELECTED_IMAGES);
+    }
+
 }

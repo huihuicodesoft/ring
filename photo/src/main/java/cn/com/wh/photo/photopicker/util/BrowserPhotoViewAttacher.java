@@ -27,9 +27,9 @@ import cn.com.wh.photo.photoview.PhotoViewAttacher;
  * 创建时间:16/7/15 上午10:35
  * 描述:
  */
-public class BGABrowserPhotoViewAttacher extends PhotoViewAttacher {
+public class BrowserPhotoViewAttacher extends PhotoViewAttacher {
 
-    public BGABrowserPhotoViewAttacher(ImageView imageView) {
+    public BrowserPhotoViewAttacher(ImageView imageView) {
         super(imageView);
     }
 

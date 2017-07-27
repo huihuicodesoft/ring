@@ -10,6 +10,7 @@ import cn.com.wh.ring.MainApplication;
  */
 public class DataCenter {
     private static final String TOKEN = "token";
+    private static final String LOGIN = "login";
     private static final String TERMINAL_MARK = "terminalMark";
     private static final String AGREE_PROTOCOL = "agreeProtocol";
 
@@ -49,12 +50,21 @@ public class DataCenter {
         return sp.getString(TERMINAL_MARK, "");
     }
 
-    public void setAgreeProtol(boolean isAgreeProtocol) {
+    public void setAgreeProtocol(boolean isAgreeProtocol) {
         mEditor.putBoolean(AGREE_PROTOCOL, isAgreeProtocol);
         mEditor.commit();
     }
 
-    public boolean isAgreeProtol() {
+    public boolean isAgreeProtocol() {
         return sp.getBoolean(AGREE_PROTOCOL, false);
+    }
+
+    public void setLogin(boolean isLogin) {
+        mEditor.putBoolean(LOGIN, isLogin);
+        mEditor.commit();
+    }
+
+    public boolean isLogin() {
+        return sp.getBoolean(LOGIN, false);
     }
 }

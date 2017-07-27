@@ -89,6 +89,7 @@ public class LoginMobileActivity extends TitleActivity {
                 if (!TextUtils.isEmpty(s)) {
                     Server.TOKEN = s;
                     DataCenter.getInstance().setToken(s);
+                    DataCenter.getInstance().setLogin(true);
                     MainActivity.start(LoginMobileActivity.this);
                     ToastUtils.showLongToast(R.string.tip_success_login);
                 } else {

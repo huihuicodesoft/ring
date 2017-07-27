@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 import cn.com.wh.photo.R;
 import cn.com.wh.photo.photopicker.imageloader.Image;
-import cn.com.wh.photo.photopicker.util.BGABrowserPhotoViewAttacher;
+import cn.com.wh.photo.photopicker.util.BrowserPhotoViewAttacher;
 import cn.com.wh.photo.photopicker.util.PhotoPickerUtil;
 import cn.com.wh.photo.photopicker.widget.PTImageView;
 import cn.com.wh.photo.photoview.PhotoViewAttacher;
@@ -53,7 +53,7 @@ public class PhotoPageAdapter extends PagerAdapter {
     public View instantiateItem(ViewGroup container, int position) {
         final PTImageView imageView = new PTImageView(container.getContext());
         container.addView(imageView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        final BGABrowserPhotoViewAttacher photoViewAttacher = new BGABrowserPhotoViewAttacher(imageView);
+        final BrowserPhotoViewAttacher photoViewAttacher = new BrowserPhotoViewAttacher(imageView);
         photoViewAttacher.setOnViewTapListener(mOnViewTapListener);
         imageView.setDelegate(new PTImageView.Delegate() {
             @Override

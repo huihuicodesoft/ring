@@ -27,7 +27,7 @@ public class LoginActivity extends TitleActivity {
         mTitleTv.setText(R.string.login);
         unbinder = ButterKnife.bind(this);
 
-        boolean isAgree = DataCenter.getInstance().isAgreeProtol();
+        boolean isAgree = DataCenter.getInstance().isAgreeProtocol();
         if (!isAgree) {
             startProtocol();
         }
@@ -38,7 +38,7 @@ public class LoginActivity extends TitleActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ProtocolActivity.REQUEST_CODE_LOGIN) {
-            boolean isAgree = DataCenter.getInstance().isAgreeProtol();
+            boolean isAgree = DataCenter.getInstance().isAgreeProtocol();
             if (isAgree) {
                 mAgreeProtocolIv.setSelected(isAgree);
             } else {
@@ -68,7 +68,7 @@ public class LoginActivity extends TitleActivity {
     void onAgree() {
         boolean isNewSelected = !mAgreeProtocolIv.isSelected();
         mAgreeProtocolIv.setSelected(isNewSelected);
-        DataCenter.getInstance().setAgreeProtol(isNewSelected);
+        DataCenter.getInstance().setAgreeProtocol(isNewSelected);
         startProtocol();
     }
 
