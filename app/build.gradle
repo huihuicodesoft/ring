@@ -35,4 +35,5 @@ dependencies {
     compile deps.okhttp
     compile deps.flycoTabLayout
     compile project(path: ':permission')
+    compile project(path: ':photo')
 }

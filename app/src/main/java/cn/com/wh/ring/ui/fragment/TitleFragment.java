@@ -27,15 +27,14 @@ public abstract class TitleFragment extends Fragment {
     @BindView(R.id.title_ll)
     LinearLayout mTitleLl;
 
-    Unbinder mUnbinder;
-
+    Unbinder unbinder;
 
     @Nullable
     @Override
     @Deprecated
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_title, container, false);
-        mUnbinder = ButterKnife.bind(this, root);
+        unbinder = ButterKnife.bind(this, root);
 
         SystemBarUtils.initStatusBarHeight(getResources(), mStatusBar);
 
@@ -59,6 +58,6 @@ public abstract class TitleFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mUnbinder.unbind();
+        unbinder.unbind();
     }
 }

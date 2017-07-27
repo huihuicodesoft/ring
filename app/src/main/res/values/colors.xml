@@ -23,4 +23,6 @@
     <color name="pressed_blue">#2c4ebd</color>
     <color name="pressed_main">#ad3d19</color>
 
+    <color name="back_photo_title">#303D42</color>
+    <color name="back_photo_activity">#1A1A1A</color>
 </resources>

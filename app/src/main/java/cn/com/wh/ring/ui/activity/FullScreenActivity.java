@@ -11,7 +11,7 @@ import cn.com.wh.ring.utils.SystemBarUtils;
  * Created by Hui on 2017/7/13.
  */
 
-public abstract class FullScreenActivity extends FragmentActivity{
+public abstract class FullScreenActivity extends FragmentActivity {
     Unbinder unbinder;
 
     @Override

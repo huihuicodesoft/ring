@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 图片处于选中状态时的遮罩层颜色 -->
+    <color name="photo_selected_mask">#4D000000</color>
+    <color name="black_transparent">#90000000</color>
+
+</resources>

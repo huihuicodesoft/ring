@@ -52,6 +52,8 @@ ext.deps = [
         logging_interceptor    : 'com.squareup.okhttp3:logging-interceptor:3.4.1',
         okhttp                 : 'com.squareup.okhttp3:okhttp:3.4.1',
 
+        glide                 : 'com.github.bumptech.glide:glide:3.7.0',
+
         greendao               : 'org.greenrobot:greendao:3.2.2',
         greendao_generator     : 'org.greenrobot:greendao-generator:3.2.2',
 

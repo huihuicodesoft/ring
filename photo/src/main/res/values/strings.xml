@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Photo</string>
+    <string name="take_picture">拍摄照片</string>
+    <string name="all_image">所有图片</string>
+    <string name="confirm">确定</string>
+    <string name="save_img_failure">保存图片失败，再试试?</string>
+    <string name="format_save_img_success_folder">图片已保存至 %s 文件夹</string>
+</resources>

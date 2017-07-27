@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -12,6 +13,7 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationListener;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -121,6 +123,7 @@ public class MainActivity extends FullScreenActivity {
     @OnClick(R.id.bottom_activity_ll)
     void onActivity() {
         mViewPager.setCurrentItem(1, false);
+        startActivity(PhotoPickerActivity.newIntent(this, new File(Environment.getExternalStorageDirectory(), "BGAPhotoPickerTakePhoto"), 9, null, true));
     }
 
     @OnClick(R.id.bottom_publish_ll)

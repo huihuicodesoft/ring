@@ -5,11 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <View
-        android:id="@+id/statusBar"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/title_back" />
+    <include layout="@layout/view_status_bar" />
 
     <LinearLayout
         android:id="@+id/title_ll"

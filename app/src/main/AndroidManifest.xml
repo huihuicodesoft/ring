@@ -42,6 +42,9 @@
         <activity android:name=".ui.activity.LoginMobileActivity" />
         <activity android:name=".ui.activity.CheckMobileActivity" />
         <activity android:name=".ui.activity.SettingPasswordActivity" />
+        <activity android:name=".ui.activity.PhotoPickerActivity" />
+        <activity android:name=".ui.activity.PhotoPickerPreviewActivity" />
+        <activity android:name=".ui.activity.PhotoPreviewActivity" />
     </application>
 
 </manifest>
