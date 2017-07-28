@@ -37,6 +37,9 @@
     <string name="choose">选择</string>
     <string name="publish_post">发帖</string>
     <string name="publish">发布</string>
+    <string name="anonymous">匿名</string>
+    <string name="photo">图片</string>
+    <string name="video">视频</string>
 
     <string name="hint_mobile_number">填写手机号</string>
     <string name="hint_password">填写密码</string>
@@ -59,4 +62,5 @@
     <string name="format_second">%1$d秒</string>
     <string name="format_photo_ok">确定(%1$s)</string>
     <string name="format_photo_picker_max">最多只能选择 %1$d 张图片</string>
+    <string name="format_remain_word">还剩 %1$d 个字</string>
 </resources>

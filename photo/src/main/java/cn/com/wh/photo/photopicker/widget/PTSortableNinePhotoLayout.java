@@ -158,7 +158,7 @@ public class PTSortableNinePhotoLayout extends RecyclerView implements OnItemChi
 
         calculatePhotoTopRightMargin();
 
-        mPhotoAdapter = new PhotoAdapter(this, mItemWidth);
+        mPhotoAdapter = new PhotoAdapter(this);
         mPhotoAdapter.setOnItemChildClickListener(this);
         mPhotoAdapter.setOnRVItemClickListener(this);
         setAdapter(mPhotoAdapter);
@@ -410,9 +410,9 @@ public class PTSortableNinePhotoLayout extends RecyclerView implements OnItemChi
     private class PhotoAdapter extends RecyclerViewAdapter<String> {
         private int mImageSize;
 
-        public PhotoAdapter(RecyclerView recyclerView, int imageSize) {
+        public PhotoAdapter(RecyclerView recyclerView) {
             super(recyclerView, R.layout.item_nine_photo);
-            mImageSize = imageSize;
+            mImageSize = PhotoPickerUtil.getScreenWidth() / (mItemSpanCount > 3 ? 8 : 6);
         }
 
         @Override

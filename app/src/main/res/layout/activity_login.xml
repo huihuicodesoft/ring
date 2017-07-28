@@ -79,7 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:src="@drawable/agrree_protocol_check_selector" />
+            android:src="@drawable/agree_protocol_check_selector" />
 
         <TextView
             android:layout_width="wrap_content"

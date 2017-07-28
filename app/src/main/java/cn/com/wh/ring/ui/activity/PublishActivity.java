@@ -5,10 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.text.InputFilter;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -16,6 +20,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 import cn.com.wh.photo.photopicker.widget.PTSortableNinePhotoLayout;
 import cn.com.wh.ring.R;
 import cn.com.wh.ring.utils.InputMethodUtils;
@@ -27,13 +32,18 @@ import cn.com.wh.ring.utils.InputMethodUtils;
 public class PublishActivity extends TitleActivity implements PTSortableNinePhotoLayout.Delegate, InputMethodUtils.OnKeyBoardChangeListener {
     private static final int REQUEST_CODE_SELECT_PHOTO = 0X23;
     private static final int REQUEST_CODE_PREVIEW_PHOTO = 0X24;
+    private static final int MAX_CONTENT_LENGTH = 300;
 
     @BindView(R.id.root_publish_rl)
     RelativeLayout mRootPublishRl;
+    @BindView(R.id.remain_word_tv)
+    TextView mRemainWordTv;
     @BindView(R.id.content_et)
     EditText mContentEt;
     @BindView(R.id.ptSortableNinePhotoLayout)
     PTSortableNinePhotoLayout mPTSortableNinePhotoLayout;
+    @BindView(R.id.anonymous_iv)
+    ImageView mAnonymousIv;
 
     InputMethodUtils mInputMethodUtils;
 
@@ -46,6 +56,8 @@ public class PublishActivity extends TitleActivity implements PTSortableNinePhot
 
         mTitleTv.setText(R.string.publish_post);
         mRightTv.setText(R.string.publish);
+        mContentEt.setFilters(new InputFilter[] { new InputFilter.LengthFilter(MAX_CONTENT_LENGTH)});
+        mRemainWordTv.setText(getResources().getString(R.string.format_remain_word, MAX_CONTENT_LENGTH));
 
         mInputMethodUtils = new InputMethodUtils();
         mInputMethodUtils.onCreated(this);
@@ -57,14 +69,27 @@ public class PublishActivity extends TitleActivity implements PTSortableNinePhot
     }
 
     @OnClick(R.id.publish_content_ll)
-    void onContent() {
-        mInputMethodUtils.showKeyBoardState(mContentEt);
+    void onPanel() {
+        if (mInputMethodUtils != null)
+            mInputMethodUtils.showKeyBoardState(mContentEt);
     }
 
     @OnClick(R.id.photo_tv)
     void onPhoto() {
         ArrayList<String> selectedImages = mPTSortableNinePhotoLayout.getData();
-        PhotoPickerActivity.startForResult(this, new File(Environment.getExternalStorageDirectory(), "BGAPhotoPickerTakePhoto"), 9, selectedImages, true, REQUEST_CODE_SELECT_PHOTO);
+        PhotoPickerActivity.startForResult(this, new File(Environment.getExternalStorageDirectory(), "BGAPhotoPickerTakePhoto"),
+                mPTSortableNinePhotoLayout.getMaxItemCount(), selectedImages, true, REQUEST_CODE_SELECT_PHOTO);
+    }
+
+    @OnClick(R.id.anonymous_ll)
+    void onAnonymous() {
+        mAnonymousIv.setSelected(!mAnonymousIv.isSelected());
+    }
+
+    @OnTextChanged(R.id.content_et)
+    void onContentTextChange(CharSequence text) {
+        if (!TextUtils.isEmpty(text))
+            mRemainWordTv.setText(getResources().getString(R.string.format_remain_word, MAX_CONTENT_LENGTH - text.length()));
     }
 
     @Override
@@ -79,7 +104,7 @@ public class PublishActivity extends TitleActivity implements PTSortableNinePhot
     @Override
     public void onClickNinePhotoItem(PTSortableNinePhotoLayout sortableNinePhotoLayout, View view, int position, String model, ArrayList<String> models) {
         ArrayList<String> selectedImages = sortableNinePhotoLayout.getData();
-        PhotoPickerPreviewActivity.startForResult(this, 9, selectedImages, selectedImages, position, false, REQUEST_CODE_PREVIEW_PHOTO);
+        PhotoPickerPreviewActivity.startForResult(this, sortableNinePhotoLayout.getMaxItemCount(), selectedImages, selectedImages, position, false, REQUEST_CODE_PREVIEW_PHOTO);
     }
 
     @Override
@@ -88,7 +113,7 @@ public class PublishActivity extends TitleActivity implements PTSortableNinePhot
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CODE_SELECT_PHOTO) {
                 mPTSortableNinePhotoLayout.setData(PhotoPickerActivity.getSelectedImages(data));
-            } else if (requestCode == REQUEST_CODE_PREVIEW_PHOTO){
+            } else if (requestCode == REQUEST_CODE_PREVIEW_PHOTO) {
                 mPTSortableNinePhotoLayout.setData(PhotoPickerPreviewActivity.getSelectedImages(data));
             }
         }

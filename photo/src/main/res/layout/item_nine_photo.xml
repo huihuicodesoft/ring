@@ -7,7 +7,7 @@
 
     <cn.com.wh.photo.photopicker.widget.PTImageView
         android:id="@+id/iv_item_nine_photo_photo"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
         app:iv_square="true"
