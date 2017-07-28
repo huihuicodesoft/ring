@@ -15,6 +15,7 @@
  */
 package cn.com.wh.ring.ui.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -34,12 +35,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindColor;
 import butterknife.BindDrawable;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.com.wh.permission.AndPermission;
+import cn.com.wh.permission.PermissionListener;
 import cn.com.wh.photo.adapter.listener.OnItemChildClickListener;
 import cn.com.wh.photo.adapter.listener.OnNoDoubleClickListener;
 import cn.com.wh.photo.adapter.listener.OnRVItemClickListener;
@@ -93,6 +99,10 @@ public class PhotoPickerActivity extends TitleActivity implements OnItemChildCli
     int mLineColor;
     @BindDrawable(R.drawable.photo_confirm_selector)
     Drawable mConfirmDrawable;
+    @BindString(R.string.permission_storage)
+    String mPermissionStorage;
+    @BindString(R.string.permission_camera)
+    String mPermissionCamera;
 
     /**
      * 是否可以拍照
@@ -211,7 +221,33 @@ public class PhotoPickerActivity extends TitleActivity implements OnItemChildCli
     @Override
     protected void onStart() {
         super.onStart();
-        showLoadingDialog();
+        requestStoragePermission();
+    }
+
+    private void requestStoragePermission() {
+        AndPermission.with(this)
+                .requestCode(200)
+                .permission(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .callback(new PermissionListener() {
+                    @Override
+                    public void onSucceed(int requestCode, List<String> grantedPermissions) {
+                        if (requestCode == 200) {
+                            showLoadingDialog();
+                            startLoad();
+                        }
+                    }
+
+                    @Override
+                    public void onFailed(int requestCode, List<String> deniedPermissions) {
+                        if (requestCode == 200) {
+                            AndPermission.defaultSettingDialog(PhotoPickerActivity.this)
+                                    .setMessage(getString(R.string.format_permission_error, mPermissionStorage)).show();
+                        }
+                    }
+                }).start();
+    }
+
+    private void startLoad() {
         mLoadPhotoTask = new LoadPhotoTask(this, this, mTakePhotoEnabled).perform();
     }
 
@@ -307,11 +343,29 @@ public class PhotoPickerActivity extends TitleActivity implements OnItemChildCli
      * 拍照
      */
     private void takePhoto() {
-        try {
-            startActivityForResult(mImageCaptureManager.getTakePictureIntent(), REQUEST_CODE_TAKE_PHOTO);
-        } catch (Exception e) {
-//            PhotoPickerUtil.show(R.string.bga_pp_photo_not_support);
-        }
+        AndPermission.with(this)
+                .requestCode(100)
+                .permission(Manifest.permission.CAMERA)
+                .callback(new PermissionListener() {
+                    @Override
+                    public void onSucceed(int requestCode, List<String> grantedPermissions) {
+                        if (requestCode == 100) {
+                            try {
+                                startActivityForResult(mImageCaptureManager.getTakePictureIntent(), REQUEST_CODE_TAKE_PHOTO);
+                            } catch (IOException e) {
+                                ToastUtils.showShortToast(R.string.tip_unkown_error);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailed(int requestCode, List<String> deniedPermissions) {
+                        if (requestCode == 100) {
+                            AndPermission.defaultSettingDialog(PhotoPickerActivity.this)
+                                .setMessage(getString(R.string.format_permission_error, mPermissionCamera)).show();
+                        }
+                    }
+                }).start();
     }
 
     /**

@@ -63,4 +63,8 @@
     <string name="format_photo_ok">确定(%1$s)</string>
     <string name="format_photo_picker_max">最多只能选择 %1$d 张图片</string>
     <string name="format_remain_word">还剩 %1$d 个字</string>
+    <string name="format_permission_error">请打开-%1$s-权限，以软件的正常使用</string>
+
+    <string name="permission_storage">读写手机存储</string>
+    <string name="permission_camera">相机</string>
 </resources>

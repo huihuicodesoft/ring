@@ -120,6 +120,13 @@ public class PublishActivity extends TitleActivity implements PTSortableNinePhot
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        if (mInputMethodUtils != null)
+            mInputMethodUtils.hideKeyBoardState(mContentEt, false);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         mInputMethodUtils.onDestroy();
