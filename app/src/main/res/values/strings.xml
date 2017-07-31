@@ -40,6 +40,9 @@
     <string name="anonymous">匿名</string>
     <string name="photo">图片</string>
     <string name="video">视频</string>
+    <string name="tip">提示</string>
+    <string name="abandon">放弃</string>
+    <string name="cancel">取消</string>
 
     <string name="hint_mobile_number">填写手机号</string>
     <string name="hint_password">填写密码</string>
@@ -58,6 +61,8 @@
     <string name="tip_success_login">登录成功</string>
     <string name="tip_fail_login">登录失败</string>
     <string name="tip_unkown_error">未知错误</string>
+
+    <string name="dialog_abandon_edit">放弃编辑？</string>
 
     <string name="format_second">%1$d秒</string>
     <string name="format_photo_ok">确定(%1$s)</string>

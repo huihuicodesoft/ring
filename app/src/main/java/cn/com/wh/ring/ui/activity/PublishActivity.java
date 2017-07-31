@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.InputFilter;
 import android.text.TextUtils;
@@ -14,8 +15,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,7 +52,6 @@ public class PublishActivity extends TitleActivity implements PTSortableNinePhot
 
     InputMethodUtils mInputMethodUtils;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +60,7 @@ public class PublishActivity extends TitleActivity implements PTSortableNinePhot
 
         mTitleTv.setText(R.string.publish_post);
         mRightTv.setText(R.string.publish);
-        mContentEt.setFilters(new InputFilter[] { new InputFilter.LengthFilter(MAX_CONTENT_LENGTH)});
+        mContentEt.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_CONTENT_LENGTH)});
         mRemainWordTv.setText(getResources().getString(R.string.format_remain_word, MAX_CONTENT_LENGTH));
 
         mInputMethodUtils = new InputMethodUtils();
@@ -132,11 +136,6 @@ public class PublishActivity extends TitleActivity implements PTSortableNinePhot
         mInputMethodUtils.onDestroy();
     }
 
-    public static void start(Context context) {
-        Intent intent = new Intent(context, PublishActivity.class);
-        context.startActivity(intent);
-    }
-
     @Override
     public void onChange(InputMethodUtils.KEY_BOARD_STATE keyBoardState, int keyBoardHeight, boolean isInitiative) {
         if (keyBoardState.equals(InputMethodUtils.KEY_BOARD_STATE.SYSTEM_SHOWED)) {
@@ -151,4 +150,45 @@ public class PublishActivity extends TitleActivity implements PTSortableNinePhot
             mRootPublishRl.setLayoutParams(params);
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        if (mContentEt != null) {
+            String content = mContentEt.getText().toString();
+            if (!TextUtils.isEmpty(content)) {
+                showEditDialog();
+                return;
+            }
+        }
+        if (mPTSortableNinePhotoLayout != null) {
+            List<String> list = mPTSortableNinePhotoLayout.getData();
+            if (list != null && !list.isEmpty()){
+                showEditDialog();
+                return;
+            }
+        }
+        super.onBackPressed();
+    }
+
+    private void showEditDialog() {
+        new MaterialDialog.Builder(this)
+                .title(R.string.tip)
+                .content(R.string.dialog_abandon_edit)
+                .positiveText(R.string.cancel)
+                .negativeText(R.string.abandon)
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        finish();
+                    }
+                })
+                .show();
+    }
+
+
+    public static void start(Context context) {
+        Intent intent = new Intent(context, PublishActivity.class);
+        context.startActivity(intent);
+    }
+
 }

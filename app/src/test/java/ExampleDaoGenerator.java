@@ -1,5 +1,3 @@
-package cn.com.wh.ring.database;
-
 import org.greenrobot.greendao.generator.DaoGenerator;
 import org.greenrobot.greendao.generator.Entity;
 import org.greenrobot.greendao.generator.Property;
@@ -22,6 +20,7 @@ public class ExampleDaoGenerator {
     private static void addPostPublish(Schema schema) {
         Entity note = schema.addEntity("PostPublish");
         note.addIdProperty();
+        note.addStringProperty("userId").notNull();
         note.addStringProperty("content");
         note.addStringProperty("mediaContent");
         note.addIntProperty("mediaType");

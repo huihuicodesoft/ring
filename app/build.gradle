@@ -19,6 +19,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        src {//目录结构而已，不是代码
+            main {
+                java.srcDirs = ['src/main/java', 'src/test/java']
+            }
+        }
+    }
 }
 
 dependencies {
@@ -35,6 +42,7 @@ dependencies {
     compile deps.logging_interceptor
     compile deps.okhttp
     compile deps.flycoTabLayout
+    compile deps.dialog
     compile project(path: ':permission')
     compile project(path: ':photo')
 }
