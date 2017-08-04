@@ -20,7 +20,7 @@ public class ProtocolActivity extends TitleActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_protocol);
 
-        mTitleTv.setText(R.string.app_protocol);
+        setTitle(R.string.app_protocol);
 
         unbinder = ButterKnife.bind(this);
     }

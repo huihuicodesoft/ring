@@ -42,7 +42,7 @@ public class LoginMobileActivity extends TitleActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_mobile);
-        mTitleTv.setText(R.string.login_mobile);
+        setTitle(R.string.login_mobile);
         mRightTv.setText(R.string.register);
         unbinder = ButterKnife.bind(this);
 

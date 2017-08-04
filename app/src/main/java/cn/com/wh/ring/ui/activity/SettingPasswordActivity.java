@@ -64,12 +64,12 @@ public class SettingPasswordActivity extends TitleActivity {
         int type = getIntent().getIntExtra(KEY_TYPE, 0);
         switch (type) {
             case TYPE_REGISTER:
-                mTitleTv.setText(R.string.register_password);
+                setTitle(R.string.register_password);
                 mPasswordTv.setText(R.string.password);
                 mNextTv.setText(R.string.register);
                 break;
             case TYPE_RESET:
-                mTitleTv.setText(R.string.reset_password);
+                setTitle(R.string.reset_password);
                 mPasswordTv.setText(R.string.new_password);
                 mNextTv.setText(R.string.ok);
                 break;

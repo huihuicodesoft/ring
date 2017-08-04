@@ -53,6 +53,16 @@ public abstract class TitleActivity extends FullScreenActivity {
         });
     }
 
+    @Override
+    public void setTitle(CharSequence title) {
+        mTitleTv.setText(title);
+    }
+
+    @Override
+    public void setTitle(int titleId) {
+        mTitleTv.setText(titleId);
+    }
+
     protected int getRootResId() {
         return R.layout.activity_title;
     }

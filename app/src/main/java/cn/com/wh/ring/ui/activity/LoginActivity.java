@@ -24,7 +24,7 @@ public class LoginActivity extends TitleActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        mTitleTv.setText(R.string.login);
+        setTitle(R.string.login);
         unbinder = ButterKnife.bind(this);
 
         boolean isAgree = DataCenter.getInstance().isAgreeProtocol();

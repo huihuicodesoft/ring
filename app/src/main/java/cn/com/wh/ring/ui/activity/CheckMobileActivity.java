@@ -47,10 +47,10 @@ public class CheckMobileActivity extends TitleActivity {
         int type = getIntent().getIntExtra(KEY_TYPE, 0);
         switch (type) {
             case TYPE_REGISTER:
-                mTitleTv.setText(R.string.register_mobile);
+                setTitle(R.string.register_mobile);
                 break;
             case TYPE_BACK_PASSWORD:
-                mTitleTv.setText(R.string.back_password);
+                setTitle(R.string.back_password);
                 break;
         }
     }
