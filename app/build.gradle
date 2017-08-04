@@ -43,6 +43,7 @@ dependencies {
     compile deps.okhttp
     compile deps.flycoTabLayout
     compile deps.dialog
+    compile deps.thumbnailator
     compile project(path: ':permission')
     compile project(path: ':photo')
 }
