@@ -20,6 +20,7 @@ public class HeaderInterceptor implements Interceptor {
                 .header(Server.HEADER_TOKEN, Server.TOKEN)
                 .header(Server.HEADER_API_VERSION, Server.API_VERSION)
                 .header("Content-Type", "application/json")
+                .header("Connection", "close")
                 .build();
         return chain.proceed(compressedRequest);
     }
