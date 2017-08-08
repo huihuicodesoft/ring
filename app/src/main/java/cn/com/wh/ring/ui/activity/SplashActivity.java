@@ -26,6 +26,8 @@ import retrofit2.Call;
 
 public class SplashActivity extends FragmentActivity {
     private static final int STAY_TIME = 1000;
+    private Handler mHandler;
+    private Runnable mSkipMainRunnable;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,13 +36,14 @@ public class SplashActivity extends FragmentActivity {
 
         startConfig();
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
+        mHandler = new Handler();
+        mSkipMainRunnable = new Runnable() {
             @Override
             public void run() {
                 skipMain();
             }
-        }, STAY_TIME);
+        };
+        mHandler.postDelayed(mSkipMainRunnable, STAY_TIME);
     }
 
     private void startConfig() {
@@ -54,7 +57,7 @@ public class SplashActivity extends FragmentActivity {
             TerminalMark tm = TerminalMarkHelper.split(terminalMark);
 
             Call<Response<String>> call = Services.touristService.getTerminalToken(tm);
-            call.enqueue(new ListenerCallBack<String>() {
+            call.enqueue(new ListenerCallBack<String>(this) {
                 @Override
                 public void onSuccess(String s) {
                     DataCenter.getInstance().setToken(s);
@@ -70,6 +73,13 @@ public class SplashActivity extends FragmentActivity {
         } else {
             Server.TOKEN = token;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mHandler != null && mSkipMainRunnable != null)
+            mHandler.removeCallbacks(mSkipMainRunnable);
+        super.onDestroy();
     }
 
     private void skipMain() {
