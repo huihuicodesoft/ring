@@ -76,53 +76,39 @@ public class SelectPostTypeActivity extends TitleActivity implements LoadHelper.
         loadPage(1, true);
     }
 
+    @Override
+    public void OnClearData() {
+        mData.clear();
+    }
+
+    @Override
+    public void OnFinishRefresh() {
+        mListSwipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void OnFinishLoadMore() {
+        mListSwipeRefreshLayout.finishLoadingMore();
+    }
+
     private void loadPage(final int page, final boolean isPage) {
-        Call<Response<Page<PostType>>> call = Services.postTypeService.get(0L, page, Page.DEAFULT_PAGE_SIZE);
+        Call<Response<Page<PostType>>> call = Services.postTypeService.get(0L, page, Page.DEFAULT_PAGE_SIZE);
         call.enqueue(new ListenerCallBack<Page<PostType>>(this) {
             @Override
             public void onSuccess(Page<PostType> postTypePage) {
                 mCurrentPage = postTypePage.getPageNum();
 
-                List<PostType> data = postTypePage.getList();
-                if (page == 1) {
-
-                    mData.clear();
-
-                    if (data == null || data.isEmpty()) {
-                        loadHelper.showEmpty();
-                        return;
-                    }
-                    if (isPage) {
-                        loadHelper.showSuccess();
-                    } else {
-                        mListSwipeRefreshLayout.setRefreshing(false);
-                    }
-                } else {
-
-                    mListSwipeRefreshLayout.finishLoadingMore();
-
-                    if (data == null || data.isEmpty()){
-                        ToastUtils.showShortToast("暂无数据");
-                    }
+                if (loadHelper != null && !loadHelper.interceptSuccess(page, isPage, postTypePage.getList())) {
+                    mData.addAll(postTypePage.getList());
+                    mAdapter.notifyDataSetChanged();
                 }
-                mData.addAll(postTypePage.getList());
-                mAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(NetWorkException e) {
-                if (page == 1) {
-                    if (!isPage) {
-                        mListSwipeRefreshLayout.setRefreshing(false);
-                    }
-                    if (mData == null || mData.isEmpty()) {
-                        loadHelper.showFail();
-                        return;
-                    }
-                } else {
-                    mListSwipeRefreshLayout.finishLoadingMore();
+                if (loadHelper != null && !loadHelper.interceptFail(page, isPage, mData)) {
+                    ToastUtils.showShortToast(e.getMessage());
                 }
-                ToastUtils.showShortToast(e.getMessage());
             }
         });
     }

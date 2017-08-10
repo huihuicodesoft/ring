@@ -7,7 +7,7 @@ import java.util.List;
  * Created by Hui on 2017/8/1.
  */
 public class Page<T> implements Serializable {
-    public static final int DEAFULT_PAGE_SIZE = 20;
+    public static final int DEFAULT_PAGE_SIZE = 20;
 
     private long total;        //总记录数
     private int pageNum;    // 第几页

@@ -5,7 +5,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import java.util.List;
+
 import cn.com.wh.ring.R;
+import cn.com.wh.ring.utils.ToastUtils;
 
 /**
  * Created by Hui on 2017/8/7.
@@ -87,7 +90,57 @@ public class LoadHelper {
         }
     }
 
+    public boolean interceptSuccess(int page, boolean isPage, List data) {
+        if (page == 1) {
+            if (mOnLoadListener != null)
+                mOnLoadListener.OnClearData();
+            if (data == null || data.isEmpty()) {
+                showEmpty();
+                return true;
+            }
+            if (isPage) {
+                showSuccess();
+            } else {
+                if (mOnLoadListener != null)
+                    mOnLoadListener.OnFinishRefresh();
+            }
+        } else {
+            if (mOnLoadListener != null)
+                mOnLoadListener.OnFinishLoadMore();
+            if (data == null || data.isEmpty()) {
+                ToastUtils.showShortToast(R.string.loading_empty);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean interceptFail(int page, boolean isPage, List data) {
+        if (page == 1) {
+            if (!isPage) {
+                if (mOnLoadListener != null)
+                    mOnLoadListener.OnFinishRefresh();
+            }
+            if (data == null || data.isEmpty()) {
+                showFail();
+                return true;
+            }
+        } else {
+            if (mOnLoadListener != null)
+                mOnLoadListener.OnFinishLoadMore();
+        }
+        return false;
+    }
+
+
     public interface OnLoadListener {
         void OnLoad();
+
+        void OnClearData();
+
+        void OnFinishRefresh();
+
+        void OnFinishLoadMore();
     }
+
 }
