@@ -21,6 +21,7 @@ import butterknife.OnClick;
 import cn.com.wh.permission.AndPermission;
 import cn.com.wh.permission.PermissionListener;
 import cn.com.wh.ring.R;
+import cn.com.wh.ring.database.sp.DataCenter;
 import cn.com.wh.ring.ui.fragment.ActivityFragment;
 import cn.com.wh.ring.ui.fragment.FindFragment;
 import cn.com.wh.ring.ui.fragment.HomeFragment;
@@ -125,11 +126,11 @@ public class MainActivity extends FullScreenActivity {
 
     @OnClick(R.id.bottom_publish_ll)
     void onPublish() {
-        //if (DataCenter.getInstance().isLogin()) {
+        if (DataCenter.getInstance().isLogin()) {
             PublishActivity.start(this);
-//        } else {
-//            LoginActivity.start(this);
-//        }
+        } else {
+            LoginActivity.start(this);
+        }
     }
 
     @OnClick(R.id.bottom_find_ll)

@@ -37,7 +37,7 @@ public class ListSwipeRefreshLayout extends SwipeRefreshLayout {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (isRefreshing() || isLoadingMore)
+                if (dy <= 0 || isRefreshing() || isLoadingMore)
                     return;
 
                 RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
@@ -65,7 +65,7 @@ public class ListSwipeRefreshLayout extends SwipeRefreshLayout {
         this.onLoadMoreListener = onLoadMoreListener;
     }
 
-    public void finishLoadingMore(){
+    public void finishLoadingMore() {
         isLoadingMore = false;
     }
 }

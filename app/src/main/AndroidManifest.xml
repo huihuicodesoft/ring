@@ -48,6 +48,7 @@
         <activity android:name=".ui.activity.PhotoPickerActivity" />
         <activity android:name=".ui.activity.PhotoPickerPreviewActivity" />
         <activity android:name=".ui.activity.PhotoPreviewActivity" />
+        <activity android:name=".ui.activity.SelectPostTypeActivity" />
         <activity
             android:name=".ui.activity.PublishActivity"
             android:windowSoftInputMode="adjustResize" />

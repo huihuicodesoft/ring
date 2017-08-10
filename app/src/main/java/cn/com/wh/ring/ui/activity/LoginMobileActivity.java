@@ -83,7 +83,7 @@ public class LoginMobileActivity extends TitleActivity {
         mobileAccount.setMobile(mobile);
         mobileAccount.setPassword(RSAUtils.encrypt(password));
         Call<Response<String>> call = Services.accountService.loginMobile(mobileAccount);
-        call.enqueue(new ListenerCallBack<String>() {
+        call.enqueue(new ListenerCallBack<String>(this) {
             @Override
             public void onSuccess(String s) {
                 if (!TextUtils.isEmpty(s)) {

@@ -51,6 +51,7 @@ public class SettingPasswordActivity extends TitleActivity {
     TextView mNextTv;
 
     private boolean isWaitGetVerificationCode;
+    private Runnable mTimeRunnable;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -99,7 +100,7 @@ public class SettingPasswordActivity extends TitleActivity {
         SmsCode smsCode = new SmsCode();
         smsCode.setMobile(mobile);
         Call<Response<String>> call = Services.smsService.getVerificationCode(smsCode);
-        call.enqueue(new ListenerCallBack<String>() {
+        call.enqueue(new ListenerCallBack<String>(this) {
             @Override
             public void onSuccess(String s) {
                 ToastUtils.showLongToast(R.string.tip_verification_code_send);
@@ -154,7 +155,7 @@ public class SettingPasswordActivity extends TitleActivity {
 
     private void requestRegister(MobileAccount mobileAccount) {
         Call<Response<String>> call = Services.accountService.registerMobile(mobileAccount);
-        call.enqueue(new ListenerCallBack<String>() {
+        call.enqueue(new ListenerCallBack<String>(this) {
             @Override
             public void onSuccess(String s) {
                 ToastUtils.showLongToast(R.string.tip_success_register);
@@ -171,7 +172,7 @@ public class SettingPasswordActivity extends TitleActivity {
 
     private void requestResetPassword(MobileAccount mobileAccount) {
         Call<Response<String>> call = Services.accountService.resetPassword(mobileAccount);
-        call.enqueue(new ListenerCallBack<String>() {
+        call.enqueue(new ListenerCallBack<String>(this) {
             @Override
             public void onSuccess(String s) {
                 ToastUtils.showShortToast(R.string.tip_success_reset_password);
@@ -207,14 +208,16 @@ public class SettingPasswordActivity extends TitleActivity {
         mVerificationCodeTv.setEnabled(false);
         mVerificationCodeTv.setText(getResources().getString(R.string.format_second, time--));
         final int finalTime = time;
-        mVerificationCodeTv.postDelayed(new Runnable() {
+
+        mTimeRunnable = new Runnable() {
             @Override
             public void run() {
                 if (isWaitGetVerificationCode) {
                     countTime(finalTime);
                 }
             }
-        }, 1000);
+        };
+        mVerificationCodeTv.postDelayed(mTimeRunnable, 1000);
     }
 
     private void checkAllEt() {
@@ -225,6 +228,14 @@ public class SettingPasswordActivity extends TitleActivity {
         boolean isNoNull = !TextUtils.isEmpty(password) && !TextUtils.isEmpty(confirmPassword)
                 && !TextUtils.isEmpty(verificationCode);
         mNextTv.setEnabled(isNoNull);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mVerificationCodeTv != null && mTimeRunnable != null) {
+            mVerificationCodeTv.removeCallbacks(mTimeRunnable);
+        }
+        super.onDestroy();
     }
 
     public static void start(Context context, String mobile, int type) {

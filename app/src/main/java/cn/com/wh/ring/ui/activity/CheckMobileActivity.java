@@ -62,7 +62,7 @@ public class CheckMobileActivity extends TitleActivity {
 
         //核对手机号
         Call<Response<String>> call = Services.accountService.validMobile(mobile);
-        call.enqueue(new ListenerCallBack<String>() {
+        call.enqueue(new ListenerCallBack<String>(this) {
             @Override
             public void onSuccess(String s) {
                 switch (type) {

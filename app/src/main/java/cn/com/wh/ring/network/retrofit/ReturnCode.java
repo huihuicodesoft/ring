@@ -4,9 +4,17 @@ package cn.com.wh.ring.network.retrofit;
  * Created by Hui on 2017/7/18.
  */
 public class ReturnCode {
-    public static final int ERROR_APP_CONNECT = 901;
+    //app请求阶段错误
+    public static final int ERROR_APP_NETWORK = 901;
+    public static final int ERROR_APP_CONNECT_TIME = 902;
+    public static final int ERROR_APP_USER_CANCELED = 903;
+    public static final int ERROR_APP_UNKOWN = 904;
+
+    //请求时错误
+    public static final int ERROR_REQUEST = 905; //返回的状态码不在200-300以内
 
 
+    //后台逻辑错误
     public static final int OK = 0;
     public static final int ERROR_TOKEN = -1; //token错误，请重新登录
     public static final int ERROR_PROGRAM = 1; //程序异常

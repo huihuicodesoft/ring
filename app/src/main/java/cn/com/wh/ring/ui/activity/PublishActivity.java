@@ -29,6 +29,7 @@ import butterknife.OnTextChanged;
 import cn.com.wh.photo.photopicker.widget.PTSortableNinePhotoLayout;
 import cn.com.wh.ring.R;
 import cn.com.wh.ring.utils.InputMethodUtils;
+import cn.com.wh.ring.utils.ToastUtils;
 
 /**
  * Created by Hui on 2017/7/27.
@@ -52,13 +53,38 @@ public class PublishActivity extends TitleActivity implements PTSortableNinePhot
 
     InputMethodUtils mInputMethodUtils;
 
+
+    private View.OnClickListener mPublishListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (mPTSortableNinePhotoLayout != null) {
+                List<String> list = mPTSortableNinePhotoLayout.getData();
+                if (list != null && !list.isEmpty()) {
+                    //上传
+                    //发表
+                    return;
+                }
+            }
+            if (mContentEt != null) {
+                String content = mContentEt.getText().toString();
+                if (!TextUtils.isEmpty(content)) {
+                    showEditDialog();
+                    //发表
+                    return;
+                }
+            }
+
+            ToastUtils.showShortToast(R.string.tip);
+        }
+    };
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publish);
         unbinder = ButterKnife.bind(this);
 
-        mTitleTv.setText(R.string.publish_post);
+        setTitle(R.string.publish_post);
         mRightTv.setText(R.string.publish);
         mContentEt.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_CONTENT_LENGTH)});
         mRemainWordTv.setText(getResources().getString(R.string.format_remain_word, MAX_CONTENT_LENGTH));
@@ -70,12 +96,20 @@ public class PublishActivity extends TitleActivity implements PTSortableNinePhot
         mPTSortableNinePhotoLayout.setMaxItemCount(9);
         mPTSortableNinePhotoLayout.setDelegate(this);
         mPTSortableNinePhotoLayout.setPlusEnable(false);
+
+        mRightTv.setOnClickListener(mPublishListener);
+
     }
 
     @OnClick(R.id.publish_content_ll)
     void onPanel() {
         if (mInputMethodUtils != null)
             mInputMethodUtils.showKeyBoardState(mContentEt);
+    }
+
+    @OnClick(R.id.postType_ll)
+    void onPostType() {
+        SelectPostTypeActivity.start(this);
     }
 
     @OnClick(R.id.photo_tv)
@@ -162,7 +196,7 @@ public class PublishActivity extends TitleActivity implements PTSortableNinePhot
         }
         if (mPTSortableNinePhotoLayout != null) {
             List<String> list = mPTSortableNinePhotoLayout.getData();
-            if (list != null && !list.isEmpty()){
+            if (list != null && !list.isEmpty()) {
                 showEditDialog();
                 return;
             }
@@ -184,7 +218,6 @@ public class PublishActivity extends TitleActivity implements PTSortableNinePhot
                 })
                 .show();
     }
-
 
     public static void start(Context context) {
         Intent intent = new Intent(context, PublishActivity.class);

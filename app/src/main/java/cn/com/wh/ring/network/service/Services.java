@@ -12,6 +12,8 @@ public class Services {
     public static final TouristService touristService;
     public static final AccountService accountService;
     public static final SmsService smsService;
+    public static final FileService fileService;
+    public static final PostTypeService postTypeService;
 
     static {
         Retrofit retrofit = Server.getInstance().getRetrofit();
@@ -19,5 +21,7 @@ public class Services {
         touristService = retrofit.create(TouristService.class);
         accountService = retrofit.create(AccountService.class);
         smsService = retrofit.create(SmsService.class);
+        fileService = retrofit.create(FileService.class);
+        postTypeService = retrofit.create(PostTypeService.class);
     }
 }
