@@ -16,6 +16,7 @@
 package cn.com.wh.photo.photopicker.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import java.util.ArrayList;
 
@@ -24,7 +25,8 @@ import cn.com.wh.photo.adapter.RecyclerViewAdapter;
 import cn.com.wh.photo.adapter.ViewHolderHelper;
 import cn.com.wh.photo.photopicker.imageloader.Image;
 import cn.com.wh.photo.photopicker.model.ImageFolderModel;
-import cn.com.wh.photo.photopicker.util.PhotoPickerUtil;
+import cn.com.wh.photo.photopicker.util.FileTypeUtils;
+import cn.com.wh.photo.photopicker.util.PhotoPickerUtils;
 
 public class PhotoPickerAdapter extends RecyclerViewAdapter<String> {
     private ArrayList<String> mSelectedImages = new ArrayList<>();
@@ -33,7 +35,7 @@ public class PhotoPickerAdapter extends RecyclerViewAdapter<String> {
 
     public PhotoPickerAdapter(RecyclerView recyclerView) {
         super(recyclerView, R.layout.item_photo_picker);
-        mImageSize = PhotoPickerUtil.getScreenWidth() / 6;
+        mImageSize = PhotoPickerUtils.getScreenWidth() / 6;
     }
 
     @Override
@@ -58,6 +60,12 @@ public class PhotoPickerAdapter extends RecyclerViewAdapter<String> {
     @Override
     protected void fillData(ViewHolderHelper helper, int position, String model) {
         if (getItemViewType(position) == R.layout.item_photo_picker) {
+            if (FileTypeUtils.isGif(model)) {
+                helper.setVisibility(R.id.item_photo_picker_photo_type_iv, View.VISIBLE);
+                helper.setImageResource(R.id.item_photo_picker_photo_type_iv, R.mipmap.ic_delete);
+            } else {
+                helper.setVisibility(R.id.item_photo_picker_photo_type_iv, View.GONE);
+            }
             Image.display(helper.getImageView(R.id.item_photo_picker_photo_iv), R.mipmap.ic_holder_dark, model, mImageSize);
 
             if (mSelectedImages.contains(model)) {

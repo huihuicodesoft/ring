@@ -23,7 +23,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorListenerAdapter;
-import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,6 +30,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -51,6 +51,7 @@ import cn.com.wh.photo.adapter.listener.OnNoDoubleClickListener;
 import cn.com.wh.photo.adapter.listener.OnRVItemClickListener;
 import cn.com.wh.photo.photopicker.adapter.FolderAdapter;
 import cn.com.wh.photo.photopicker.adapter.PhotoPickerAdapter;
+import cn.com.wh.photo.photopicker.cache.TakePhotoCache;
 import cn.com.wh.photo.photopicker.decoration.LineItemDecoration;
 import cn.com.wh.photo.photopicker.decoration.SpaceItemDecoration;
 import cn.com.wh.photo.photopicker.imageloader.RVOnScrollListener;
@@ -92,6 +93,8 @@ public class PhotoPickerActivity extends TitleActivity implements OnItemChildCli
     View mFolderBack;
     @BindView(R.id.photo_folder_content_rv)
     RecyclerView mFolderRv;
+    @BindView(R.id.loading_pb)
+    ProgressBar mLoadingPb;
 
     @BindColor(R.color.back_photo_title)
     int mTitleBackColor;
@@ -125,7 +128,6 @@ public class PhotoPickerActivity extends TitleActivity implements OnItemChildCli
     private ImageCaptureManager mImageCaptureManager;
 
     private LoadPhotoTask mLoadPhotoTask;
-    private AppCompatDialog mLoadingDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -137,6 +139,8 @@ public class PhotoPickerActivity extends TitleActivity implements OnItemChildCli
         initPhotoRV();
         initFolderRV();
         renderTopRightBtn();
+
+        requestStoragePermission();
     }
 
     private void initBase() {
@@ -218,12 +222,6 @@ public class PhotoPickerActivity extends TitleActivity implements OnItemChildCli
         }
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        requestStoragePermission();
-    }
-
     private void requestStoragePermission() {
         AndPermission.with(this)
                 .requestCode(200)
@@ -252,17 +250,14 @@ public class PhotoPickerActivity extends TitleActivity implements OnItemChildCli
     }
 
     private void showLoadingDialog() {
-        if (mLoadingDialog == null) {
-            mLoadingDialog = new AppCompatDialog(this);
-            mLoadingDialog.setContentView(R.layout.dialog_loading);
-            mLoadingDialog.setCancelable(false);
+        if (mLoadingPb != null) {
+            mLoadingPb.setVisibility(View.VISIBLE);
         }
-        mLoadingDialog.show();
     }
 
     private void dismissLoadingDialog() {
-        if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
-            mLoadingDialog.dismiss();
+        if (mLoadingPb != null) {
+            mLoadingPb.setVisibility(View.GONE);
         }
     }
 
@@ -275,15 +270,20 @@ public class PhotoPickerActivity extends TitleActivity implements OnItemChildCli
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CODE_TAKE_PHOTO) {
-                ArrayList<String> photos = new ArrayList<>();
-                photos.add(mImageCaptureManager.getCurrentPhotoPath());
-                PhotoPickerPreviewActivity.startForResult(this, 1, photos, photos, 0, true, REQUEST_CODE_PREVIEW);
-            } else if (requestCode == REQUEST_CODE_PREVIEW) {
-                if (PhotoPickerPreviewActivity.getIsFromTakePhoto(data)) {
-                    // 从拍照预览界面返回，刷新图库
-                    mImageCaptureManager.refreshGallery();
+                ArrayList<String> selectedImages = mPicAdapter.getSelectedImages();
+                if (selectedImages == null) {
+                    selectedImages = new ArrayList<>();
                 }
+                String imagePath = mImageCaptureManager.getCurrentPhotoPath();
+                selectedImages.add(imagePath);
 
+                mImageCaptureManager.refreshGallery();
+                //因为广播扫描媒体库，并不能及时更新数据库，所以加了个缓存
+                if (!TakePhotoCache.mCache.contains(imagePath)) {
+                    TakePhotoCache.mCache.add(imagePath);
+                }
+                returnSelectedImages(selectedImages);
+            } else if (requestCode == REQUEST_CODE_PREVIEW) {
                 returnSelectedImages(PhotoPickerPreviewActivity.getSelectedImages(data));
             }
         } else if (resultCode == RESULT_CANCELED && requestCode == REQUEST_CODE_PREVIEW) {
@@ -343,6 +343,11 @@ public class PhotoPickerActivity extends TitleActivity implements OnItemChildCli
      * 拍照
      */
     private void takePhoto() {
+        if (mPicAdapter.getSelectedCount() >= mMaxChooseCount) {
+            toastMaxCountTip();
+            return;
+        }
+
         AndPermission.with(this)
                 .requestCode(100)
                 .permission(Manifest.permission.CAMERA)
@@ -362,7 +367,7 @@ public class PhotoPickerActivity extends TitleActivity implements OnItemChildCli
                     public void onFailed(int requestCode, List<String> deniedPermissions) {
                         if (requestCode == 100) {
                             AndPermission.defaultSettingDialog(PhotoPickerActivity.this)
-                                .setMessage(getString(R.string.format_permission_error, mPermissionCamera)).show();
+                                    .setMessage(getString(R.string.format_permission_error, mPermissionCamera)).show();
                         }
                     }
                 }).start();

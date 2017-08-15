@@ -65,7 +65,7 @@ public class ImageCaptureManager {
      */
     public Intent getTakePictureIntent() throws IOException {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(PhotoPickerUtil.sApp.getPackageManager()) != null) {
+        if (takePictureIntent.resolveActivity(PhotoPickerUtils.sApp.getPackageManager()) != null) {
             File photoFile = createCaptureFile();
             if (photoFile != null) {
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
@@ -73,7 +73,7 @@ public class ImageCaptureManager {
                 } else {
                     ContentValues contentValues = new ContentValues(1);
                     contentValues.put(MediaStore.Images.Media.DATA, photoFile.getAbsolutePath());
-                    Uri uri = PhotoPickerUtil.sApp.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+                    Uri uri = PhotoPickerUtils.sApp.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                 }
             }
@@ -88,7 +88,7 @@ public class ImageCaptureManager {
         if (!TextUtils.isEmpty(mCurrentPhotoPath)) {
             Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
             mediaScanIntent.setData(Uri.fromFile(new File(mCurrentPhotoPath)));
-            PhotoPickerUtil.sApp.sendBroadcast(mediaScanIntent);
+            PhotoPickerUtils.sApp.sendBroadcast(mediaScanIntent);
             mCurrentPhotoPath = null;
         }
     }
@@ -124,7 +124,7 @@ public class ImageCaptureManager {
     }
 
     private File createCropFile() throws IOException {
-        File cropFile = File.createTempFile("Crop_" + PICTURE_NAME_POSTFIX_SDF.format(new Date()), ".png", PhotoPickerUtil.sApp.getExternalCacheDir());
+        File cropFile = File.createTempFile("Crop_" + PICTURE_NAME_POSTFIX_SDF.format(new Date()), ".png", PhotoPickerUtils.sApp.getExternalCacheDir());
         mCurrentPhotoPath = cropFile.getAbsolutePath();
         return cropFile;
     }

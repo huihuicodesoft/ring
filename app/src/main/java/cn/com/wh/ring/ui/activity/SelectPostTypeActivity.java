@@ -1,12 +1,13 @@
 package cn.com.wh.ring.ui.activity;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,9 @@ import retrofit2.Call;
  * Created by Hui on 2017/8/1.
  */
 
-public class SelectPostTypeActivity extends TitleActivity implements LoadHelper.OnLoadListener {
+public class SelectPostTypeActivity extends TitleActivity implements LoadHelper.OnLoadListener, SelectPostTypeAdapter.OnItemClickListener {
+    private static final String INTENT_DATA = "data";
+
     @BindView(R.id.listSwipeRefreshLayout)
     ListSwipeRefreshLayout mListSwipeRefreshLayout;
     private int mCurrentPage = 1;
@@ -52,6 +55,7 @@ public class SelectPostTypeActivity extends TitleActivity implements LoadHelper.
         recyclerView.addItemDecoration(new LineItemDecoration(this, LinearLayoutManager.HORIZONTAL));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new SelectPostTypeAdapter(mData);
+        mAdapter.setOnItemClickListener(this);
         recyclerView.setAdapter(mAdapter);
 
         mListSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -113,9 +117,22 @@ public class SelectPostTypeActivity extends TitleActivity implements LoadHelper.
         });
     }
 
-    public static void start(Context context) {
-        Intent intent = new Intent(context, SelectPostTypeActivity.class);
-        context.startActivity(intent);
+    @Override
+    public void onItemClick(View view, PostType postType) {
+        Intent intent = getIntent();
+        if (intent != null) {
+            intent.putExtra(INTENT_DATA, postType);
+        }
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
+    public static void startForResult(Activity activity, int requestCode) {
+        Intent intent = new Intent(activity, SelectPostTypeActivity.class);
+        activity.startActivityForResult(intent, requestCode);
+    }
+
+    public static PostType getIntentData(Intent intent){
+        return (PostType) intent.getSerializableExtra(INTENT_DATA);
+    }
 }

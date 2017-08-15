@@ -30,7 +30,8 @@ import cn.com.wh.photo.R;
 import cn.com.wh.photo.adapter.AdapterViewAdapter;
 import cn.com.wh.photo.adapter.ViewHolderHelper;
 import cn.com.wh.photo.photopicker.imageloader.Image;
-import cn.com.wh.photo.photopicker.util.PhotoPickerUtil;
+import cn.com.wh.photo.photopicker.util.FileTypeUtils;
+import cn.com.wh.photo.photopicker.util.PhotoPickerUtils;
 
 /**
  * 描述:九宫格图片控件
@@ -71,9 +72,9 @@ public class PTNinePhotoLayout extends FrameLayout implements AdapterView.OnItem
         mItemWidth = 0;
         mShowAsLargeWhenOnlyOne = true;
         mItemCornerRadius = 0;
-        mItemWhiteSpacing = PhotoPickerUtil.dp2px(4);
+        mItemWhiteSpacing = PhotoPickerUtils.dp2px(4);
         mPlaceholderDrawableResId = R.mipmap.ic_holder_light;
-        mOtherWhiteSpacing = PhotoPickerUtil.dp2px(100);
+        mOtherWhiteSpacing = PhotoPickerUtils.dp2px(100);
         mItemSpanCount = 3;
     }
 
@@ -106,7 +107,7 @@ public class PTNinePhotoLayout extends FrameLayout implements AdapterView.OnItem
 
     private void afterInitDefaultAndCustomAttrs() {
         if (mItemWidth == 0) {
-            mItemWidth = (PhotoPickerUtil.getScreenWidth() - mOtherWhiteSpacing - (mItemSpanCount - 1) * mItemWhiteSpacing) / mItemSpanCount;
+            mItemWidth = (PhotoPickerUtils.getScreenWidth() - mOtherWhiteSpacing - (mItemSpanCount - 1) * mItemWhiteSpacing) / mItemSpanCount;
         }
 
         mPhotoIv = new PTImageView(getContext());
@@ -222,7 +223,7 @@ public class PTNinePhotoLayout extends FrameLayout implements AdapterView.OnItem
 
         public PhotoAdapter(Context context) {
             super(context, R.layout.item_nine_photo);
-            mImageSize = PhotoPickerUtil.getScreenWidth() / (mItemSpanCount > 3 ? 8 : 6);
+            mImageSize = PhotoPickerUtils.getScreenWidth() / (mItemSpanCount > 3 ? 8 : 6);
         }
 
         @Override
@@ -233,6 +234,12 @@ public class PTNinePhotoLayout extends FrameLayout implements AdapterView.OnItem
             }
 
             Image.display(helper.getImageView(R.id.iv_item_nine_photo_photo), mPlaceholderDrawableResId, model, mImageSize);
+            if (FileTypeUtils.isGif(model)) {
+                helper.setVisibility(R.id.iv_item_nine_photo_photo_type,View.VISIBLE);
+                helper.setImageResource(R.id.iv_item_nine_photo_photo_type, R.mipmap.ic_delete);
+            } else {
+                helper.setVisibility(R.id.iv_item_nine_photo_photo_type,View.GONE);
+            }
         }
     }
 

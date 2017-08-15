@@ -9,7 +9,7 @@ import cn.com.wh.photo.adapter.RecyclerViewAdapter;
 import cn.com.wh.photo.adapter.ViewHolderHelper;
 import cn.com.wh.photo.photopicker.imageloader.Image;
 import cn.com.wh.photo.photopicker.model.ImageFolderModel;
-import cn.com.wh.photo.photopicker.util.PhotoPickerUtil;
+import cn.com.wh.photo.photopicker.util.PhotoPickerUtils;
 
 /**
  * Created by Hui on 2017/7/26.
@@ -22,7 +22,7 @@ public class FolderAdapter extends RecyclerViewAdapter<ImageFolderModel> {
         super(recyclerView, R.layout.item_photo_folder);
 
         mData = new ArrayList<>();
-        mImageSize = PhotoPickerUtil.getScreenWidth() / 10;
+        mImageSize = PhotoPickerUtils.getScreenWidth() / 10;
     }
 
     @Override

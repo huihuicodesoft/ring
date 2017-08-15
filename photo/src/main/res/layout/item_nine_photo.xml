@@ -14,6 +14,13 @@
         tools:src="@mipmap/ic_holder_light" />
 
     <ImageView
+        android:id="@+id/iv_item_nine_photo_photo_type"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+    <ImageView
         android:id="@+id/iv_item_nine_photo_flag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -36,7 +36,7 @@ import java.security.NoSuchAlgorithmException;
  * 创建时间:16/6/24 下午6:30
  * 描述:
  */
-public class PhotoPickerUtil {
+public class PhotoPickerUtils {
     public static final Application sApp;
     private static Handler sHandler = new Handler(Looper.getMainLooper());
 
@@ -47,18 +47,18 @@ public class PhotoPickerUtil {
             if (app == null)
                 throw new IllegalStateException("Static initialization of Applications must be on main thread.");
         } catch (final Exception e) {
-            Log.e(PhotoPickerUtil.class.getSimpleName(), "Failed to get current application from AppGlobals." + e.getMessage());
+            Log.e(PhotoPickerUtils.class.getSimpleName(), "Failed to get current application from AppGlobals." + e.getMessage());
             try {
                 app = (Application) Class.forName("android.app.ActivityThread").getMethod("currentApplication").invoke(null);
             } catch (final Exception ex) {
-                Log.e(PhotoPickerUtil.class.getSimpleName(), "Failed to get current application from ActivityThread." + e.getMessage());
+                Log.e(PhotoPickerUtils.class.getSimpleName(), "Failed to get current application from ActivityThread." + e.getMessage());
             }
         } finally {
             sApp = app;
         }
     }
 
-    private PhotoPickerUtil() {
+    private PhotoPickerUtils() {
     }
 
     public static void runInThread(Runnable task) {

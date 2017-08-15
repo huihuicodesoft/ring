@@ -28,7 +28,8 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 
-import cn.com.wh.photo.photopicker.util.PhotoPickerUtil;
+import cn.com.wh.photo.photopicker.util.FileTypeUtils;
+import cn.com.wh.photo.photopicker.util.PhotoPickerUtils;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
@@ -41,26 +42,43 @@ public class GlideImageLoader extends ImageLoader {
     public void display(final ImageView imageView, String path, @DrawableRes int loadingResId, @DrawableRes int failResId, int width, int height, final DisplayDelegate delegate) {
         final String finalPath = getPath(path);
         Activity activity = getActivity(imageView);
-        Glide.with(activity).load(finalPath).placeholder(loadingResId).error(failResId).override(width, height).dontAnimate().listener(new RequestListener<String, GlideDrawable>() {
-            @Override
-            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                return false;
-            }
-
-            @Override
-            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                if (delegate != null) {
-                    delegate.onSuccess(imageView, finalPath);
+        if (FileTypeUtils.isGif(path)) {
+            Glide.with(activity).load(finalPath).asBitmap().placeholder(loadingResId).error(failResId).override(width, height).dontAnimate().listener(new RequestListener<String, Bitmap>() {
+                @Override
+                public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+                    return false;
                 }
-                return false;
-            }
-        }).into(imageView);
+
+                @Override
+                public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                    if (delegate != null) {
+                        delegate.onSuccess(imageView, finalPath);
+                    }
+                    return false;
+                }
+            }).into(imageView);
+        } else  {
+            Glide.with(activity).load(finalPath).placeholder(loadingResId).error(failResId).override(width, height).dontAnimate().listener(new RequestListener<String, GlideDrawable>() {
+                @Override
+                public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                    if (delegate != null) {
+                        delegate.onSuccess(imageView, finalPath);
+                    }
+                    return false;
+                }
+            }).into(imageView);
+        }
     }
 
     @Override
     public void download(String path, final DownloadDelegate delegate) {
         final String finalPath = getPath(path);
-        Glide.with(PhotoPickerUtil.sApp).load(finalPath).asBitmap().into(new SimpleTarget<Bitmap>() {
+        Glide.with(PhotoPickerUtils.sApp).load(finalPath).asBitmap().into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                 if (delegate != null) {
@@ -79,11 +97,11 @@ public class GlideImageLoader extends ImageLoader {
 
     @Override
     public void pause(Activity activity) {
-        //Glide.with(activity).pauseRequests();
+        Glide.with(activity).pauseRequests();
     }
 
     @Override
     public void resume(Activity activity) {
-        //Glide.with(activity).resumeRequestsRecursive();
+        Glide.with(activity).resumeRequestsRecursive();
     }
 }

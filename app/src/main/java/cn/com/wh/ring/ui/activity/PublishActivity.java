@@ -28,6 +28,7 @@ import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import cn.com.wh.photo.photopicker.widget.PTSortableNinePhotoLayout;
 import cn.com.wh.ring.R;
+import cn.com.wh.ring.network.response.PostType;
 import cn.com.wh.ring.utils.InputMethodUtils;
 import cn.com.wh.ring.utils.ToastUtils;
 
@@ -38,6 +39,7 @@ import cn.com.wh.ring.utils.ToastUtils;
 public class PublishActivity extends TitleActivity implements PTSortableNinePhotoLayout.Delegate, InputMethodUtils.OnKeyBoardChangeListener {
     private static final int REQUEST_CODE_SELECT_PHOTO = 0X23;
     private static final int REQUEST_CODE_PREVIEW_PHOTO = 0X24;
+    private static final int REQUEST_CODE_SELECT_TYPE = 0x19;
     private static final int MAX_CONTENT_LENGTH = 300;
 
     @BindView(R.id.root_publish_rl)
@@ -50,13 +52,22 @@ public class PublishActivity extends TitleActivity implements PTSortableNinePhot
     PTSortableNinePhotoLayout mPTSortableNinePhotoLayout;
     @BindView(R.id.anonymous_iv)
     ImageView mAnonymousIv;
+    @BindView(R.id.select_type_tv)
+    TextView mSelectTypeTv;
 
     InputMethodUtils mInputMethodUtils;
+    private PostType mPostType;
 
 
     private View.OnClickListener mPublishListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            if (mPostType == null) {
+                ToastUtils.showShortToast("请选择吧");
+            } else {
+
+            }
+
             if (mPTSortableNinePhotoLayout != null) {
                 List<String> list = mPTSortableNinePhotoLayout.getData();
                 if (list != null && !list.isEmpty()) {
@@ -107,9 +118,9 @@ public class PublishActivity extends TitleActivity implements PTSortableNinePhot
             mInputMethodUtils.showKeyBoardState(mContentEt);
     }
 
-    @OnClick(R.id.postType_ll)
+    @OnClick(R.id.select_type_ll)
     void onPostType() {
-        SelectPostTypeActivity.start(this);
+        SelectPostTypeActivity.startForResult(this, REQUEST_CODE_SELECT_TYPE);
     }
 
     @OnClick(R.id.photo_tv)
@@ -153,6 +164,10 @@ public class PublishActivity extends TitleActivity implements PTSortableNinePhot
                 mPTSortableNinePhotoLayout.setData(PhotoPickerActivity.getSelectedImages(data));
             } else if (requestCode == REQUEST_CODE_PREVIEW_PHOTO) {
                 mPTSortableNinePhotoLayout.setData(PhotoPickerPreviewActivity.getSelectedImages(data));
+            } else if (requestCode == REQUEST_CODE_SELECT_TYPE) {
+                mPostType = SelectPostTypeActivity.getIntentData(data);
+                if (mPostType != null)
+                    mSelectTypeTv.setText(mPostType.getName());
             }
         }
     }
@@ -166,8 +181,8 @@ public class PublishActivity extends TitleActivity implements PTSortableNinePhot
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         mInputMethodUtils.onDestroy();
+        super.onDestroy();
     }
 
     @Override

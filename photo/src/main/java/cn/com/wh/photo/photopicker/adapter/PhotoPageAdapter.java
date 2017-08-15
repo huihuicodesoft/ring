@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import cn.com.wh.photo.R;
 import cn.com.wh.photo.photopicker.imageloader.Image;
 import cn.com.wh.photo.photopicker.util.BrowserPhotoViewAttacher;
-import cn.com.wh.photo.photopicker.util.PhotoPickerUtil;
+import cn.com.wh.photo.photopicker.util.PhotoPickerUtils;
 import cn.com.wh.photo.photopicker.widget.PTImageView;
 import cn.com.wh.photo.photoview.PhotoViewAttacher;
 
@@ -58,7 +58,7 @@ public class PhotoPageAdapter extends PagerAdapter {
         imageView.setDelegate(new PTImageView.Delegate() {
             @Override
             public void onDrawableChanged(Drawable drawable) {
-                if (drawable != null && drawable.getIntrinsicHeight() > drawable.getIntrinsicWidth() && drawable.getIntrinsicHeight() > PhotoPickerUtil.getScreenHeight()) {
+                if (drawable != null && drawable.getIntrinsicHeight() > drawable.getIntrinsicWidth() && drawable.getIntrinsicHeight() > PhotoPickerUtils.getScreenHeight()) {
                     photoViewAttacher.setIsSetTopCrop(true);
                     photoViewAttacher.setUpdateBaseMatrix();
                 } else {
@@ -67,7 +67,7 @@ public class PhotoPageAdapter extends PagerAdapter {
             }
         });
 
-        Image.display(imageView, R.mipmap.ic_holder_dark, mPreviewImages.get(position), PhotoPickerUtil.getScreenWidth(), PhotoPickerUtil.getScreenHeight());
+        Image.display(imageView, R.mipmap.ic_holder_dark, mPreviewImages.get(position), PhotoPickerUtils.getScreenWidth() / 2, PhotoPickerUtils.getScreenHeight() / 2);
 
         return imageView;
     }

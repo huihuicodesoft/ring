@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class Server {
-    public static final String HOST = "http://10.13.12.83:8080/rest/";
+    public static final String HOST = "http://10.13.3.104:8080/rest/";
 
     public static final String HEADER_TOKEN = "token";
     public static String TOKEN = "";

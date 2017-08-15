@@ -39,7 +39,8 @@ import cn.com.wh.photo.adapter.ViewHolderHelper;
 import cn.com.wh.photo.adapter.listener.OnItemChildClickListener;
 import cn.com.wh.photo.adapter.listener.OnRVItemClickListener;
 import cn.com.wh.photo.photopicker.imageloader.Image;
-import cn.com.wh.photo.photopicker.util.PhotoPickerUtil;
+import cn.com.wh.photo.photopicker.util.FileTypeUtils;
+import cn.com.wh.photo.photopicker.util.PhotoPickerUtils;
 import cn.com.wh.photo.photopicker.decoration.SpaceItemDecoration;
 
 import static android.support.v7.widget.helper.ItemTouchHelper.ACTION_STATE_IDLE;
@@ -97,9 +98,9 @@ public class PTSortableNinePhotoLayout extends RecyclerView implements OnItemChi
         mItemWidth = 0;
         mItemCornerRadius = 0;
         mPlusDrawableResId = R.mipmap.ic_plus;
-        mItemWhiteSpacing = PhotoPickerUtil.dp2px(4);
+        mItemWhiteSpacing = PhotoPickerUtils.dp2px(4);
         mPlaceholderDrawableResId = R.mipmap.ic_holder_light;
-        mOtherWhiteSpacing = PhotoPickerUtil.dp2px(100);
+        mOtherWhiteSpacing = PhotoPickerUtils.dp2px(100);
     }
 
     private void initCustomAttrs(Context context, AttributeSet attrs) {
@@ -143,7 +144,7 @@ public class PTSortableNinePhotoLayout extends RecyclerView implements OnItemChi
 
     private void afterInitDefaultAndCustomAttrs() {
         if (mItemWidth == 0) {
-            mItemWidth = (PhotoPickerUtil.getScreenWidth() - mOtherWhiteSpacing) / mItemSpanCount;
+            mItemWidth = (PhotoPickerUtils.getScreenWidth() - mOtherWhiteSpacing) / mItemSpanCount;
         } else {
             mItemWidth += mItemWhiteSpacing;
         }
@@ -412,7 +413,7 @@ public class PTSortableNinePhotoLayout extends RecyclerView implements OnItemChi
 
         public PhotoAdapter(RecyclerView recyclerView) {
             super(recyclerView, R.layout.item_nine_photo);
-            mImageSize = PhotoPickerUtil.getScreenWidth() / (mItemSpanCount > 3 ? 8 : 6);
+            mImageSize = PhotoPickerUtils.getScreenWidth() / (mItemSpanCount > 3 ? 8 : 6);
         }
 
         @Override
@@ -463,6 +464,12 @@ public class PTSortableNinePhotoLayout extends RecyclerView implements OnItemChi
                     helper.setVisibility(R.id.iv_item_nine_photo_flag, View.GONE);
                 }
                 Image.display(helper.getImageView(R.id.iv_item_nine_photo_photo), mPlaceholderDrawableResId, model, mImageSize);
+                if (FileTypeUtils.isGif(model)) {
+                    helper.setVisibility(R.id.iv_item_nine_photo_photo_type,View.VISIBLE);
+                    helper.setImageResource(R.id.iv_item_nine_photo_photo_type, R.mipmap.ic_delete);
+                } else {
+                    helper.setVisibility(R.id.iv_item_nine_photo_photo_type,View.GONE);
+                }
             }
         }
     }

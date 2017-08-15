@@ -18,7 +18,7 @@ import cn.com.wh.photo.photopicker.imageloader.Image;
 import cn.com.wh.photo.photopicker.imageloader.ImageLoader;
 import cn.com.wh.photo.photopicker.task.PTAsyncTask;
 import cn.com.wh.photo.photopicker.task.SavePhotoTask;
-import cn.com.wh.photo.photopicker.util.PhotoPickerUtil;
+import cn.com.wh.photo.photopicker.util.PhotoPickerUtils;
 import cn.com.wh.photo.photopicker.widget.HackyViewPager;
 import cn.com.wh.photo.photoview.PhotoViewAttacher;
 import cn.com.wh.ring.R;
@@ -142,15 +142,15 @@ public class PhotoPreviewActivity extends FullScreenActivity implements PhotoVie
         if (url.startsWith("file")) {
             file = new File(url.replace("file://", ""));
             if (file.exists()) {
-                PhotoPickerUtil.showSafe(getString(R.string.format_save_img_success_folder, file.getParentFile().getAbsolutePath()));
+                PhotoPickerUtils.showSafe(getString(R.string.format_save_img_success_folder, file.getParentFile().getAbsolutePath()));
                 return;
             }
         }
 
         // 通过MD5加密url生成文件名，避免多次保存同一张图片
-        file = new File(mSaveImgDir, PhotoPickerUtil.md5(url) + ".png");
+        file = new File(mSaveImgDir, PhotoPickerUtils.md5(url) + ".png");
         if (file.exists()) {
-            PhotoPickerUtil.showSafe(getString(R.string.format_save_img_success_folder, mSaveImgDir.getAbsolutePath()));
+            PhotoPickerUtils.showSafe(getString(R.string.format_save_img_success_folder, mSaveImgDir.getAbsolutePath()));
             return;
         }
 

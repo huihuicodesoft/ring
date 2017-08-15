@@ -28,7 +28,7 @@ import java.io.IOException;
 import java.lang.ref.SoftReference;
 
 import cn.com.wh.photo.R;
-import cn.com.wh.photo.photopicker.util.PhotoPickerUtil;
+import cn.com.wh.photo.photopicker.util.PhotoPickerUtils;
 
 
 /**
@@ -68,15 +68,15 @@ public class SavePhotoTask extends PTAsyncTask<Void, Void> {
             // 通知图库更新
             mContext.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(mNewFile)));
 
-            PhotoPickerUtil.showSafe(mContext.getString(R.string.format_save_img_success_folder, mNewFile.getParentFile().getAbsolutePath()));
+            PhotoPickerUtils.showSafe(mContext.getString(R.string.format_save_img_success_folder, mNewFile.getParentFile().getAbsolutePath()));
         } catch (Exception e) {
-            PhotoPickerUtil.showSafe(R.string.save_img_failure);
+            PhotoPickerUtils.showSafe(R.string.save_img_failure);
         } finally {
             if (fos != null) {
                 try {
                     fos.close();
                 } catch (IOException e) {
-                    PhotoPickerUtil.showSafe(R.string.save_img_failure);
+                    PhotoPickerUtils.showSafe(R.string.save_img_failure);
                 }
             }
             recycleBitmap();

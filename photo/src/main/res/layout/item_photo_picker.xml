@@ -15,6 +15,13 @@
         tools:src="@mipmap/ic_holder_dark" />
 
     <ImageView
+        android:id="@+id/item_photo_picker_photo_type_iv"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:visibility="gone"
+        android:layout_centerInParent="true"/>
+
+    <ImageView
         android:id="@+id/item_photo_picker_flag_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

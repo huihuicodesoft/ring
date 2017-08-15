@@ -24,8 +24,10 @@ import android.text.TextUtils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import cn.com.wh.photo.R;
+import cn.com.wh.photo.photopicker.cache.TakePhotoCache;
 import cn.com.wh.photo.photopicker.model.ImageFolderModel;
 
 
@@ -67,14 +69,19 @@ public class LoadPhotoTask extends PTAsyncTask<Void, ArrayList<ImageFolderModel>
             cursor = mContext.getContentResolver().query(
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                     new String[]{MediaStore.Images.Media.DATA},
-                    MediaStore.Images.Media.MIME_TYPE + "=? or " + MediaStore.Images.Media.MIME_TYPE + "=? or " + MediaStore.Images.Media.MIME_TYPE + "=?",
-                    new String[]{"image/jpeg", "image/png", "image/jpg"},
+                    "(" + MediaStore.Images.Media.MIME_TYPE + "=? or " + MediaStore.Images.Media.MIME_TYPE + "=? or "
+                            + MediaStore.Images.Media.MIME_TYPE + "=? or " + MediaStore.Images.Media.MIME_TYPE + "=?) and "
+                            + MediaStore.Images.Media.SIZE + ">?",
+                    new String[]{"image/jpeg", "image/png", "image/jpg", "image/gif", "0"},
                     MediaStore.Images.Media.DATE_ADDED + " DESC"
             );
 
             ImageFolderModel otherImageFolderModel;
+
+            List<String> allPhotos = new ArrayList<>();
+            List<String> dataPhotos = new ArrayList<>();
+
             if (cursor != null && cursor.getCount() > 0) {
-                boolean firstInto = true;
                 while (cursor.moveToNext()) {
                     String imagePath = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
 
@@ -82,40 +89,55 @@ public class LoadPhotoTask extends PTAsyncTask<Void, ArrayList<ImageFolderModel>
                         continue;
                     }
 
-                    if (firstInto) {
-                        allImageFolderModel.coverPath = imagePath;
-                        firstInto = false;
-                    }
-                    // 所有图片目录每次都添加
-                    allImageFolderModel.addLastImage(imagePath);
+                    dataPhotos.add(imagePath);
 
-                    String folderPath = null;
-                    // 其他图片目录
-                    File folder = new File(imagePath).getParentFile();
-                    if (folder != null) {
-                        folderPath = folder.getAbsolutePath();
+                    if (TakePhotoCache.mCache.contains(imagePath)) {
+                        TakePhotoCache.mCache.remove(imagePath);
                     }
+                }
+            }
 
-                    if (TextUtils.isEmpty(folderPath)) {
-                        int end = imagePath.lastIndexOf(File.separator);
-                        if (end != -1) {
-                            folderPath = imagePath.substring(0, end);
+            for (int i = TakePhotoCache.mCache.size() - 1; i >= 0; i--) {
+                allPhotos.add(TakePhotoCache.mCache.get(i));
+            }
+            for (int j = 0; j < dataPhotos.size(); j++) {
+                allPhotos.add(dataPhotos.get(j));
+            }
+
+            for (int m = 0; m < allPhotos.size(); m++) {
+                String imagePath = allPhotos.get(m);
+                if (m == 0) {
+                    allImageFolderModel.coverPath = imagePath;
+                }
+                // 所有图片目录每次都添加
+                allImageFolderModel.addLastImage(imagePath);
+
+                String folderPath = null;
+                // 其他图片目录
+                File folder = new File(imagePath).getParentFile();
+                if (folder != null) {
+                    folderPath = folder.getAbsolutePath();
+                }
+
+                if (TextUtils.isEmpty(folderPath)) {
+                    int end = imagePath.lastIndexOf(File.separator);
+                    if (end != -1) {
+                        folderPath = imagePath.substring(0, end);
+                    }
+                }
+
+                if (!TextUtils.isEmpty(folderPath)) {
+                    if (imageFolderModelMap.containsKey(folderPath)) {
+                        otherImageFolderModel = imageFolderModelMap.get(folderPath);
+                    } else {
+                        String folderName = folderPath.substring(folderPath.lastIndexOf(File.separator) + 1);
+                        if (TextUtils.isEmpty(folderName)) {
+                            folderName = "/";
                         }
+                        otherImageFolderModel = new ImageFolderModel(folderName, imagePath);
+                        imageFolderModelMap.put(folderPath, otherImageFolderModel);
                     }
-
-                    if (!TextUtils.isEmpty(folderPath)) {
-                        if (imageFolderModelMap.containsKey(folderPath)) {
-                            otherImageFolderModel = imageFolderModelMap.get(folderPath);
-                        } else {
-                            String folderName = folderPath.substring(folderPath.lastIndexOf(File.separator) + 1);
-                            if (TextUtils.isEmpty(folderName)) {
-                                folderName = "/";
-                            }
-                            otherImageFolderModel = new ImageFolderModel(folderName, imagePath);
-                            imageFolderModelMap.put(folderPath, otherImageFolderModel);
-                        }
-                        otherImageFolderModel.addLastImage(imagePath);
-                    }
+                    otherImageFolderModel.addLastImage(imagePath);
                 }
 
                 // 添加其他图片目录

@@ -21,9 +21,14 @@ import cn.com.wh.ring.network.response.PostType;
 
 public class SelectPostTypeAdapter extends RecyclerView.Adapter<SelectPostTypeAdapter.ViewHolder> {
     private List<PostType> mData;
+    private OnItemClickListener mOnItemClickListener;
 
     public SelectPostTypeAdapter(List<PostType> data) {
         mData = data;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.mOnItemClickListener = onItemClickListener;
     }
 
     @Override
@@ -33,12 +38,20 @@ public class SelectPostTypeAdapter extends RecyclerView.Adapter<SelectPostTypeAd
     }
 
     @Override
-    public void onBindViewHolder(SelectPostTypeAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(SelectPostTypeAdapter.ViewHolder holder, final int position) {
         if (mData == null)
             return;
 
-        PostType postType = mData.get(position);
+        final PostType postType = mData.get(position);
         holder.bindData(postType);
+        if (mOnItemClickListener != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnItemClickListener.onItemClick(v, postType);
+                }
+            });
+        }
     }
 
     @Override
@@ -69,5 +82,9 @@ public class SelectPostTypeAdapter extends RecyclerView.Adapter<SelectPostTypeAd
             else
                 mSupportTv.setText("");
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, PostType postType);
     }
 }
