@@ -16,6 +16,14 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <!-- 得到屏幕正常的物理尺寸(低分辨率会有误) -->
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true" />
+
     <application
         android:name=".MainApplication"
         android:allowBackup="true"
@@ -24,19 +32,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <meta-data
-            android:name="com.amap.api.v2.apikey"
-            android:value="3ee26f1b5e0071ea09c003a4c6365437" />
-        <service android:name="com.amap.api.location.APSService"></service>
-
-        <activity
-            android:name=".ui.activity.SplashActivity"
+        <activity android:name=".ui.activity.SplashActivity"
             android:theme="@style/AppTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="3ee26f1b5e0071ea09c003a4c6365437" />
+        <service android:name="com.amap.api.location.APSService"></service>
+
         <activity
             android:name=".ui.activity.MainActivity"
             android:launchMode="singleTask" />

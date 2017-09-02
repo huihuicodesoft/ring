@@ -13,6 +13,7 @@ public class Services {
     public static final AccountService accountService;
     public static final SmsService smsService;
     public static final FileService fileService;
+    public static final PostService postService;
     public static final PostTypeService postTypeService;
 
     static {
@@ -22,6 +23,7 @@ public class Services {
         accountService = retrofit.create(AccountService.class);
         smsService = retrofit.create(SmsService.class);
         fileService = retrofit.create(FileService.class);
+        postService = retrofit.create(PostService.class);
         postTypeService = retrofit.create(PostTypeService.class);
     }
 }

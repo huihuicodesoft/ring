@@ -12,6 +12,10 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationListener;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +26,7 @@ import cn.com.wh.permission.AndPermission;
 import cn.com.wh.permission.PermissionListener;
 import cn.com.wh.ring.R;
 import cn.com.wh.ring.database.sp.DataCenter;
+import cn.com.wh.ring.event.PostPublishEvent;
 import cn.com.wh.ring.ui.fragment.ActivityFragment;
 import cn.com.wh.ring.ui.fragment.FindFragment;
 import cn.com.wh.ring.ui.fragment.HomeFragment;
@@ -40,6 +45,7 @@ public class MainActivity extends FullScreenActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         unbinder = ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
 
         initView();
 
@@ -51,20 +57,20 @@ public class MainActivity extends FullScreenActivity {
                 .requestCode(200)
                 .permission(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
                 .callback(new PermissionListener() {
-            @Override
-            public void onSucceed(int requestCode, List<String> grantedPermissions) {
-                if (requestCode == 200) {
-                    location();
-                }
-            }
+                    @Override
+                    public void onSucceed(int requestCode, List<String> grantedPermissions) {
+                        if (requestCode == 200) {
+                            location();
+                        }
+                    }
 
-            @Override
-            public void onFailed(int requestCode, List<String> deniedPermissions) {
-                if (requestCode == 200) {
-                    AndPermission.defaultSettingDialog(MainActivity.this).show();
-                }
-            }
-        }).start();
+                    @Override
+                    public void onFailed(int requestCode, List<String> deniedPermissions) {
+                        if (requestCode == 200) {
+                            AndPermission.defaultSettingDialog(MainActivity.this).show();
+                        }
+                    }
+                }).start();
     }
 
     private void location() {
@@ -141,6 +147,22 @@ public class MainActivity extends FullScreenActivity {
     @OnClick(R.id.bottom_me_ll)
     void onMe() {
         mViewPager.setCurrentItem(3, false);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(PostPublishEvent event) {
+        if (event.type == PostPublishEvent.TYPE_SKIP_ME && isTaskRoot()) {
+            if (mViewPager != null) {
+                mViewPager.setCurrentItem(4, false);
+                EventBus.getDefault().post(new PostPublishEvent(PostPublishEvent.TYPE_SKIP_POST, event.id));
+            }
+        }
     }
 
     public static void start(Context context) {

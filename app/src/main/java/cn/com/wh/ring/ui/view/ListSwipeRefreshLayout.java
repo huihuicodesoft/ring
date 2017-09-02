@@ -16,6 +16,7 @@ public class ListSwipeRefreshLayout extends SwipeRefreshLayout {
     private RecyclerView recyclerView;
     private boolean isLoadingMore;
     private OnLoadMoreListener onLoadMoreListener;
+    private OnRefreshListener onRefreshListener;
 
     public ListSwipeRefreshLayout(Context context) {
         this(context, null);
@@ -24,6 +25,21 @@ public class ListSwipeRefreshLayout extends SwipeRefreshLayout {
     public ListSwipeRefreshLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         createRecyclerView();
+    }
+
+    public void notifyRefresh() {
+        if (!isRefreshing()) {
+            setRefreshing(true);
+            if (onRefreshListener != null) {
+                onRefreshListener.onRefresh();
+            }
+        }
+    }
+
+    @Override
+    public void setOnRefreshListener(OnRefreshListener listener) {
+        onRefreshListener = listener;
+        super.setOnRefreshListener(onRefreshListener);
     }
 
     private void createRecyclerView() {
@@ -54,6 +70,7 @@ public class ListSwipeRefreshLayout extends SwipeRefreshLayout {
                 }
             }
         });
+        recyclerView.setContentDescription("");
         addView(recyclerView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
     }
 

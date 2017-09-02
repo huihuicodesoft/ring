@@ -38,9 +38,11 @@ public class SelectPostTypeActivity extends TitleActivity implements LoadHelper.
 
     @BindView(R.id.listSwipeRefreshLayout)
     ListSwipeRefreshLayout mListSwipeRefreshLayout;
+
+    private long mMaxId = 0L;
     private int mCurrentPage = 1;
 
-    SelectPostTypeAdapter mAdapter;
+    private SelectPostTypeAdapter mAdapter;
     private List<PostType> mData = new ArrayList<>();
     private LoadHelper loadHelper = new LoadHelper();
 
@@ -96,11 +98,17 @@ public class SelectPostTypeActivity extends TitleActivity implements LoadHelper.
     }
 
     private void loadPage(final int page, final boolean isPage) {
-        Call<Response<Page<PostType>>> call = Services.postTypeService.get(0L, page, Page.DEFAULT_PAGE_SIZE);
+        Call<Response<Page<PostType>>> call = Services.postTypeService.get(page == 1 ? 0L : mMaxId, page, Page.DEFAULT_PAGE_SIZE);
         call.enqueue(new ListenerCallBack<Page<PostType>>(this) {
             @Override
             public void onSuccess(Page<PostType> postTypePage) {
                 mCurrentPage = postTypePage.getPageNum();
+
+                if (mCurrentPage == 1) {
+                    List<PostType> list = postTypePage.getList();
+                    if (list != null && !list.isEmpty())
+                        mMaxId = list.get(0).getId();
+                }
 
                 if (loadHelper != null && !loadHelper.interceptSuccess(page, isPage, postTypePage.getList())) {
                     mData.addAll(postTypePage.getList());
@@ -132,7 +140,7 @@ public class SelectPostTypeActivity extends TitleActivity implements LoadHelper.
         activity.startActivityForResult(intent, requestCode);
     }
 
-    public static PostType getIntentData(Intent intent){
+    public static PostType getIntentData(Intent intent) {
         return (PostType) intent.getSerializableExtra(INTENT_DATA);
     }
 }

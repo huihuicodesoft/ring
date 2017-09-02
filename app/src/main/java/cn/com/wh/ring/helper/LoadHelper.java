@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class LoadHelper {
     FrameLayout mRootFl;
     View mContentView;
     FrameLayout mLoadingFl;
-    FrameLayout mFailFl;
+    RelativeLayout mFailFl;
     FrameLayout mEmptyFl;
     OnLoadListener mOnLoadListener;
 
@@ -28,7 +29,7 @@ public class LoadHelper {
 
         mContentView = View.inflate(context, resId, null);
         mLoadingFl = (FrameLayout) View.inflate(context, R.layout.panel_loading, null);
-        mFailFl = (FrameLayout) View.inflate(context, R.layout.panel_load_fail, null);
+        mFailFl = (RelativeLayout) View.inflate(context, R.layout.panel_load_fail, null);
         mEmptyFl = (FrameLayout) View.inflate(context, R.layout.panel_load_empty, null);
 
         mRootFl.addView(mContentView);

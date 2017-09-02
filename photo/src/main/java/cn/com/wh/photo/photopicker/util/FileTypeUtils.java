@@ -40,4 +40,13 @@ public class FileTypeUtils {
         }
         return result;
     }
+
+    public static boolean isVideo(String path){
+        boolean result = false;
+        String extension = getExtensionName(path);
+        if (!TextUtils.isEmpty(extension)){
+            result = "avi".equals(extension) || "wmv".equals(extension) || "mp4".equals(extension)|| "flv".equals(extension);
+        }
+        return result;
+    }
 }

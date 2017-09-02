@@ -14,6 +14,6 @@ import retrofit2.http.Query;
 public interface PostTypeService {
     @GET("postType/v1/page")
     Call<Response<Page<PostType>>> get(@Query("maxId") Long maxId,
-                                       @Query("pageNum") int pageNum,
+                                       @Query("pageNumber") int pageNumber,
                                        @Query("pageSize") int pageSize);
 }

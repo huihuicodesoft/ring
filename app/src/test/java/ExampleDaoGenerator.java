@@ -20,13 +20,14 @@ public class ExampleDaoGenerator {
     private static void addPostPublish(Schema schema) {
         Entity note = schema.addEntity("PostPublish");
         note.addIdProperty();
-        note.addStringProperty("userId").notNull();
+        note.addStringProperty("token").notNull();
         note.addStringProperty("content");
         note.addStringProperty("mediaContent");
-        note.addIntProperty("mediaType");
-        note.addIntProperty("type").notNull();
-        note.addLongProperty("time").notNull();
+        note.addStringProperty("type").notNull();
         note.addBooleanProperty("anonymous");
+        note.addIntProperty("state");
+        note.addStringProperty("addressCode");
+        note.addLongProperty("time").notNull();
     }
 
     private static void addCustomerOrder(Schema schema) {

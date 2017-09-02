@@ -147,7 +147,7 @@ public class PTNinePhotoLayout extends FrameLayout implements AdapterView.OnItem
      *
      * @param photos
      */
-    public void setData(ArrayList<String> photos) {
+    public void setData(List<String> photos) {
         if (photos.size() == 0) {
             setVisibility(GONE);
         } else {

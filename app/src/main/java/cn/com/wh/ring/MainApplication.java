@@ -12,6 +12,7 @@ import cn.com.wh.ring.database.DaoSession;
  */
 
 public class MainApplication extends Application {
+    public static final int DB_VERSION = 2;
     public static final boolean ENCRYPTED = false;
     private DaoSession daoSession;
 
@@ -25,9 +26,10 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mainApplication = MainApplication.this;
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, ENCRYPTED ? "notes-db-encrypted" : "notes-db");
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, ENCRYPTED ? "ring-db-encrypted" : "ring-db");
         Database db = ENCRYPTED ? helper.getEncryptedWritableDb("super-secret") : helper.getWritableDb();
         daoSession = new DaoMaster(db).newSession();
+
     }
 
     public DaoSession getDaoSession() {

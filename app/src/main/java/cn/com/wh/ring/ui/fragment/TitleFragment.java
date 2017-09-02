@@ -38,12 +38,14 @@ public abstract class TitleFragment extends Fragment {
 
         SystemBarUtils.initStatusBarHeight(getResources(), mStatusBar);
 
-        if (getTitleView() != null) {
-            mTitleLl.addView(getTitleView(), new LinearLayout.LayoutParams(
+        View titleView = getTitleView();
+        if (titleView != null) {
+            mTitleLl.addView(titleView, new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         }
-        if (getContentView() != null) {
-            mRootLl.addView(getContentView(), new LinearLayout.LayoutParams(
+        View contentView = getContentView();
+        if (contentView != null) {
+            mRootLl.addView(contentView, new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         }
 

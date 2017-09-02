@@ -36,6 +36,7 @@ dependencies {
     compile deps.design
     compile deps.greendao
     compile deps.greendao_generator
+    compile deps.eventBus
     compile deps.retrofit
     compile deps.gson
     compile deps.converter_gson

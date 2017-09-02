@@ -33,7 +33,7 @@ public class SelectPostTypeAdapter extends RecyclerView.Adapter<SelectPostTypeAd
 
     @Override
     public SelectPostTypeAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_select_post_type, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_select_post_type, parent, false);
         return new ViewHolder(view);
     }
 

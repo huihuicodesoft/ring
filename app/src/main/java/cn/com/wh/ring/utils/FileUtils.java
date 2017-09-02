@@ -2,6 +2,8 @@ package cn.com.wh.ring.utils;
 
 import android.text.TextUtils;
 
+import java.io.File;
+
 /**
  * Created by Hui on 2017/7/31.
  */
@@ -9,6 +11,7 @@ import android.text.TextUtils;
 public class FileUtils {
     /**
      * a.png或path/a.png 获得 png
+     *
      * @param str
      * @return
      */
@@ -25,6 +28,7 @@ public class FileUtils {
 
     /**
      * a.png或path/a.png 获得 .png
+     *
      * @param str
      * @return
      */
@@ -38,6 +42,7 @@ public class FileUtils {
 
     /**
      * path/a.png 获得 a
+     *
      * @param filePath
      * @return
      */
@@ -53,5 +58,35 @@ public class FileUtils {
             }
         }
         return fileName;
+    }
+
+    /**
+     * path/a.png 获得 a.png
+     *
+     * @param filePath
+     * @return
+     */
+    public static String getFileName(String filePath) {
+        String fileName = null;
+        if (!TextUtils.isEmpty(filePath)) {
+            int var1 = filePath.lastIndexOf('/');
+            fileName = filePath.substring(var1 + 1);
+        }
+        return fileName;
+    }
+
+    /**
+     * 文件是否真实存在
+     *
+     * @param filePath
+     * @return
+     */
+    public static boolean isExist(String filePath) {
+        boolean isExist = false;
+        if (!TextUtils.isEmpty(filePath)) {
+            File file = new File(filePath);
+            isExist = file.exists() && file.length() > 0;
+        }
+        return isExist;
     }
 }

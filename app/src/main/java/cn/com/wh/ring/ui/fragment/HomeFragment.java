@@ -16,7 +16,6 @@ import java.util.List;
 
 import butterknife.BindString;
 import cn.com.wh.ring.R;
-import cn.com.wh.ring.ui.fragment.bean.FragmentName;
 import cn.com.wh.ring.ui.fragment.home.AnecdoteFragment;
 import cn.com.wh.ring.ui.fragment.home.AttentionFragment;
 import cn.com.wh.ring.ui.fragment.home.RecommendFragment;
@@ -40,6 +39,24 @@ public class HomeFragment extends TitleFragment {
     String redHallStr;
 
     List<FragmentName> fragmentNames = new ArrayList<>();
+
+    public class FragmentName {
+        String name;
+        Fragment fragment;
+
+        public FragmentName(String name, Fragment fragment) {
+            this.name = name;
+            this.fragment = fragment;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public Fragment getFragment() {
+            return fragment;
+        }
+    }
 
     @Override
     public View getTitleView() {

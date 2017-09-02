@@ -49,6 +49,9 @@
     <string name="loading_empty">暂无数据</string>
     <string name="collection">收藏</string>
     <string name="comment">评论</string>
+    <string name="fan">粉丝</string>
+    <string name="score">积分</string>
+    <string name="location">位置</string>
 
     <string name="hint_mobile_number">填写手机号</string>
     <string name="hint_password">填写密码</string>

@@ -21,18 +21,18 @@ public class PostType implements Serializable {
     public static final int SUPPORT_WPV = 12;// 2/3/4
     public static final int SUPPORT_PVG = 13;// 3/4/5
 
-    private Long id;
+    private int id;
     private String name;
     private String description;
     private String symbol;
     private int support;
     private Long createTime;
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
