@@ -255,6 +255,6 @@ public class PostPublishFragment extends ScrollAbleFragment {
 
     @Override
     public View getScrollableView() {
-        return mListSwipeRefreshLayout.getRecyclerView();
+        return this.mListSwipeRefreshLayout.getRecyclerView();
     }
 }

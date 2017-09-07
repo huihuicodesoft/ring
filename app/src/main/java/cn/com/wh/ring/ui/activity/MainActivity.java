@@ -4,7 +4,10 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
@@ -16,7 +19,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -34,11 +36,39 @@ import cn.com.wh.ring.ui.fragment.MeFragment;
 import cn.com.wh.ring.utils.ToastUtils;
 
 public class MainActivity extends FullScreenActivity {
+    private static final String SAVE_STATE_KEY_PAGE_ADAPTER = "pagerAdapter";
+
     @BindView(R.id.unTouchViewPager)
     ViewPager mViewPager;
 
     private AMapLocationClient mLocationClient;
-    private List<Fragment> fragments = new ArrayList<>();
+    private ViewPagerAdapter mViewPagerAdapter;
+
+    private class ViewPagerAdapter extends FragmentStatePagerAdapter {
+        public ViewPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            String className;
+            if (position == 0) {
+                className = HomeFragment.class.getName();
+            } else if (position == 1) {
+                className = ActivityFragment.class.getName();
+            } else if (position == 2) {
+                className = FindFragment.class.getName();
+            } else {
+                className = MeFragment.class.getName();
+            }
+            return Fragment.instantiate(MainActivity.this, className);
+        }
+
+        @Override
+        public int getCount() {
+            return 4;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +77,7 @@ public class MainActivity extends FullScreenActivity {
         unbinder = ButterKnife.bind(this);
         EventBus.getDefault().register(this);
 
-        initView();
+        initView(savedInstanceState);
 
         requestPermission();
     }
@@ -93,24 +123,29 @@ public class MainActivity extends FullScreenActivity {
         mLocationClient.startLocation();
     }
 
-    private void initView() {
-        fragments.add(new HomeFragment());
-        fragments.add(new ActivityFragment());
-        fragments.add(new FindFragment());
-        fragments.add(new MeFragment());
+    private void initView(Bundle savedInstanceState) {
+        mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        mViewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
-            @Override
-            public Fragment getItem(int position) {
-                return fragments.get(position);
-            }
+        initRestoreState(savedInstanceState);
 
-            @Override
-            public int getCount() {
-                return fragments.size();
-            }
-        });
+        mViewPager.setAdapter(mViewPagerAdapter);
         mViewPager.requestDisallowInterceptTouchEvent(true);
+    }
+
+    private void initRestoreState(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            Parcelable pagerAdapterParcel = savedInstanceState.getParcelable(SAVE_STATE_KEY_PAGE_ADAPTER);
+            if (pagerAdapterParcel != null && mViewPagerAdapter != null)
+                mViewPagerAdapter.restoreState(pagerAdapterParcel, ClassLoader.getSystemClassLoader());
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        if (mViewPagerAdapter != null) {
+            outState.putParcelable(SAVE_STATE_KEY_PAGE_ADAPTER, mViewPagerAdapter.saveState());
+        }
     }
 
     @Override
