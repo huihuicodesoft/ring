@@ -2,7 +2,7 @@ package cn.com.wh.ring.helper;
 
 import android.text.TextUtils;
 
-import cn.com.wh.ring.network.request.TerminalMark;
+import cn.com.wh.ring.utils.RSAUtils;
 import cn.com.wh.ring.utils.TerminalMarkUtils;
 
 /**
@@ -10,42 +10,33 @@ import cn.com.wh.ring.utils.TerminalMarkUtils;
  */
 
 public class TerminalMarkHelper {
+    private static final String PROPERTY_COLON = "+";
     private static final String COLON = "_";
     private static final String TYPE_WIFI = "wifi";
     private static final String TYPE_BLUETOOTH = "bluetooth";
     private static final String TYPE_UUID = "uuid";
+    private static final String TYPE = "1";
+    private static final String TOURIST = "/tourist";
 
     public static String createTerminalMark() {
-        String result;
+        String result = "";
         String macAddress = TerminalMarkUtils.getMacAddress();
         if (TextUtils.isEmpty(macAddress)) {
             String bluetoothAddress = TerminalMarkUtils.getBluetoothAddress();
-            if (TextUtils.isEmpty(bluetoothAddress)) {
-                result = contact(TerminalMarkUtils.getUUID(), TYPE_UUID);
-            } else {
+            if (!TextUtils.isEmpty(bluetoothAddress)) {
                 result = contact(bluetoothAddress, TYPE_BLUETOOTH);
             }
         } else {
             result = contact(macAddress, TYPE_WIFI);
         }
-        return result;
+
+        String uuid = contact(TerminalMarkUtils.getUUID(), TYPE_UUID);
+        result = contact(result, uuid);
+        return RSAUtils.encrypt(result + COLON + TYPE) + TOURIST;
     }
 
     public static final String contact(String mark, String type) {
-        return mark + COLON + type;
-    }
-
-    public static final TerminalMark split(String mark) {
-        TerminalMark terminalMark = null;
-        if (!TextUtils.isEmpty(mark) && mark.contains(COLON)) {
-            int index = mark.lastIndexOf(COLON);
-            if (index < mark.length()) {
-                terminalMark = new TerminalMark();
-                terminalMark.setTerminalMark(mark.substring(0, index));
-                terminalMark.setType(mark.substring(index + 1, mark.length()));
-            }
-        }
-        return terminalMark;
+        return mark + PROPERTY_COLON + type;
     }
 
 }

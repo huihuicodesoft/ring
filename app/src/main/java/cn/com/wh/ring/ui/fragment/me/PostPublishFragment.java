@@ -33,6 +33,9 @@ import cn.com.wh.ring.network.response.Page;
 import cn.com.wh.ring.network.response.Post;
 import cn.com.wh.ring.network.response.PostType;
 import cn.com.wh.ring.network.response.Response;
+import cn.com.wh.ring.network.retrofit.ListenerCallBack;
+import cn.com.wh.ring.network.retrofit.NetWorkException;
+import cn.com.wh.ring.network.service.Services;
 import cn.com.wh.ring.ui.adapter.PostPublishAdapter;
 import cn.com.wh.ring.ui.fragment.base.ScrollAbleFragment;
 import cn.com.wh.ring.ui.view.ListSwipeRefreshLayout;
@@ -176,64 +179,64 @@ public class PostPublishFragment extends ScrollAbleFragment {
     }
 
     private void loadPage(final int page) {
-        cancelCall();
+//        cancelCall();
+//
+//        if (page == 1) {
+//            mData.clear();
+//        }
+//        List<Post> list = new ArrayList<>();
+//        for (int i = 0; i < 50; i++) {
+//            Post post = new Post();
+//            post.setDescription("位置 =" + i);
+//            list.add(post);
+//        }
+//        mData.addAll(list);
+//        mAdapter.notifyDataSetChanged();
+//        mListSwipeRefreshLayout.setRefreshing(false);
 
-        if (page == 1) {
-            mData.clear();
-        }
-        List<Post> list = new ArrayList<>();
-        for (int i = 0; i < 50; i++) {
-            Post post = new Post();
-            post.setDescription("位置 =" + i);
-            list.add(post);
-        }
-        mData.addAll(list);
-        mAdapter.notifyDataSetChanged();
-        mListSwipeRefreshLayout.setRefreshing(false);
+        mPostCall = Services.postService.get(null, page == 1 ? 0L : mMaxId, page, Page.DEFAULT_PAGE_SIZE);
+        mPostCall.enqueue(new ListenerCallBack<Page<Post>>(getActivity()) {
+            @Override
+            public void onSuccess(Page<Post> postPage) {
+                mCurrentPage = postPage.getPageNum();
 
-//        mPostCall = Services.postService.get(null, page == 1 ? 0L : mMaxId, page, Page.DEFAULT_PAGE_SIZE);
-//        mPostCall.enqueue(new ListenerCallBack<Page<Post>>(getActivity()) {
-//            @Override
-//            public void onSuccess(Page<Post> postPage) {
-//                mCurrentPage = postPage.getPageNum();
-//
-//                List<Post> list = postPage.getList();
-//                if (mCurrentPage == 1) {
-//                    if (list != null && !list.isEmpty())
-//                        mMaxId = list.get(0).getId();
-//
-//                    mData.clear();
-//
-//                    mData.addAll(list);
-//                    mAdapter.notifyDataSetChanged();
-//
-//                    if (mListSwipeRefreshLayout != null)
-//                        mListSwipeRefreshLayout.setRefreshing(false);
-//                } else {
-//                    if (list == null || list.isEmpty()) {
-//                        ToastUtils.showShortToast("无更多数据");
-//                    } else {
-//                        mData.addAll(list);
-//                        mAdapter.notifyDataSetChanged();
-//                    }
-//
-//                    if (mListSwipeRefreshLayout != null)
-//                        mListSwipeRefreshLayout.finishLoadingMore();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(NetWorkException e) {
-//                if (page == 1) {
-//                    if (mListSwipeRefreshLayout != null)
-//                        mListSwipeRefreshLayout.setRefreshing(false);
-//                } else {
-//                    if (mListSwipeRefreshLayout != null)
-//                        mListSwipeRefreshLayout.finishLoadingMore();
-//                    ToastUtils.showShortToast(e.getMessage());
-//                }
-//            }
-//        });
+                List<Post> list = postPage.getList();
+                if (mCurrentPage == 1) {
+                    if (list != null && !list.isEmpty())
+                        mMaxId = list.get(0).getId();
+
+                    mData.clear();
+
+                    mData.addAll(list);
+                    mAdapter.notifyDataSetChanged();
+
+                    if (mListSwipeRefreshLayout != null)
+                        mListSwipeRefreshLayout.setRefreshing(false);
+                } else {
+                    if (list == null || list.isEmpty()) {
+                        ToastUtils.showShortToast("无更多数据");
+                    } else {
+                        mData.addAll(list);
+                        mAdapter.notifyDataSetChanged();
+                    }
+
+                    if (mListSwipeRefreshLayout != null)
+                        mListSwipeRefreshLayout.finishLoadingMore();
+                }
+            }
+
+            @Override
+            public void onFailure(NetWorkException e) {
+                if (page == 1) {
+                    if (mListSwipeRefreshLayout != null)
+                        mListSwipeRefreshLayout.setRefreshing(false);
+                } else {
+                    if (mListSwipeRefreshLayout != null)
+                        mListSwipeRefreshLayout.finishLoadingMore();
+                    ToastUtils.showShortToast(e.getMessage());
+                }
+            }
+        });
     }
 
     @Override
