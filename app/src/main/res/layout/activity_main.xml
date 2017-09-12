@@ -32,7 +32,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="#d9d4d4"
+            android:background="#edebeb"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -58,7 +58,7 @@
 
                 <TextView
                     style="@style/mainBottomItem_text"
-                    android:text="@string/activity" />
+                    android:text="@string/help" />
             </LinearLayout>
 
             <LinearLayout

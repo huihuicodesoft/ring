@@ -1,4 +1,4 @@
-package cn.com.wh.ring.ui.fragment;
+package cn.com.wh.ring.ui.fragment.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

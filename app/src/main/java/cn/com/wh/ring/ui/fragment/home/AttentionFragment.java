@@ -7,20 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.com.wh.ring.R;
-import cn.com.wh.ring.ui.view.ListSwipeRefreshLayout;
 
 /**
  * Created by Hui on 2017/7/13.
  */
 
 public class AttentionFragment extends Fragment {
-    @BindView(R.id.listSwipeRefreshLayout)
-    ListSwipeRefreshLayout mListSwipeRefreshLayout;
-
     Unbinder unbinder;
     @Nullable
     @Override

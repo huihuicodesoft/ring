@@ -1,4 +1,4 @@
-package cn.com.wh.ring.ui.fragment.home;
+package cn.com.wh.ring.ui.fragment.find;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,14 +10,14 @@ import android.view.ViewGroup;
 import cn.com.wh.ring.R;
 
 /**
- * Created by Hui on 2017/7/13.
+ * Created by Hui on 2017/9/12.
  */
 
-public class AnecdoteFragment extends Fragment {
+public class FunnyCircleFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_anecdote, container, false);
+        View root = inflater.inflate(R.layout.fragment_funny_circle, container, false);
         return root;
     }
 }

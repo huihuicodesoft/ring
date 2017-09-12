@@ -29,10 +29,10 @@ import cn.com.wh.permission.PermissionListener;
 import cn.com.wh.ring.R;
 import cn.com.wh.ring.database.sp.DataCenter;
 import cn.com.wh.ring.event.PostPublishEvent;
-import cn.com.wh.ring.ui.fragment.ActivityFragment;
-import cn.com.wh.ring.ui.fragment.FindFragment;
-import cn.com.wh.ring.ui.fragment.HomeFragment;
-import cn.com.wh.ring.ui.fragment.MeFragment;
+import cn.com.wh.ring.ui.fragment.main.MainHelpFragment;
+import cn.com.wh.ring.ui.fragment.main.MainFindFragment;
+import cn.com.wh.ring.ui.fragment.main.MainHomeFragment;
+import cn.com.wh.ring.ui.fragment.main.MainMeFragment;
 import cn.com.wh.ring.utils.ToastUtils;
 
 public class MainActivity extends FullScreenActivity {
@@ -53,13 +53,13 @@ public class MainActivity extends FullScreenActivity {
         public Fragment getItem(int position) {
             String className;
             if (position == 0) {
-                className = HomeFragment.class.getName();
+                className = MainHomeFragment.class.getName();
             } else if (position == 1) {
-                className = ActivityFragment.class.getName();
+                className = MainHelpFragment.class.getName();
             } else if (position == 2) {
-                className = FindFragment.class.getName();
+                className = MainFindFragment.class.getName();
             } else {
-                className = MeFragment.class.getName();
+                className = MainMeFragment.class.getName();
             }
             return Fragment.instantiate(MainActivity.this, className);
         }

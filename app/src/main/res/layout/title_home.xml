@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<com.flyco.tablayout.SlidingTabLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/tabLayout"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/height_home_tabLayout"
-    app:tl_indicator_width="20dp"
-    app:tl_tab_padding="15dp"
-    app:tl_textsize="16sp"
-    app:tl_indicator_margin_bottom="5dp"
-    app:tl_indicator_color="@color/white"
-    app:tl_textUnselectColor="@color/white" />
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <com.flyco.tablayout.SlidingTabLayout
+        android:id="@+id/commonTabLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        app:tl_iconVisible="false"
+        app:tl_indicator_corner_radius="1dp"
+        app:tl_indicator_height="2dp"
+        app:tl_indicator_width="30dp"
+        app:tl_indicator_margin_bottom="5dp"
+        app:tl_tab_width="50dp"
+        app:tl_textsize="18sp"/>
+</LinearLayout>

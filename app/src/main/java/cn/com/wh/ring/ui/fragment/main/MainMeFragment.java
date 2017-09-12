@@ -1,4 +1,4 @@
-package cn.com.wh.ring.ui.fragment;
+package cn.com.wh.ring.ui.fragment.main;
 
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -20,6 +20,7 @@ import butterknife.BindDimen;
 import butterknife.BindString;
 import cn.com.wh.ring.R;
 import cn.com.wh.ring.event.PostPublishEvent;
+import cn.com.wh.ring.ui.fragment.base.TitleFragment;
 import cn.com.wh.ring.ui.fragment.me.CollectionFragment;
 import cn.com.wh.ring.ui.fragment.me.CommentFragment;
 import cn.com.wh.ring.ui.fragment.me.PostPublishFragment;
@@ -31,7 +32,7 @@ import cn.com.wh.ring.utils.SystemUtils;
  * Created by Hui on 2017/7/13.
  */
 
-public class MeFragment extends TitleFragment {
+public class MainMeFragment extends TitleFragment {
     private static final int PAGE_NUMBER = 3;
     private static final String SAVE_STATE_KEY_PAGE_ADAPTER = "pagerAdapter";
 
@@ -99,7 +100,7 @@ public class MeFragment extends TitleFragment {
 
     @Override
     public View getContentView() {
-        selfRootView = View.inflate(getContext(), R.layout.fragment_me, null);
+        selfRootView = View.inflate(getContext(), R.layout.fragment_main_me, null);
         return selfRootView;
     }
 
