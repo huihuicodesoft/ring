@@ -11,79 +11,94 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/info_ll"
+        <FrameLayout
             style="@style/common_panel_module_style"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
+            android:layout_height="wrap_content">
 
             <LinearLayout
+                android:id="@+id/info_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingTop="10dp">
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:visibility="gone">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingTop="10dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="名字"
-                        android:textColor="@color/font_black"
-                        android:textSize="22sp" />
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="范范号:123456"
-                        android:textColor="@color/font_gray"
-                        android:textSize="14sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="名字"
+                            android:textColor="@color/font_black"
+                            android:textSize="22sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="北京"
-                        android:textColor="@color/font_gray"
-                        android:textSize="14sp" />
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="范范号:123456"
+                            android:textColor="@color/font_gray"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="北京"
+                            android:textColor="@color/font_gray"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/header_iv"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:src="@mipmap/ic_launcher" />
 
                 </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/header_iv"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:src="@mipmap/ic_launcher" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="个性签名："
+                    android:textColor="@color/font_gray"
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="个性签名："
-                android:textColor="@color/font_gray"
-                android:textSize="13sp" />
-
-        </LinearLayout>
+                android:id="@+id/unLogin_tv"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:gravity="center"
+                android:text="@string/un_login"
+                android:textColor="@color/main"
+                android:textSize="28sp" />
+        </FrameLayout>
 
         <View style="@style/line_horizontal" />
 
@@ -112,12 +127,12 @@
                     android:textColor="@color/font_black" />
 
                 <TextView
+                    android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:text="@string/attention"
-                    android:textColor="@color/font_gray"
-                    android:id="@+id/textView3" />
+                    android:textColor="@color/font_gray" />
             </LinearLayout>
 
             <LinearLayout
@@ -155,9 +170,9 @@
             android:layout_marginTop="10dp">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@mipmap/ic_launcher" />
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/interaction" />
 
             <TextView
                 style="@style/me_bar_main_textStyle"
@@ -169,22 +184,21 @@
                 android:layout_weight="1" />
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@mipmap/ic_launcher" />
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/more_skip" />
         </LinearLayout>
 
-        <View
-            style="@style/line_horizontal" />
+        <View style="@style/line_horizontal" />
 
         <LinearLayout
             android:id="@+id/collection_ll"
             style="@style/me_bar_style">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@mipmap/ic_launcher" />
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/collection" />
 
             <TextView
                 style="@style/me_bar_main_textStyle"
@@ -196,9 +210,9 @@
                 android:layout_weight="1" />
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@mipmap/ic_launcher" />
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/more_skip" />
         </LinearLayout>
 
         <View style="@style/line_horizontal" />
@@ -208,9 +222,9 @@
             style="@style/me_bar_style">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@mipmap/ic_launcher" />
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/message" />
 
             <TextView
                 style="@style/me_bar_main_textStyle"
@@ -222,9 +236,9 @@
                 android:layout_weight="1" />
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@mipmap/ic_launcher" />
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/more_skip" />
         </LinearLayout>
 
         <LinearLayout
@@ -233,9 +247,9 @@
             android:layout_marginTop="10dp">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@mipmap/ic_launcher" />
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/setting" />
 
             <TextView
                 style="@style/me_bar_main_textStyle"
@@ -247,9 +261,9 @@
                 android:layout_weight="1" />
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@mipmap/ic_launcher" />
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/more_skip" />
         </LinearLayout>
 
     </LinearLayout>

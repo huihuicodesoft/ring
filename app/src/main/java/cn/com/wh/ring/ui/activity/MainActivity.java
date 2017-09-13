@@ -27,11 +27,11 @@ import butterknife.OnClick;
 import cn.com.wh.permission.AndPermission;
 import cn.com.wh.permission.PermissionListener;
 import cn.com.wh.ring.R;
-import cn.com.wh.ring.database.sp.DataCenter;
 import cn.com.wh.ring.event.PostPublishEvent;
+import cn.com.wh.ring.helper.LoginHelper;
 import cn.com.wh.ring.ui.activity.base.DarkStatusBarActivity;
-import cn.com.wh.ring.ui.fragment.main.MainHelpFragment;
 import cn.com.wh.ring.ui.fragment.main.MainFindFragment;
+import cn.com.wh.ring.ui.fragment.main.MainHelpFragment;
 import cn.com.wh.ring.ui.fragment.main.MainHomeFragment;
 import cn.com.wh.ring.ui.fragment.main.MainMeFragment;
 import cn.com.wh.ring.utils.ToastUtils;
@@ -168,10 +168,8 @@ public class MainActivity extends DarkStatusBarActivity {
 
     @OnClick(R.id.bottom_publish_ll)
     void onPublish() {
-        if (DataCenter.getInstance().isLogin()) {
+        if (LoginHelper.isNoIntercept2Login(this)) {
             PublishActivity.start(this);
-        } else {
-            LoginActivity.start(this);
         }
     }
 

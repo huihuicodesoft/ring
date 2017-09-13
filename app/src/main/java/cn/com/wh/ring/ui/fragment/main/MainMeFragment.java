@@ -5,14 +5,17 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
 
-import butterknife.BindDimen;
-import butterknife.BindString;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.wh.ring.R;
+import cn.com.wh.ring.database.sp.DataCenter;
+import cn.com.wh.ring.helper.LoginHelper;
 import cn.com.wh.ring.ui.activity.MeAttentionActivity;
 import cn.com.wh.ring.ui.activity.MeCollectionActivity;
 import cn.com.wh.ring.ui.activity.MeEditActivity;
@@ -28,16 +31,11 @@ import cn.com.wh.ring.ui.fragment.base.TitleFragment;
  */
 
 public class MainMeFragment extends TitleFragment {
-    @BindString(R.string.publish_post)
-    String publishPostStr;
-    @BindString(R.string.collection)
-    String collectionStr;
-    @BindString(R.string.comment)
-    String commentStr;
-    @BindDimen(R.dimen.height_title)
-    int titleHeight;
-    @BindDimen(R.dimen.me_title_display_edge)
-    int titleDisplayEdge;
+    @BindView(R.id.info_ll)
+    LinearLayout mInfoLl;
+    @BindView(R.id.unLogin_tv)
+    TextView mUnLoginTv;
+
 
     @Nullable
     @Override
@@ -62,33 +60,48 @@ public class MainMeFragment extends TitleFragment {
         super.initStatusBar();
         if (getActivity() != null && getActivity() instanceof DarkStatusBarActivity) {
             mStatusBar.setBackgroundColor(((DarkStatusBarActivity) getActivity()).isStatusBarDark ?
-                    getResources().getColor(R.color.status_white) :  getResources().getColor(R.color.status_gray));
+                    getResources().getColor(R.color.status_white) : getResources().getColor(R.color.status_gray));
         }
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        initView();
+    }
+
+    private void initView() {
+        boolean isLogin = DataCenter.getInstance().isLogin();
+        mInfoLl.setVisibility(isLogin ? View.VISIBLE : View.GONE);
+        mUnLoginTv.setVisibility(isLogin ? View.GONE : View.VISIBLE);
     }
 
     @OnClick(R.id.info_ll)
     void toMeEditActivity() {
-        MeEditActivity.start(getContext());
+        if (LoginHelper.isNoIntercept2Login(getContext())) {
+            MeEditActivity.start(getContext());
+        }
     }
 
     @OnClick(R.id.attention_ll)
     void toMeAttentionActivity() {
-        MeAttentionActivity.start(getContext());
+        if (LoginHelper.isNoIntercept2Login(getContext())) {
+            MeAttentionActivity.start(getContext());
+        }
     }
 
     @OnClick(R.id.fan_ll)
     void toMeFanActivity() {
-        MeFanActivity.start(getContext());
+        if (LoginHelper.isNoIntercept2Login(getContext())) {
+            MeFanActivity.start(getContext());
+        }
     }
 
     @OnClick(R.id.interaction_ll)
     void toMeInteractionActivity() {
-        MeInteractionActivity.start(getContext());
+        if (LoginHelper.isNoIntercept2Login(getContext())) {
+            MeInteractionActivity.start(getContext());
+        }
     }
 
     @OnClick(R.id.collection_ll)
@@ -99,6 +112,11 @@ public class MainMeFragment extends TitleFragment {
     @OnClick(R.id.message_ll)
     void toMeMessageActivity() {
         MeMessageActivity.start(getContext());
+    }
+
+    @OnClick(R.id.unLogin_tv)
+    void toLoginActivity() {
+        LoginHelper.isNoIntercept2Login(getContext());
     }
 
     @OnClick(R.id.setting_ll)

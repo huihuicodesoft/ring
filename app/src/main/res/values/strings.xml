@@ -16,6 +16,7 @@
     <string name="activity">活动</string>
 
     <string name="login">登录</string>
+    <string name="un_login">未登录</string>
     <string name="next">下一步</string>
     <string name="login_mobile">手机号登录</string>
     <string name="mobile_number">手机号</string>
