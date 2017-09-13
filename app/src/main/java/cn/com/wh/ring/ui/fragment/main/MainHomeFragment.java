@@ -2,6 +2,7 @@ package cn.com.wh.ring.ui.fragment.main;
 
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -22,8 +23,12 @@ import cn.com.wh.ring.ui.fragment.home.RecommendFragment;
  */
 
 public class MainHomeFragment extends TitleFragment {
+    private static final String CLASS_SIMPLE_NAME = MainHomeFragment.class.getSimpleName();
+    private static final String SAVE_STATE_KEY_PAGE_ADAPTER = CLASS_SIMPLE_NAME + "pagerAdapter";
+
     SlidingTabLayout mTabLayout;
     ViewPager mViewPager;
+    ViewPageAdapter mViewPageAdapter;
 
     @BindString(R.string.attention)
     String attentionStr;
@@ -46,14 +51,35 @@ public class MainHomeFragment extends TitleFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        initView();
+        initView(savedInstanceState);
     }
 
-    private void initView() {
-        mViewPager.setAdapter(new ViewPageAdapter(getChildFragmentManager()));
+    private void initView(@Nullable Bundle savedInstanceState) {
+        mViewPageAdapter = new ViewPageAdapter(getChildFragmentManager());
+
+        initRestoreState(savedInstanceState);
+
+        mViewPager.setAdapter(mViewPageAdapter);
         mTabLayout.setViewPager(mViewPager);
 
     }
+
+    private void initRestoreState(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            Parcelable pagerAdapterParcel = savedInstanceState.getParcelable(SAVE_STATE_KEY_PAGE_ADAPTER);
+            if (pagerAdapterParcel != null)
+                mViewPageAdapter.restoreState(pagerAdapterParcel, ClassLoader.getSystemClassLoader());
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mViewPageAdapter != null) {
+            outState.putParcelable(SAVE_STATE_KEY_PAGE_ADAPTER, mViewPageAdapter.saveState());
+        }
+    }
+
 
     private class ViewPageAdapter extends FragmentStatePagerAdapter {
 
