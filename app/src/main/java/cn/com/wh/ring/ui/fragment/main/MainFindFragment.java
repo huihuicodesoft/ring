@@ -7,11 +7,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.flyco.tablayout.SlidingTabLayout;
 
 import butterknife.BindString;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cn.com.wh.ring.R;
 import cn.com.wh.ring.ui.fragment.base.TitleFragment;
 import cn.com.wh.ring.ui.fragment.find.ActivityFragment;
@@ -26,7 +30,9 @@ public class MainFindFragment extends TitleFragment {
     private static final String CLASS_SIMPLE_NAME = MainFindFragment.class.getSimpleName();
     private static final String SAVE_STATE_KEY_PAGE_ADAPTER = CLASS_SIMPLE_NAME + "pagerAdapter";
 
+    @BindView(R.id.commonTabLayout)
     SlidingTabLayout mTabLayout;
+    @BindView(R.id.viewPager)
     ViewPager mViewPager;
     ViewPageAdapter mViewPageAdapter;
 
@@ -37,17 +43,22 @@ public class MainFindFragment extends TitleFragment {
     @BindString(R.string.activity)
     String activityStr;
 
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View root = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder = ButterKnife.bind(this, root);
+        return root;
+    }
+
     @Override
     public View getTitleView() {
-        View view = View.inflate(getContext(), R.layout.title_main, null);
-        mTabLayout = (SlidingTabLayout) view.findViewById(R.id.commonTabLayout);
-        return view;
+        return View.inflate(getContext(), R.layout.title_main, null);
     }
 
     @Override
     public View getContentView() {
-        mViewPager = (ViewPager) View.inflate(getContext(), R.layout.fragment_main_find, null);
-        return mViewPager;
+        return View.inflate(getContext(), R.layout.fragment_main_find, null);
     }
 
     @Override

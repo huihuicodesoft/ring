@@ -82,7 +82,7 @@
     <style name="common_panel_module_style">
         <item name="android:paddingLeft">10dp</item>
         <item name="android:paddingRight">10dp</item>
-        <item name="android:background">@color/white</item>
+        <item name="android:background">@drawable/white_press_selector</item>
     </style>
 
     <style name="me_bar_style" parent="common_panel_module_style">

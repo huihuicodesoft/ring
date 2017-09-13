@@ -147,7 +147,6 @@ public class PhotoPickerActivity extends TitleActivity implements OnItemChildCli
     private void initBase() {
         mStatusBar.setBackgroundColor(mTitleBackColor);
         mTitleRl.setBackgroundColor(mTitleBackColor);
-        setTitle(R.string.select_photo);
         mPickerFolderTv.setText(R.string.all_image);
         mRightTv.setBackground(mConfirmDrawable);
 

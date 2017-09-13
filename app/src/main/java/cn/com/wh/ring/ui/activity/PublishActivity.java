@@ -109,8 +109,6 @@ public class PublishActivity extends TitleActivity implements PTSortableNinePhot
         setContentView(R.layout.activity_publish);
         unbinder = ButterKnife.bind(this);
 
-        setTitle(R.string.publish_post);
-        mRightTv.setText(R.string.publish);
         mContentEt.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_CONTENT_LENGTH)});
         mRemainWordTv.setText(getResources().getString(R.string.format_remain_word, MAX_CONTENT_LENGTH));
 

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">范范</string>
     <string name="agree_app_protocol">我同意&#12298;范范用户使用协议&#12299;</string>
-    <string name="app_protocol">附多多用户使用协议</string>
+    <string name="app_protocol">范范用户使用协议</string>
 
     <string name="home">首页</string>
     <string name="help">帮帮</string>
@@ -101,8 +101,11 @@
     <string name="permission_storage">读写手机存储</string>
     <string name="permission_camera">相机</string>
 
-    <string name="my_interaction">我的互动</string>
-    <string name="my_collection">我的收藏</string>
-    <string name="my_message">我的消息</string>
+    <string name="me_interaction">我的互动</string>
+    <string name="me_collection">我的收藏</string>
+    <string name="me_message">我的消息</string>
     <string name="setting">设置</string>
+    <string name="personal_information">个人信息</string>
+    <string name="me_attention">我的关注</string>
+    <string name="me_fan">我的粉丝</string>
 </resources>

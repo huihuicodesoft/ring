@@ -12,12 +12,13 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/info_ll"
             style="@style/common_panel_module_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
+            android:orientation="vertical"
             android:paddingBottom="10dp"
-            android:orientation="vertical">
+            android:paddingTop="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -75,10 +76,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="个性签名："
-                android:layout_marginTop="5dp"
                 android:textColor="@color/font_gray"
                 android:textSize="13sp" />
 
@@ -92,6 +93,32 @@
             android:layout_height="70dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/attention_ll"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/attention_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLength="4"
+                    android:maxLines="1"
+                    android:text="0"
+                    android:textColor="@color/font_black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="@string/attention"
+                    android:textColor="@color/font_gray"
+                    android:id="@+id/textView3" />
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/fan_ll"
@@ -118,36 +145,12 @@
                     android:textColor="@color/font_gray" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/attention_ll"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/attention_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxLength="4"
-                    android:maxLines="1"
-                    android:text="0"
-                    android:textColor="@color/font_black" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:text="@string/attention"
-                    android:textColor="@color/font_gray" />
-            </LinearLayout>
-
         </LinearLayout>
 
         <View style="@style/line_horizontal" />
 
         <LinearLayout
+            android:id="@+id/interaction_ll"
             style="@style/me_bar_style"
             android:layout_marginTop="10dp">
 
@@ -158,7 +161,34 @@
 
             <TextView
                 style="@style/me_bar_main_textStyle"
-                android:text="@string/my_interaction" />
+                android:text="@string/me_interaction" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@mipmap/ic_launcher" />
+        </LinearLayout>
+
+        <View
+            style="@style/line_horizontal" />
+
+        <LinearLayout
+            android:id="@+id/collection_ll"
+            style="@style/me_bar_style">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@mipmap/ic_launcher" />
+
+            <TextView
+                style="@style/me_bar_main_textStyle"
+                android:text="@string/me_collection" />
 
             <android.support.v4.widget.Space
                 android:layout_width="0dp"
@@ -173,7 +203,9 @@
 
         <View style="@style/line_horizontal" />
 
-        <LinearLayout style="@style/me_bar_style">
+        <LinearLayout
+            android:id="@+id/message_ll"
+            style="@style/me_bar_style">
 
             <ImageView
                 android:layout_width="30dp"
@@ -182,31 +214,7 @@
 
             <TextView
                 style="@style/me_bar_main_textStyle"
-                android:text="@string/my_collection" />
-
-            <android.support.v4.widget.Space
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@mipmap/ic_launcher" />
-        </LinearLayout>
-
-        <View style="@style/line_horizontal" />
-
-        <LinearLayout style="@style/me_bar_style">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@mipmap/ic_launcher" />
-
-            <TextView
-                style="@style/me_bar_main_textStyle"
-                android:text="@string/my_message" />
+                android:text="@string/me_message" />
 
             <android.support.v4.widget.Space
                 android:layout_width="0dp"
@@ -220,6 +228,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/setting_ll"
             style="@style/me_bar_style"
             android:layout_marginTop="10dp">
 

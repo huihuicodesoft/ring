@@ -51,7 +51,6 @@ public class SelectPostTypeActivity extends TitleActivity implements LoadHelper.
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(loadHelper.generateRoot(this, R.layout.activity_select_post_type));
-        setTitle(R.string.select_post_type);
         unbinder = ButterKnife.bind(this);
 
         RecyclerView recyclerView = mListSwipeRefreshLayout.getRecyclerView();

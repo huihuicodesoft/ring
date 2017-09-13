@@ -44,6 +44,7 @@ public abstract class TitleActivity extends DarkStatusBarActivity {
         }
 
         initStatusBar();
+        setTitle(getTitle());
 
         mBackIv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,10 +56,9 @@ public abstract class TitleActivity extends DarkStatusBarActivity {
 
     private void initStatusBar() {
         SystemBarUtils.initStatusBarHeight(getResources(), mStatusBar);
-        mStatusBar.setBackgroundColor(isStatusBarDark ? getResources().getColor(R.color.status_white)
+        mStatusBar.setBackgroundColor(isStatusBarDark ? getResources().getColor(R.color.status_title_back)
                 : getResources().getColor(R.color.status_gray));
     }
-
 
     @Override
     public void setTitle(CharSequence title) {

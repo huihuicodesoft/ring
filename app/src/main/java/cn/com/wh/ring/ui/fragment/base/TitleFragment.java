@@ -1,6 +1,7 @@
 package cn.com.wh.ring.ui.fragment.base;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,9 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import butterknife.BindColor;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.com.wh.ring.R;
 import cn.com.wh.ring.ui.activity.base.DarkStatusBarActivity;
@@ -22,29 +20,23 @@ import cn.com.wh.ring.utils.SystemBarUtils;
  * 不能使用@bindView
  */
 public abstract class TitleFragment extends Fragment {
-    @BindView(R.id.root_ll)
-    LinearLayout mRootLl;
-    @BindView(R.id.statusBar)
-    View mStatusBar;
-    @BindView(R.id.title_ll)
-    LinearLayout mTitleLl;
+    public LinearLayout mRootLl;
+    public View mStatusBar;
+    public LinearLayout mTitleLl;
 
-    @BindColor(R.color.status_gray)
-    int statusGrayColor;
-    @BindColor(R.color.status_white)
-    int statusWhiteColor;
-
-    Unbinder unbinder;
+    public Unbinder unbinder;
 
     @Nullable
     @Override
-    @Deprecated
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_title, container, false);
-        unbinder = ButterKnife.bind(this, root);
-
+        initView(root);
         initStatusBar();
+        fillView();
+        return root;
+    }
 
+    private void fillView() {
         View titleView = getTitleView();
         if (titleView != null) {
             mTitleLl.setVisibility(View.VISIBLE);
@@ -58,14 +50,19 @@ public abstract class TitleFragment extends Fragment {
             mRootLl.addView(contentView, new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         }
-
-        return root;
     }
 
-    private void initStatusBar() {
+    private void initView(@NonNull View root) {
+        mRootLl = (LinearLayout) root.findViewById(R.id.root_ll);
+        mStatusBar = root.findViewById(R.id.statusBar);
+        mTitleLl = (LinearLayout) root.findViewById(R.id.title_ll);
+    }
+
+    public void initStatusBar() {
         SystemBarUtils.initStatusBarHeight(getResources(), mStatusBar);
         if (getActivity() != null && getActivity() instanceof DarkStatusBarActivity) {
-            mStatusBar.setBackgroundColor(((DarkStatusBarActivity) getActivity()).isStatusBarDark ? statusWhiteColor : statusGrayColor);
+            mStatusBar.setBackgroundColor(((DarkStatusBarActivity) getActivity()).isStatusBarDark ?
+                    getResources().getColor(R.color.status_title_back) :  getResources().getColor(R.color.status_gray));
         }
     }
 
