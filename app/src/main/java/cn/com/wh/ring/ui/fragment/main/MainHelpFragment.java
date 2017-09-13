@@ -36,7 +36,7 @@ public class MainHelpFragment extends TitleFragment {
 
     @Override
     public View getTitleView() {
-        View view = View.inflate(getContext(), R.layout.title_home, null);
+        View view = View.inflate(getContext(), R.layout.title_main, null);
         mTabLayout = (SlidingTabLayout) view.findViewById(R.id.commonTabLayout);
         return view;
     }

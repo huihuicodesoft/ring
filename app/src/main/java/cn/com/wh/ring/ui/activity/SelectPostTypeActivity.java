@@ -23,6 +23,7 @@ import cn.com.wh.ring.network.response.Response;
 import cn.com.wh.ring.network.retrofit.ListenerCallBack;
 import cn.com.wh.ring.network.retrofit.NetWorkException;
 import cn.com.wh.ring.network.service.Services;
+import cn.com.wh.ring.ui.activity.base.TitleActivity;
 import cn.com.wh.ring.ui.adapter.SelectPostTypeAdapter;
 import cn.com.wh.ring.ui.view.ListSwipeRefreshLayout;
 import cn.com.wh.ring.ui.view.inter.OnLoadMoreListener;

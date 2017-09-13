@@ -1,4 +1,4 @@
-package cn.com.wh.ring.ui.activity;
+package cn.com.wh.ring.ui.activity.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,7 +12,7 @@ import cn.com.wh.ring.utils.SystemBarUtils;
  */
 
 public abstract class FullScreenActivity extends FragmentActivity {
-    Unbinder unbinder;
+    public Unbinder unbinder;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

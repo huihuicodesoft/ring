@@ -8,10 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.com.wh.ring.R;
+import cn.com.wh.ring.ui.activity.base.DarkStatusBarActivity;
 import cn.com.wh.ring.utils.SystemBarUtils;
 
 /**
@@ -27,6 +29,11 @@ public abstract class TitleFragment extends Fragment {
     @BindView(R.id.title_ll)
     LinearLayout mTitleLl;
 
+    @BindColor(R.color.status_gray)
+    int statusGrayColor;
+    @BindColor(R.color.status_white)
+    int statusWhiteColor;
+
     Unbinder unbinder;
 
     @Nullable
@@ -36,12 +43,15 @@ public abstract class TitleFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_title, container, false);
         unbinder = ButterKnife.bind(this, root);
 
-        SystemBarUtils.initStatusBarHeight(getResources(), mStatusBar);
+        initStatusBar();
 
         View titleView = getTitleView();
         if (titleView != null) {
-            mTitleLl.addView(titleView, new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            mTitleLl.setVisibility(View.VISIBLE);
+            mTitleLl.addView(titleView, 0, new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        } else {
+            mTitleLl.setVisibility(View.GONE);
         }
         View contentView = getContentView();
         if (contentView != null) {
@@ -50,6 +60,13 @@ public abstract class TitleFragment extends Fragment {
         }
 
         return root;
+    }
+
+    private void initStatusBar() {
+        SystemBarUtils.initStatusBarHeight(getResources(), mStatusBar);
+        if (getActivity() != null && getActivity() instanceof DarkStatusBarActivity) {
+            mStatusBar.setBackgroundColor(((DarkStatusBarActivity) getActivity()).isStatusBarDark ? statusWhiteColor : statusGrayColor);
+        }
     }
 
     public abstract View getTitleView();

@@ -22,6 +22,7 @@ import cn.com.wh.ring.network.retrofit.ListenerCallBack;
 import cn.com.wh.ring.network.retrofit.NetWorkException;
 import cn.com.wh.ring.network.retrofit.Server;
 import cn.com.wh.ring.network.service.Services;
+import cn.com.wh.ring.ui.activity.base.TitleActivity;
 import cn.com.wh.ring.utils.RSAUtils;
 import cn.com.wh.ring.utils.ToastUtils;
 import retrofit2.Call;

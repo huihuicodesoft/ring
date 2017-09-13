@@ -7,10 +7,14 @@ package cn.com.wh.ring.utils;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import cn.com.wh.ring.R;
 
@@ -29,6 +33,10 @@ public final class SystemBarUtils {
 
     public static boolean isMoreLOLLIPOP() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+    }
+
+    public static boolean isMoreM() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
     }
 
     /**
@@ -57,6 +65,7 @@ public final class SystemBarUtils {
 
     /**
      * 将view的高度设置为状态栏高度
+     *
      * @param res
      * @param view
      */
@@ -71,6 +80,7 @@ public final class SystemBarUtils {
 
     /**
      * 获得状态栏高度
+     *
      * @param res
      * @param isVersion
      * @return
@@ -91,6 +101,7 @@ public final class SystemBarUtils {
 
     /**
      * 获得android 配置参数
+     *
      * @param res
      * @param key
      * @return
@@ -102,5 +113,48 @@ public final class SystemBarUtils {
             result = res.getDimensionPixelSize(resourceId);
         }
         return result;
+    }
+
+    public static boolean changeStatusIcon(@NonNull Activity activity, boolean isDark) {
+        Window window = activity.getWindow();
+        if (window == null) {
+            return false;
+        } else {
+            return changeStatusIconOfOfMiui(window, isDark) || changeStatusIconOfOfMeizu(window, isDark);
+        }
+    }
+
+    private static boolean changeStatusIconOfOfMeizu(@NonNull Window window, boolean isDark) {
+        WindowManager.LayoutParams lp = window.getAttributes();
+        try {
+            Class<?> instance = Class.forName("android.view.WindowManager$LayoutParams");
+            int value = instance.getDeclaredField("MEIZU_FLAG_DARK_STATUS_BAR_ICON").getInt(lp);
+            Field field = instance.getDeclaredField("meizuFlags");
+            field.setAccessible(true);
+            int origin = field.getInt(lp);
+            if (isDark) {
+                field.set(lp, origin | value);
+            } else {
+                field.set(lp, (~value) & origin);
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private static boolean changeStatusIconOfOfMiui(@NonNull Window window, boolean isDark) {
+        Class<? extends Window> clazz = window.getClass();
+        try {
+            int darkModeFlag;
+            Class<?> layoutParams = Class.forName("android.view.MiuiWindowManager$LayoutParams");
+            Field field = layoutParams.getField("EXTRA_FLAG_STATUS_BAR_DARK_MODE");
+            darkModeFlag = field.getInt(layoutParams);
+            Method extraFlagField = clazz.getMethod("setExtraFlags", int.class, int.class);
+            extraFlagField.invoke(window, isDark ? darkModeFlag : 0, darkModeFlag);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

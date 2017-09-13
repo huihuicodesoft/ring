@@ -1,4 +1,4 @@
-package cn.com.wh.ring.ui.activity;
+package cn.com.wh.ring.ui.activity.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,15 +17,15 @@ import cn.com.wh.ring.utils.SystemBarUtils;
  * Created by Hui on 2017/7/21.
  */
 
-public abstract class TitleActivity extends FullScreenActivity {
-    LinearLayout mRootLl;
-    View mStatusBar;
-    RelativeLayout mTitleRl;
-    ImageView mBackIv;
-    TextView mTitleTv;
-    TextView mRightTv;
+public abstract class TitleActivity extends DarkStatusBarActivity {
+    public LinearLayout mRootLl;
+    public View mStatusBar;
+    public RelativeLayout mTitleRl;
+    public ImageView mBackIv;
+    public TextView mTitleTv;
+    public TextView mRightTv;
 
-    FrameLayout mContentFl;
+    public FrameLayout mContentFl;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,11 +39,11 @@ public abstract class TitleActivity extends FullScreenActivity {
         mTitleTv = (TextView) findViewById(R.id.title_tv);
         mRightTv = (TextView) findViewById(R.id.right_tv);
 
-        if (getRootResId() == R.layout.activity_title_frame){
+        if (getRootResId() == R.layout.activity_title_frame) {
             mContentFl = (FrameLayout) findViewById(R.id.content_fl);
         }
 
-        SystemBarUtils.initStatusBarHeight(getResources(), mStatusBar);
+        initStatusBar();
 
         mBackIv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +52,13 @@ public abstract class TitleActivity extends FullScreenActivity {
             }
         });
     }
+
+    private void initStatusBar() {
+        SystemBarUtils.initStatusBarHeight(getResources(), mStatusBar);
+        mStatusBar.setBackgroundColor(isStatusBarDark ? getResources().getColor(R.color.status_white)
+                : getResources().getColor(R.color.status_gray));
+    }
+
 
     @Override
     public void setTitle(CharSequence title) {
@@ -79,7 +86,7 @@ public abstract class TitleActivity extends FullScreenActivity {
 
     @Override
     public void setContentView(View view, ViewGroup.LayoutParams params) {
-        if (getRootResId() == R.layout.activity_title_frame){
+        if (getRootResId() == R.layout.activity_title_frame) {
             mContentFl.addView(view, 0, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT));
         } else {

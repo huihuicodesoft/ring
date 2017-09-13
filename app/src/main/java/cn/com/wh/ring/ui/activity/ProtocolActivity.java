@@ -7,6 +7,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.wh.ring.R;
 import cn.com.wh.ring.database.sp.DataCenter;
+import cn.com.wh.ring.ui.activity.base.TitleActivity;
 
 /**
  * Created by Hui on 2017/7/21.

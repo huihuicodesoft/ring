@@ -39,6 +39,7 @@ import cn.com.wh.ring.database.dao.PostPublishDao;
 import cn.com.wh.ring.database.sp.DataCenter;
 import cn.com.wh.ring.event.PostPublishEvent;
 import cn.com.wh.ring.network.response.PostType;
+import cn.com.wh.ring.ui.activity.base.TitleActivity;
 import cn.com.wh.ring.utils.InputMethodUtils;
 import cn.com.wh.ring.utils.ToastUtils;
 

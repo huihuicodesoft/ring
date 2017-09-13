@@ -60,6 +60,7 @@ import cn.com.wh.photo.photopicker.task.LoadPhotoTask;
 import cn.com.wh.photo.photopicker.task.PTAsyncTask;
 import cn.com.wh.photo.photopicker.util.ImageCaptureManager;
 import cn.com.wh.ring.R;
+import cn.com.wh.ring.ui.activity.base.TitleActivity;
 import cn.com.wh.ring.utils.ToastUtils;
 
 /**

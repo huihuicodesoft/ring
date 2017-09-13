@@ -100,4 +100,9 @@
 
     <string name="permission_storage">读写手机存储</string>
     <string name="permission_camera">相机</string>
+
+    <string name="my_interaction">我的互动</string>
+    <string name="my_collection">我的收藏</string>
+    <string name="my_message">我的消息</string>
+    <string name="setting">设置</string>
 </resources>

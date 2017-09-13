@@ -29,13 +29,14 @@ import cn.com.wh.permission.PermissionListener;
 import cn.com.wh.ring.R;
 import cn.com.wh.ring.database.sp.DataCenter;
 import cn.com.wh.ring.event.PostPublishEvent;
+import cn.com.wh.ring.ui.activity.base.DarkStatusBarActivity;
 import cn.com.wh.ring.ui.fragment.main.MainHelpFragment;
 import cn.com.wh.ring.ui.fragment.main.MainFindFragment;
 import cn.com.wh.ring.ui.fragment.main.MainHomeFragment;
 import cn.com.wh.ring.ui.fragment.main.MainMeFragment;
 import cn.com.wh.ring.utils.ToastUtils;
 
-public class MainActivity extends FullScreenActivity {
+public class MainActivity extends DarkStatusBarActivity {
     private static final String SAVE_STATE_KEY_PAGE_ADAPTER = "pagerAdapter";
 
     @BindView(R.id.unTouchViewPager)

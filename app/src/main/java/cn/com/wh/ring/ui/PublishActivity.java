@@ -3,7 +3,7 @@ package cn.com.wh.ring.ui;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import cn.com.wh.ring.ui.activity.TitleActivity;
+import cn.com.wh.ring.ui.activity.base.TitleActivity;
 
 /**
  * Created by Hui on 2017/7/26.

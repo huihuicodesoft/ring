@@ -22,6 +22,7 @@ import cn.com.wh.photo.photopicker.util.PhotoPickerUtils;
 import cn.com.wh.photo.photopicker.widget.HackyViewPager;
 import cn.com.wh.photo.photoview.PhotoViewAttacher;
 import cn.com.wh.ring.R;
+import cn.com.wh.ring.ui.activity.base.FullScreenActivity;
 import cn.com.wh.ring.utils.ToastUtils;
 
 /**
