@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/title_rl"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/height_title"
+    android:layout_height="@dimen/title_height"
     android:background="@color/title_back"
     android:gravity="center_vertical"
     android:orientation="horizontal">
