@@ -100,7 +100,7 @@
                 android:textSize="28sp" />
         </FrameLayout>
 
-        <View style="@style/line_horizontal" />
+        <View style="@style/line_division_horizontal" />
 
         <LinearLayout
             style="@style/common_panel_module_style"
@@ -162,7 +162,7 @@
 
         </LinearLayout>
 
-        <View style="@style/line_horizontal" />
+        <View style="@style/line_division_horizontal" />
 
         <LinearLayout
             android:id="@+id/interaction_ll"
@@ -189,7 +189,7 @@
                 android:src="@drawable/more_skip" />
         </LinearLayout>
 
-        <View style="@style/line_horizontal" />
+        <View style="@style/line_division_horizontal" />
 
         <LinearLayout
             android:id="@+id/collection_ll"
@@ -215,7 +215,7 @@
                 android:src="@drawable/more_skip" />
         </LinearLayout>
 
-        <View style="@style/line_horizontal" />
+        <View style="@style/line_division_horizontal" />
 
         <LinearLayout
             android:id="@+id/message_ll"

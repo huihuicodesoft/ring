@@ -79,13 +79,13 @@ public class PostPublishAdapter extends RecyclerView.Adapter<PostPublishAdapter.
         @BindView(R.id.ptSortableNinePhotoLayout)
         PTNinePhotoLayout mPTNinePhotoLayout;
 
-        @BindView(R.id.bar_praise_tv)
+        @BindView(R.id.item_handler_praise_tv)
         TextView mPraiseTv;
-        @BindView(R.id.bar_criticize_tv)
+        @BindView(R.id.item_handler_criticize_tv)
         TextView mCriticizeTv;
-        @BindView(R.id.bar_comment_tv)
+        @BindView(R.id.item_handler_comment_tv)
         TextView mCommentTv;
-        @BindView(R.id.bar_forward_tv)
+        @BindView(R.id.item_handler_forward_tv)
         TextView mForwardTv;
 
 

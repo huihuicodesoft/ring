@@ -24,7 +24,7 @@
 
     </LinearLayout>
 
-    <View style="@style/line_horizontal" />
+    <View style="@style/line_division_horizontal" />
 
     <LinearLayout
         style="@style/bar_input">

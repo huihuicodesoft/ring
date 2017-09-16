@@ -3,4 +3,8 @@
     <declare-styleable name="StateFilterImageView">
         <attr name="press_down_color" format="reference|color" />
     </declare-styleable>
+    <declare-styleable name="LoadingLayout">
+        <attr name="isFirstVisible" format="boolean"></attr>
+        <attr name="pageBackground" format="reference|color"></attr>
+    </declare-styleable>
 </resources>

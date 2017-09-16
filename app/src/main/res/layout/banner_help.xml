@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cn.com.wh.ring.ui.view.banner.ImageBanner xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/help_imageBanner"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    app:bb_barColor="#88000000"
+    app:bb_indicatorCornerRadius="2dp"
+    app:bb_indicatorGravity="RIGHT"
+    app:bb_indicatorHeight="4dp"
+    app:bb_indicatorWidth="10dp"
+    app:bb_scale="0.5625" />

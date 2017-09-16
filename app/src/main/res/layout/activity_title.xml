@@ -10,6 +10,6 @@
 
     <include layout="@layout/title_common_activity" />
 
-    <View style="@style/line_horizontal" />
+    <View style="@style/line_division_horizontal" />
 
 </LinearLayout>

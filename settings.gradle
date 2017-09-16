@@ -1,1 +1,1 @@
-include ':app', ':permission', ':photo'
+include ':app', ':permission', ':photo', ':banner'

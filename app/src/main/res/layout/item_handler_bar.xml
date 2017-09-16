@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="40dp"
-    android:layout_marginTop="5dp"
-    android:orientation="horizontal">
+    android:layout_height="@dimen/height_item_handler_bar"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/panel_left_right"
+    android:paddingRight="@dimen/panel_left_right">
 
     <LinearLayout
-        android:id="@+id/bar_praise_ll"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -19,13 +19,12 @@
             android:src="@drawable/praise" />
 
         <TextView
-            android:id="@+id/bar_praise_tv"
+            android:id="@+id/item_handler_praise_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/bar_criticize_ll"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -38,13 +37,12 @@
             android:src="@drawable/praise" />
 
         <TextView
-            android:id="@+id/bar_criticize_tv"
+            android:id="@+id/item_handler_criticize_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/bar_comment_ll"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -57,13 +55,12 @@
             android:src="@drawable/comment" />
 
         <TextView
-            android:id="@+id/bar_comment_tv"
+            android:id="@+id/item_handler_comment_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/bar_forward_ll"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="3"
@@ -76,7 +73,7 @@
             android:src="@drawable/praise" />
 
         <TextView
-            android:id="@+id/bar_forward_tv"
+            android:id="@+id/item_handler_forward_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

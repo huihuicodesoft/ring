@@ -99,7 +99,7 @@ public class PhotoPickerActivity extends TitleActivity implements OnItemChildCli
 
     @BindColor(R.color.back_photo_title)
     int mTitleBackColor;
-    @BindColor(R.color.line)
+    @BindColor(R.color.line_division)
     int mLineColor;
     @BindDrawable(R.drawable.photo_confirm_selector)
     Drawable mConfirmDrawable;

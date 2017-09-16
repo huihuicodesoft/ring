@@ -33,10 +33,10 @@
         <item name="android:textSize">13sp</item>
     </style>
 
-    <style name="line_horizontal">
+    <style name="line_division_horizontal">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1px</item>
-        <item name="android:background">@color/line</item>
+        <item name="android:layout_height">@dimen/height_line_division_horizontal</item>
+        <item name="android:background">@color/line_division</item>
     </style>
 
     <style name="bar_login">

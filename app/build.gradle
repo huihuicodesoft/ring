@@ -47,4 +47,5 @@ dependencies {
     compile deps.thumbnailator
     compile project(path: ':permission')
     compile project(path: ':photo')
+    compile project(':banner')
 }

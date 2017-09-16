@@ -35,7 +35,7 @@
             android:text="@string/weixin" />
     </LinearLayout>
 
-    <View style="@style/line_horizontal" />
+    <View style="@style/line_division_horizontal" />
 
     <LinearLayout
         android:id="@+id/sina_ll"
@@ -51,7 +51,7 @@
             android:text="@string/sina" />
     </LinearLayout>
 
-    <View style="@style/line_horizontal" />
+    <View style="@style/line_division_horizontal" />
 
     <LinearLayout
         android:id="@+id/qq_ll"

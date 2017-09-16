@@ -3,13 +3,11 @@ package cn.com.wh.ring.ui.fragment.base;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import butterknife.Unbinder;
 import cn.com.wh.ring.R;
 import cn.com.wh.ring.ui.activity.base.DarkStatusBarActivity;
 import cn.com.wh.ring.utils.SystemBarUtils;
@@ -19,12 +17,11 @@ import cn.com.wh.ring.utils.SystemBarUtils;
  * 不要覆盖onCreateView方法
  * 不能使用@bindView
  */
-public abstract class TitleFragment extends Fragment {
+public abstract class TitleFragment extends ButterKnifeFragment {
     public LinearLayout mRootLl;
     public View mStatusBar;
     public LinearLayout mTitleLl;
 
-    public Unbinder unbinder;
 
     @Nullable
     @Override
@@ -70,12 +67,4 @@ public abstract class TitleFragment extends Fragment {
 
     public abstract View getContentView();
 
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (unbinder != null) {
-            unbinder.unbind();
-        }
-    }
 }

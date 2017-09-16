@@ -19,7 +19,7 @@
     <color name="back">#f7f7f7</color>
     <color name="main_bottom_back">#fbfbfb</color>s
 
-    <color name="line">#ebebeb</color>
+    <color name="line_division">#ebebeb</color>
 
     <color name="font_black">#333333</color>
     <color name="font_gray">#999999</color>

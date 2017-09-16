@@ -74,7 +74,7 @@ public class SelectPostTypeActivity extends TitleActivity implements LoadHelper.
         });
 
         loadHelper.setOnLoadListener(this);
-        loadHelper.showLoading();
+        loadHelper.setState(LoadHelper.LOADING);
     }
 
     @Override
@@ -82,22 +82,7 @@ public class SelectPostTypeActivity extends TitleActivity implements LoadHelper.
         loadPage(1, true);
     }
 
-    @Override
-    public void OnClearData() {
-        mData.clear();
-    }
-
-    @Override
-    public void OnFinishRefresh() {
-        mListSwipeRefreshLayout.setRefreshing(false);
-    }
-
-    @Override
-    public void OnFinishLoadMore() {
-        mListSwipeRefreshLayout.finishLoadingMore();
-    }
-
-    private void loadPage(final int page, final boolean isPage) {
+    private void loadPage(final int page, final boolean isHelperRequest) {
         Call<Response<Page<PostType>>> call = Services.postTypeService.get(page == 1 ? 0L : mMaxId, page, Page.DEFAULT_PAGE_SIZE);
         call.enqueue(new ListenerCallBack<Page<PostType>>(this) {
             @Override
@@ -110,7 +95,7 @@ public class SelectPostTypeActivity extends TitleActivity implements LoadHelper.
                         mMaxId = list.get(0).getId();
                 }
 
-                if (loadHelper != null && !loadHelper.interceptSuccess(page, isPage, postTypePage.getList())) {
+                if (loadHelper != null && !loadHelper.interceptSuccess(page, isHelperRequest, postTypePage.getList())) {
                     mData.addAll(postTypePage.getList());
                     mAdapter.notifyDataSetChanged();
                 }
@@ -118,7 +103,7 @@ public class SelectPostTypeActivity extends TitleActivity implements LoadHelper.
 
             @Override
             public void onFailure(NetWorkException e) {
-                if (loadHelper != null && !loadHelper.interceptFail(page, isPage, mData)) {
+                if (loadHelper != null && !loadHelper.interceptError(page, isHelperRequest, true)) {
                     ToastUtils.showShortToast(e.getMessage());
                 }
             }

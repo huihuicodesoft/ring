@@ -5,4 +5,9 @@
     <dimen name="photo_picker_divider">2dp</dimen>
 
     <dimen name="me_title_display_edge">30dp</dimen>
+    <dimen name="panel_left_right">10dp</dimen>
+
+    <dimen name="height_line_division_horizontal">1dp</dimen>
+    <dimen name="height_item_handler_bar">40dp</dimen>
+    <dimen name="height_item_info_bar">40dp</dimen>
 </resources>

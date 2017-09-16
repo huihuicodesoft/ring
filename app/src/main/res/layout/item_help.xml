@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp">
+
+    <include layout="@layout/item_info_bar" />
+
+    <TextView
+        android:id="@+id/content_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingLeft="@dimen/panel_left_right"
+        android:paddingRight="@dimen/panel_left_right"
+        android:paddingTop="5dp"
+        android:textColor="@color/font_black"
+        android:textSize="18sp" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <cn.com.wh.photo.photopicker.widget.PTNinePhotoLayout
+            android:id="@+id/ptSortableNinePhotoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            app:npl_otherWhiteSpacing="50dp"
+            app:npl_showAsLargeWhenOnlyOne="false" />
+
+        <include
+            layout="@layout/item_video"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+
+    <include layout="@layout/item_optimal_comment_bar" />
+
+    <include layout="@layout/item_handler_bar" />
+
+</LinearLayout>

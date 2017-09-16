@@ -18,7 +18,6 @@ package cn.com.wh.photo.photopicker.widget;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.view.KeyEvent;
 import android.view.View;
@@ -70,16 +69,5 @@ public abstract class BasePopup extends PopupWindow implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-    }
-
-    /**
-     * 查找View
-     *
-     * @param id   控件的id
-     * @param <VT> View类型
-     * @return
-     */
-    protected <VT extends View> VT getViewById(@IdRes int id) {
-        return (VT) getContentView().findViewById(id);
     }
 }

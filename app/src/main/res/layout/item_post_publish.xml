@@ -37,6 +37,6 @@
         app:npl_showAsLargeWhenOnlyOne="false" />
 
 
-    <include layout="@layout/bar_post_handler" />
+    <include layout="@layout/item_handler_bar" />
 
 </LinearLayout>

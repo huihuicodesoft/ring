@@ -14,7 +14,7 @@
         android:background="@color/title_back"
         android:orientation="vertical">
 
-        <View style="@style/line_horizontal" />
+        <View style="@style/line_division_horizontal" />
     </LinearLayout>
 
 </LinearLayout>
