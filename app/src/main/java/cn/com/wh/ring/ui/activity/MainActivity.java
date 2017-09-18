@@ -169,7 +169,7 @@ public class MainActivity extends DarkStatusBarActivity {
     @OnClick(R.id.bottom_publish_ll)
     void onPublish() {
         if (LoginHelper.isNoIntercept2Login(this)) {
-            PublishActivity.start(this);
+            MenuActivity.start(this);
         }
     }
 

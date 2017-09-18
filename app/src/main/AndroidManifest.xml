@@ -69,10 +69,12 @@
             android:name=".ui.activity.SelectPostTypeActivity"
             android:label="@string/select_post_type" />
         <activity
+            android:name=".ui.activity.MenuActivity"
+            android:theme="@style/WindowTransparent"/>
+        <activity
             android:name=".ui.activity.PublishActivity"
             android:label="@string/publish"
             android:windowSoftInputMode="adjustResize" />
-
 
         <activity
             android:name=".ui.activity.MeEditActivity"
