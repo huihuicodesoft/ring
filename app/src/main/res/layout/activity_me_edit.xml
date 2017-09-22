@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--<LinearLayout-->
+        <!--style="@style/me_bar_style"-->
+        <!--android:layout_marginTop=""></LinearLayout>-->
+
+    <!--<View style="@style/line_division_horizontal" />-->
+
+    <!--<LinearLayout style="@style/me_bar_style"></LinearLayout>-->
+
+    <!--<View style="@style/line_division_horizontal" />-->
+
+    <!--<LinearLayout style="@style/me_bar_style"></LinearLayout>-->
+
+    <!--<View style="@style/line_division_horizontal" />-->
+
+
+    <!--<LinearLayonut style="@style/me_bar_style"></LinearLayonut>-->
+
+    <!--<View style="@style/line_division_horizontal" />-->
+
+    <!--<LinearLayout style="@style/me_bar_style"></LinearLayout>-->
+
+</LinearLayout>

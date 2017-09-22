@@ -94,7 +94,7 @@
 
     <style name="me_bar_style" parent="common_panel_module_style">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_height">@dimen/height_me_bar</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:orientation">horizontal</item>
     </style>

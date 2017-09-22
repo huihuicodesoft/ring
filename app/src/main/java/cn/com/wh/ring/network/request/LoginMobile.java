@@ -4,10 +4,10 @@ package cn.com.wh.ring.network.request;
  * Created by Hui on 2017/7/23.
  */
 
-public class MobileAccount {
+public class LoginMobile {
     private String mobile;
     private String password;
-    private String code;
+    private TerminalDetailInfo terminalDetailInfo;
 
     public String getMobile() {
         return mobile;
@@ -25,11 +25,11 @@ public class MobileAccount {
         this.password = password;
     }
 
-    public String getCode() {
-        return code;
+    public TerminalDetailInfo getTerminalDetailInfo() {
+        return terminalDetailInfo;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setTerminalDetailInfo(TerminalDetailInfo terminalDetailInfo) {
+        this.terminalDetailInfo = terminalDetailInfo;
     }
 }

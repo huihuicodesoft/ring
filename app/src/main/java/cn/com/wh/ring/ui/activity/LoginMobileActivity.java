@@ -16,7 +16,8 @@ import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import cn.com.wh.ring.R;
 import cn.com.wh.ring.database.sp.DataCenter;
-import cn.com.wh.ring.network.request.MobileAccount;
+import cn.com.wh.ring.network.request.LoginMobile;
+import cn.com.wh.ring.network.request.TerminalDetailInfo;
 import cn.com.wh.ring.network.response.Response;
 import cn.com.wh.ring.network.retrofit.ListenerCallBack;
 import cn.com.wh.ring.network.retrofit.NetWorkException;
@@ -79,10 +80,17 @@ public class LoginMobileActivity extends TitleActivity {
         String mobile = mMobileEt.getText().toString();
         String password = mPasswordEt.getText().toString();
 
-        MobileAccount mobileAccount = new MobileAccount();
-        mobileAccount.setMobile(mobile);
-        mobileAccount.setPassword(RSAUtils.encrypt(password));
-        Call<Response<String>> call = Services.accountService.loginMobile(mobileAccount);
+        TerminalDetailInfo terminalDetailInfo = new TerminalDetailInfo();
+        terminalDetailInfo.setModel(android.os.Build.MODEL);
+        terminalDetailInfo.setSdk(String.valueOf(android.os.Build.VERSION.SDK_INT));
+        terminalDetailInfo.setSystem(android.os.Build.VERSION.RELEASE);
+
+        LoginMobile loginMobile = new LoginMobile();
+        loginMobile.setMobile(mobile);
+        loginMobile.setPassword(RSAUtils.encrypt(password));
+        loginMobile.setTerminalDetailInfo(terminalDetailInfo);
+
+        Call<Response<String>> call = Services.accountService.loginMobile(loginMobile);
         call.enqueue(new ListenerCallBack<String>(this) {
             @Override
             public void onSuccess(String s) {

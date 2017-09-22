@@ -14,7 +14,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import cn.com.wh.ring.R;
-import cn.com.wh.ring.network.request.MobileAccount;
+import cn.com.wh.ring.network.request.RegisterMobile;
 import cn.com.wh.ring.network.request.SmsCode;
 import cn.com.wh.ring.network.response.Response;
 import cn.com.wh.ring.network.retrofit.ListenerCallBack;
@@ -136,26 +136,26 @@ public class SettingPasswordActivity extends TitleActivity {
 
         stopCountTime();
 
-        MobileAccount mobileAccount = new MobileAccount();
-        mobileAccount.setMobile(mobile);
-        mobileAccount.setPassword(RSAUtils.encrypt(password));
-        mobileAccount.setCode(verificationCode);
+        RegisterMobile registerMobile = new RegisterMobile();
+        registerMobile.setMobile(mobile);
+        registerMobile.setPassword(RSAUtils.encrypt(password));
+        registerMobile.setCode(verificationCode);
 
         int type = getIntent().getIntExtra(KEY_TYPE, 0);
         switch (type) {
             case TYPE_REGISTER:
                 //注册
-                requestRegister(mobileAccount);
+                requestRegister(registerMobile);
                 break;
             case TYPE_RESET:
-                //重设
-                requestResetPassword(mobileAccount);
+                //registerMobile
+                requestResetPassword(registerMobile);
                 break;
         }
     }
 
-    private void requestRegister(MobileAccount mobileAccount) {
-        Call<Response<String>> call = Services.accountService.registerMobile(mobileAccount);
+    private void requestRegister(RegisterMobile registerMobile) {
+        Call<Response<String>> call = Services.accountService.registerMobile(registerMobile);
         call.enqueue(new ListenerCallBack<String>(this) {
             @Override
             public void onSuccess(String s) {
@@ -171,8 +171,8 @@ public class SettingPasswordActivity extends TitleActivity {
         });
     }
 
-    private void requestResetPassword(MobileAccount mobileAccount) {
-        Call<Response<String>> call = Services.accountService.resetPassword(mobileAccount);
+    private void requestResetPassword(RegisterMobile registerMobile) {
+        Call<Response<String>> call = Services.accountService.resetPassword(registerMobile);
         call.enqueue(new ListenerCallBack<String>(this) {
             @Override
             public void onSuccess(String s) {

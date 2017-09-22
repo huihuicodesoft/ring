@@ -10,6 +10,8 @@ import cn.com.wh.ring.ui.activity.base.TitleActivity;
  */
 
 public class MeEditActivity extends TitleActivity {
+
+
     public static void start(Context context) {
         Intent intent = new Intent(context, MeEditActivity.class);
         context.startActivity(intent);

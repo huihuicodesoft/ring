@@ -1,6 +1,7 @@
 package cn.com.wh.ring.network.retrofit;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.IOException;
 
@@ -20,6 +21,7 @@ public class HeaderInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Request originalRequest = chain.request();
         configToken();
+        Log.v("token", ""+ Server.TOKEN);
         Request compressedRequest = originalRequest.newBuilder()
                 .header(Server.HEADER_TOKEN, Server.TOKEN)
                 .header(Server.HEADER_API_VERSION, Server.API_VERSION)

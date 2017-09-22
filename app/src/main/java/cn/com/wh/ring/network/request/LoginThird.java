@@ -3,12 +3,12 @@ package cn.com.wh.ring.network.request;
 /**
  * Created by Hui on 2017/7/23.
  */
-
-public class ThirdAccount {
+public class LoginThird {
     private String account;
     private int accountType;
     private String accessToken;
     private String refreshToken;
+    private TerminalDetailInfo terminalDetailInfo;
 
     public String getAccount() {
         return account;
@@ -40,5 +40,13 @@ public class ThirdAccount {
 
     public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
+    }
+
+    public TerminalDetailInfo getTerminalDetailInfo() {
+        return terminalDetailInfo;
+    }
+
+    public void setTerminalDetailInfo(TerminalDetailInfo terminalDetailInfo) {
+        this.terminalDetailInfo = terminalDetailInfo;
     }
 }

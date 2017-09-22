@@ -10,4 +10,5 @@
     <dimen name="height_line_division_horizontal">1dp</dimen>
     <dimen name="height_item_handler_bar">40dp</dimen>
     <dimen name="height_item_info_bar">40dp</dimen>
+    <dimen name="height_me_bar">50dp</dimen>
 </resources>

@@ -12,12 +12,12 @@
         android:orientation="vertical">
 
         <FrameLayout
-            style="@style/common_panel_module_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <LinearLayout
                 android:id="@+id/info_ll"
+                style="@style/common_panel_module_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -92,6 +92,7 @@
 
             <TextView
                 android:id="@+id/unLogin_tv"
+                style="@style/common_panel_module_style"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:gravity="center"
@@ -202,7 +203,8 @@
 
             <TextView
                 style="@style/me_bar_main_textStyle"
-                android:text="@string/me_collection" />
+                android:text="@string/me_collection"
+                android:id="@+id/textView4" />
 
             <android.support.v4.widget.Space
                 android:layout_width="0dp"
