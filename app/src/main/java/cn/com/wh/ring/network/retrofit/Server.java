@@ -1,5 +1,8 @@
 package cn.com.wh.ring.network.retrofit;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.util.concurrent.TimeUnit;
 
 import cn.com.wh.ring.BuildConfig;
@@ -39,9 +42,11 @@ public class Server {
         client.connectTimeout(8, TimeUnit.SECONDS);
         client.retryOnConnectionFailure(false);
 
+        Gson gson = new GsonBuilder().registerTypeAdapterFactory(new NullStringToEmptyAdapterFactory()).create();
+
         retrofit = new Retrofit.Builder()
                 .baseUrl(HOST)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client.build())
                 .build();
     }
