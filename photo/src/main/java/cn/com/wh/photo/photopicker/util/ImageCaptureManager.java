@@ -52,7 +52,7 @@ public class ImageCaptureManager {
     }
 
     private File createCaptureFile() throws IOException {
-        File captureFile = File.createTempFile("Capture_" + PICTURE_NAME_POSTFIX_SDF.format(new Date()), ".jpg", mImageDir);
+        File captureFile = new File(mImageDir, "Capture_" + PICTURE_NAME_POSTFIX_SDF.format(new Date())+".jpg");
         mCurrentPhotoPath = captureFile.getAbsolutePath();
         return captureFile;
     }
@@ -124,7 +124,7 @@ public class ImageCaptureManager {
     }
 
     private File createCropFile() throws IOException {
-        File cropFile = File.createTempFile("Crop_" + PICTURE_NAME_POSTFIX_SDF.format(new Date()), ".png", PhotoPickerUtils.sApp.getExternalCacheDir());
+        File cropFile = new File(PhotoPickerUtils.sApp.getExternalCacheDir(), "Crop_" + PICTURE_NAME_POSTFIX_SDF.format(new Date())+ ".png");
         mCurrentPhotoPath = cropFile.getAbsolutePath();
         return cropFile;
     }
