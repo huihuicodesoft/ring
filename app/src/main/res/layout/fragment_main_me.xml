@@ -16,7 +16,7 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:id="@+id/info_ll"
+                android:id="@+id/me_info_ll"
                 style="@style/common_panel_module_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -39,59 +39,57 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/me_nickname_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:maxLines="1"
-                            android:text="名字"
                             android:textColor="@color/font_black"
                             android:textSize="22sp" />
 
                         <TextView
-                            android:id="@+id/textView2"
+                            android:id="@+id/me_app_account_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:ellipsize="end"
                             android:maxLines="1"
-                            android:text="范范号:123456"
                             android:textColor="@color/font_gray"
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/me_address_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:ellipsize="end"
                             android:maxLines="1"
-                            android:text="北京"
                             android:textColor="@color/font_gray"
                             android:textSize="14sp" />
 
                     </LinearLayout>
 
                     <ImageView
-                        android:id="@+id/header_iv"
+                        android:id="@+id/me_avatar_iv"
                         android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:src="@mipmap/ic_launcher" />
+                        android:layout_height="80dp"/>
 
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/me_signature_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="个性签名："
                     android:textColor="@color/font_gray"
                     android:textSize="13sp" />
 
             </LinearLayout>
 
             <TextView
-                android:id="@+id/unLogin_tv"
+                android:id="@+id/me_unLogin_tv"
                 style="@style/common_panel_module_style"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
@@ -111,7 +109,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/attention_ll"
+                android:id="@+id/me_attention_ll"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -119,16 +117,14 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/attention_tv"
+                    android:id="@+id/me_attention_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLength="4"
                     android:maxLines="1"
-                    android:text="0"
                     android:textColor="@color/font_black" />
 
                 <TextView
-                    android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
@@ -137,7 +133,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/fan_ll"
+                android:id="@+id/me_fan_ll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -145,12 +141,11 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/fan_tv"
+                    android:id="@+id/me_fan_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLength="4"
                     android:maxLines="1"
-                    android:text="0"
                     android:textColor="@color/font_black" />
 
                 <TextView
@@ -166,7 +161,7 @@
         <View style="@style/line_division_horizontal" />
 
         <LinearLayout
-            android:id="@+id/interaction_ll"
+            android:id="@+id/me_interaction_ll"
             style="@style/me_bar_style"
             android:layout_marginTop="10dp">
 
@@ -193,7 +188,7 @@
         <View style="@style/line_division_horizontal" />
 
         <LinearLayout
-            android:id="@+id/collection_ll"
+            android:id="@+id/me_collection_ll"
             style="@style/me_bar_style">
 
             <ImageView
@@ -220,7 +215,7 @@
         <View style="@style/line_division_horizontal" />
 
         <LinearLayout
-            android:id="@+id/message_ll"
+            android:id="@+id/me_message_ll"
             style="@style/me_bar_style">
 
             <ImageView
@@ -244,7 +239,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/setting_ll"
+            android:id="@+id/me_setting_ll"
             style="@style/me_bar_style"
             android:layout_marginTop="10dp">
 

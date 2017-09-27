@@ -13,13 +13,14 @@ public class ExampleDaoGenerator {
         Schema schema = new Schema(1, "cn.com.wh.ring.database");
 
         addPostPublish(schema);
+        addUserInfo(schema);
 
         new DaoGenerator().generateAll(schema, "E:\\project\\developer\\android\\ring\\app\\src\\test");
     }
 
     private static void addPostPublish(Schema schema) {
         Entity note = schema.addEntity("PostPublish");
-        note.addIdProperty();
+        note.addIdProperty().primaryKey().autoincrement();
         note.addStringProperty("token").notNull();
         note.addStringProperty("content");
         note.addStringProperty("mediaContent");
@@ -28,6 +29,20 @@ public class ExampleDaoGenerator {
         note.addIntProperty("state");
         note.addStringProperty("addressCode");
         note.addLongProperty("time").notNull();
+    }
+
+    private static void addUserInfo(Schema schema) {
+        Entity note = schema.addEntity("UserInfo");
+        note.addIdProperty().primaryKey().autoincrement();
+        note.addLongProperty("userId").unique().notNull();
+        note.addLongProperty("infoId");
+        note.addStringProperty("nickname");
+        note.addLongProperty("birthday");
+        note.addIntProperty("sex").notNull();
+        note.addStringProperty("avatar");
+        note.addStringProperty("signature");
+        note.addStringProperty("addressCode");
+        note.addLongProperty("lastModifiedTime").notNull();
     }
 
     private static void addCustomerOrder(Schema schema) {

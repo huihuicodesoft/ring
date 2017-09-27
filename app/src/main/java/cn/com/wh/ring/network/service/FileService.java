@@ -14,5 +14,5 @@ import retrofit2.http.POST;
 
 public interface FileService {
     @POST("files/v1/image/upload")
-    Call<Response<List<String>>> upload(@Body MultipartBody multipartBody);
+    Call<Response<List<String>>> uploadImage(@Body MultipartBody multipartBody);
 }

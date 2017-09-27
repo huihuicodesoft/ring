@@ -56,6 +56,9 @@
     <string name="score">积分</string>
     <string name="location">位置</string>
     <string name="post">帖子</string>
+    <string name="man">男</string>
+    <string name="woman">女</string>
+    <string name="un_select">未选择</string>
 
     <string name="hint_mobile_number">填写手机号</string>
     <string name="hint_password">填写密码</string>
@@ -92,6 +95,9 @@
     <string name="tip_request_cancel">请求取消</string>
     <string name="tip_unkown_error">未知错误</string>
 
+
+    <string name="dialog_upload_avatar">正在上传头像...</string>
+
     <string name="dialog_abandon_edit">放弃编辑？</string>
 
     <string name="format_second">%1$d秒</string>
@@ -110,4 +116,15 @@
     <string name="personal_information">个人信息</string>
     <string name="me_attention">我的关注</string>
     <string name="me_fan">我的粉丝</string>
+
+    <string name="avatar">头像</string>
+    <string name="nickname">昵称</string>
+    <string name="app_account">范范号</string>
+    <string name="sex">性别</string>
+    <string name="address">地址</string>
+    <string name="signature">个性签名</string>
+
+    <string name="format_app_account">范范号：%1$s</string>
+    <string name="format_signature">个性签名：%1$s</string>
+    <string name="format_default_nickname">用户%1$s</string>
 </resources>

@@ -10,11 +10,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.List;
 
 import cn.com.wh.banner.widget.Banner.BaseIndicatorBanner;
+import cn.com.wh.photo.GlideApp;
 import cn.com.wh.ring.R;
 import cn.com.wh.ring.network.response.BannerItem;
 
@@ -67,7 +66,7 @@ public class ImageBanner extends BaseIndicatorBanner<BannerItem, ImageBanner> {
         String imgUrl = item.getImageUrl();
 
         if (!TextUtils.isEmpty(imgUrl)) {
-            Glide.with(mContext)
+            GlideApp.with(mContext)
                     .load(imgUrl)
                     .override(itemWidth, itemHeight)
                     .centerCrop()

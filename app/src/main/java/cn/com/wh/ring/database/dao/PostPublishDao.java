@@ -49,7 +49,7 @@ public class PostPublishDao extends AbstractDao<PostPublish, Long> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"POST_PUBLISH\" (" + //
-                "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
+                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "\"TOKEN\" TEXT NOT NULL ," + // 1: token
                 "\"CONTENT\" TEXT," + // 2: content
                 "\"MEDIA_CONTENT\" TEXT," + // 3: mediaContent

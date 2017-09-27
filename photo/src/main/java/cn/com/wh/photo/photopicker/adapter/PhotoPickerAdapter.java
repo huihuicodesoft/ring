@@ -25,6 +25,7 @@ import cn.com.wh.photo.adapter.RecyclerViewAdapter;
 import cn.com.wh.photo.adapter.ViewHolderHelper;
 import cn.com.wh.photo.photopicker.imageloader.Image;
 import cn.com.wh.photo.photopicker.model.ImageFolderModel;
+import cn.com.wh.photo.photopicker.model.MODE_TYPE;
 import cn.com.wh.photo.photopicker.util.FileTypeUtils;
 import cn.com.wh.photo.photopicker.util.PhotoPickerUtils;
 
@@ -32,10 +33,12 @@ public class PhotoPickerAdapter extends RecyclerViewAdapter<String> {
     private ArrayList<String> mSelectedImages = new ArrayList<>();
     private int mImageSize;
     private boolean mTakePhotoEnabled;
+    private MODE_TYPE mModeType;
 
-    public PhotoPickerAdapter(RecyclerView recyclerView) {
+    public PhotoPickerAdapter(RecyclerView recyclerView, MODE_TYPE modeType) {
         super(recyclerView, R.layout.item_photo_picker);
         mImageSize = PhotoPickerUtils.getScreenWidth() / 6;
+        mModeType = modeType;
     }
 
     @Override
@@ -68,12 +71,17 @@ public class PhotoPickerAdapter extends RecyclerViewAdapter<String> {
             }
             Image.display(helper.getImageView(R.id.item_photo_picker_photo_iv), R.mipmap.ic_holder_dark, model, mImageSize);
 
-            if (mSelectedImages.contains(model)) {
-                helper.setImageResource(R.id.item_photo_picker_flag_iv, R.mipmap.ic_cb_checked);
-                helper.getImageView(R.id.item_photo_picker_photo_iv).setColorFilter(helper.getConvertView().getResources().getColor(R.color.photo_selected_mask));
+            if (mModeType == MODE_TYPE.SINGLE) {
+                helper.setVisibility(R.id.item_photo_picker_flag_iv, View.GONE);
             } else {
-                helper.setImageResource(R.id.item_photo_picker_flag_iv, R.mipmap.ic_cb_normal);
-                helper.getImageView(R.id.item_photo_picker_photo_iv).setColorFilter(null);
+                helper.setVisibility(R.id.item_photo_picker_flag_iv, View.VISIBLE);
+                if (mSelectedImages.contains(model)) {
+                    helper.setImageResource(R.id.item_photo_picker_flag_iv, R.mipmap.ic_cb_checked);
+                    helper.getImageView(R.id.item_photo_picker_photo_iv).setColorFilter(helper.getConvertView().getResources().getColor(R.color.photo_selected_mask));
+                } else {
+                    helper.setImageResource(R.id.item_photo_picker_flag_iv, R.mipmap.ic_cb_normal);
+                    helper.getImageView(R.id.item_photo_picker_photo_iv).setColorFilter(null);
+                }
             }
         }
     }

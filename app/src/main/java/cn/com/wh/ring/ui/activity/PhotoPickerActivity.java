@@ -56,6 +56,7 @@ import cn.com.wh.photo.photopicker.decoration.LineItemDecoration;
 import cn.com.wh.photo.photopicker.decoration.SpaceItemDecoration;
 import cn.com.wh.photo.photopicker.imageloader.RVOnScrollListener;
 import cn.com.wh.photo.photopicker.model.ImageFolderModel;
+import cn.com.wh.photo.photopicker.model.MODE_TYPE;
 import cn.com.wh.photo.photopicker.task.LoadPhotoTask;
 import cn.com.wh.photo.photopicker.task.PTAsyncTask;
 import cn.com.wh.photo.photopicker.util.ImageCaptureManager;
@@ -67,20 +68,17 @@ import cn.com.wh.ring.utils.ToastUtils;
  * 描述:图片选择界面
  */
 public class PhotoPickerActivity extends TitleActivity implements OnItemChildClickListener, PTAsyncTask.Callback<ArrayList<ImageFolderModel>> {
+    private static final String EXTRA_MODE = "EXTRA_MODE";
     private static final String EXTRA_IMAGE_DIR = "EXTRA_IMAGE_DIR";
     private static final String EXTRA_SELECTED_IMAGES = "EXTRA_SELECTED_IMAGES";
     private static final String EXTRA_MAX_CHOOSE_COUNT = "EXTRA_MAX_CHOOSE_COUNT";
     private static final String EXTRA_PAUSE_ON_SCROLL = "EXTRA_PAUSE_ON_SCROLL";
     private static final int ANIM_DURATION = 300;
+    private static final int SIZE_CROP = 1000;
 
-    /**
-     * 拍照的请求码
-     */
     private static final int REQUEST_CODE_TAKE_PHOTO = 1;
-    /**
-     * 预览照片的请求码
-     */
-    private static final int REQUEST_CODE_PREVIEW = 2;
+    private static final int REQUEST_CODE_CROP_PHOTO = 2;
+    private static final int REQUEST_CODE_PREVIEW = 3;
 
     private static final int SPAN_COUNT = 3;
 
@@ -130,6 +128,8 @@ public class PhotoPickerActivity extends TitleActivity implements OnItemChildCli
 
     private LoadPhotoTask mLoadPhotoTask;
 
+    private MODE_TYPE mCurrentMode = MODE_TYPE.MULTIPLE;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,10 +145,23 @@ public class PhotoPickerActivity extends TitleActivity implements OnItemChildCli
     }
 
     private void initBase() {
+        analyseIntent();
+
         mStatusBar.setBackgroundColor(mTitleBackColor);
         mTitleRl.setBackgroundColor(mTitleBackColor);
         mPickerFolderTv.setText(R.string.all_image);
-        mRightTv.setBackground(mConfirmDrawable);
+
+        if (isSingleMode()) {
+            mRightTv.setVisibility(View.GONE);
+        } else {
+            mRightTv.setBackground(mConfirmDrawable);
+            mRightTv.setOnClickListener(new OnNoDoubleClickListener() {
+                @Override
+                public void onNoDoubleClick(View v) {
+                    returnSelectedImages(mPicAdapter.getSelectedImages());
+                }
+            });
+        }
 
         mPickerFolderTv.setOnClickListener(new OnNoDoubleClickListener() {
             @Override
@@ -158,14 +171,9 @@ public class PhotoPickerActivity extends TitleActivity implements OnItemChildCli
                 }
             }
         });
+    }
 
-        mRightTv.setOnClickListener(new OnNoDoubleClickListener() {
-            @Override
-            public void onNoDoubleClick(View v) {
-                returnSelectedImages(mPicAdapter.getSelectedImages());
-            }
-        });
-
+    private void analyseIntent() {
         // 获取拍照图片保存目录
         File imageDir = (File) getIntent().getSerializableExtra(EXTRA_IMAGE_DIR);
         if (imageDir != null) {
@@ -177,6 +185,13 @@ public class PhotoPickerActivity extends TitleActivity implements OnItemChildCli
         mMaxChooseCount = getIntent().getIntExtra(EXTRA_MAX_CHOOSE_COUNT, 1);
         if (mMaxChooseCount < 1) {
             mMaxChooseCount = 1;
+        }
+
+        int modeValue = getIntent().getIntExtra(EXTRA_MODE, MODE_TYPE.MULTIPLE.getIndex());
+        if (modeValue == MODE_TYPE.SINGLE.getIndex()) {
+            mCurrentMode = MODE_TYPE.SINGLE;
+        } else {
+            mCurrentMode = MODE_TYPE.MULTIPLE;
         }
     }
 
@@ -194,7 +209,7 @@ public class PhotoPickerActivity extends TitleActivity implements OnItemChildCli
     }
 
     private void initPhotoRV() {
-        mPicAdapter = new PhotoPickerAdapter(mPhotoRv);
+        mPicAdapter = new PhotoPickerAdapter(mPhotoRv, mCurrentMode);
         mPicAdapter.setOnItemChildClickListener(this);
         GridLayoutManager layoutManager = new GridLayoutManager(this, SPAN_COUNT, LinearLayoutManager.VERTICAL, false);
         mPhotoRv.setLayoutManager(layoutManager);
@@ -270,21 +285,33 @@ public class PhotoPickerActivity extends TitleActivity implements OnItemChildCli
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CODE_TAKE_PHOTO) {
-                ArrayList<String> selectedImages = mPicAdapter.getSelectedImages();
-                if (selectedImages == null) {
-                    selectedImages = new ArrayList<>();
-                }
                 String imagePath = mImageCaptureManager.getCurrentPhotoPath();
-                selectedImages.add(imagePath);
+                if (mCurrentMode == MODE_TYPE.SINGLE) {
+                    try {
+                        startActivityForResult(mImageCaptureManager.getCropIntent(imagePath, SIZE_CROP, SIZE_CROP), REQUEST_CODE_CROP_PHOTO);
+                    } catch (IOException e) {
+                        ToastUtils.showShortToast(R.string.tip_unkown_error);
+                    }
+                } else {
+                    ArrayList<String> selectedImages = mPicAdapter.getSelectedImages();
+                    if (selectedImages == null) {
+                        selectedImages = new ArrayList<>();
+                    }
+                    selectedImages.add(imagePath);
 
-                mImageCaptureManager.refreshGallery();
-                //因为广播扫描媒体库，并不能及时更新数据库，所以加了个缓存
-                if (!TakePhotoCache.mCache.contains(imagePath)) {
-                    TakePhotoCache.mCache.add(imagePath);
+                    mImageCaptureManager.refreshGallery();
+                    //因为广播扫描媒体库，并不能及时更新数据库，所以加了个缓存
+                    if (!TakePhotoCache.mCache.contains(imagePath)) {
+                        TakePhotoCache.mCache.add(imagePath);
+                    }
+                    returnSelectedImages(selectedImages);
                 }
-                returnSelectedImages(selectedImages);
             } else if (requestCode == REQUEST_CODE_PREVIEW) {
                 returnSelectedImages(PhotoPickerPreviewActivity.getSelectedImages(data));
+            } else if (requestCode == REQUEST_CODE_CROP_PHOTO) {
+                ArrayList<String> images = new ArrayList<>();
+                images.add(mImageCaptureManager.getCurrentPhotoPath());
+                returnSelectedImages(images);
             }
         } else if (resultCode == RESULT_CANCELED && requestCode == REQUEST_CODE_PREVIEW) {
             if (PhotoPickerPreviewActivity.getIsFromTakePhoto(data)) {
@@ -319,10 +346,23 @@ public class PhotoPickerActivity extends TitleActivity implements OnItemChildCli
         if (view.getId() == R.id.item_photo_camera_camera_iv) {
             handleTakePhoto();
         } else if (view.getId() == R.id.item_photo_picker_photo_iv) {
-            changeToPreview(position);
+            if (isSingleMode()) {
+                try {
+                    String currentPath = mCurrentImageFolderModel.getImages().get(position);
+                    startActivityForResult(mImageCaptureManager.getCropIntent(currentPath, SIZE_CROP, SIZE_CROP), REQUEST_CODE_CROP_PHOTO);
+                } catch (IOException e) {
+                    ToastUtils.showShortToast(R.string.tip_unkown_error);
+                }
+            } else {
+                changeToPreview(position);
+            }
         } else if (view.getId() == R.id.item_photo_picker_flag_iv) {
             handleClickSelectFlagIv(position);
         }
+    }
+
+    private boolean isSingleMode() {
+        return mCurrentMode == MODE_TYPE.SINGLE;
     }
 
     /**
@@ -521,7 +561,7 @@ public class PhotoPickerActivity extends TitleActivity implements OnItemChildCli
      * @param requestCode    请求码
      * @return
      */
-    public static void startForResult(Activity activity,
+    public static void startMultipleForResult(Activity activity,
                                       File imageDir,
                                       int maxChooseCount,
                                       ArrayList<String> selectedImages,
@@ -531,6 +571,25 @@ public class PhotoPickerActivity extends TitleActivity implements OnItemChildCli
         intent.putExtra(EXTRA_IMAGE_DIR, imageDir);
         intent.putExtra(EXTRA_MAX_CHOOSE_COUNT, maxChooseCount);
         intent.putStringArrayListExtra(EXTRA_SELECTED_IMAGES, selectedImages);
+        intent.putExtra(EXTRA_MODE, MODE_TYPE.MULTIPLE.getIndex());
+        intent.putExtra(EXTRA_PAUSE_ON_SCROLL, pauseOnScroll);
+        activity.startActivityForResult(intent, requestCode);
+    }
+
+    /**
+     * @param activity       应用程序上下文
+     * @param imageDir       拍照后图片保存的目录。如果传null表示没有拍照功能，如果不为null则具有拍照功能
+     * @param pauseOnScroll  滚动列表时是否暂停加载图片
+     * @param requestCode    请求码
+     * @return
+     */
+    public static void startSingleForResult(Activity activity,
+                                      File imageDir,
+                                      boolean pauseOnScroll,
+                                      int requestCode) {
+        Intent intent = new Intent(activity, PhotoPickerActivity.class);
+        intent.putExtra(EXTRA_IMAGE_DIR, imageDir);
+        intent.putExtra(EXTRA_MODE, MODE_TYPE.SINGLE.getIndex());
         intent.putExtra(EXTRA_PAUSE_ON_SCROLL, pauseOnScroll);
         activity.startActivityForResult(intent, requestCode);
     }

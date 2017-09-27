@@ -68,7 +68,7 @@ public class PostPublishTask extends Thread {
         String name = null;
         try {
             MultipartBody body = RequestHelper.filesToMultipartBody(Arrays.asList(file));
-            Call<Response<List<String>>> fileCall = Services.fileService.upload(body);
+            Call<Response<List<String>>> fileCall = Services.fileService.uploadImage(body);
             retrofit2.Response<Response<List<String>>> response = fileCall.execute();
             if (response.isSuccessful()) {
                 Response<List<String>> temp = response.body();

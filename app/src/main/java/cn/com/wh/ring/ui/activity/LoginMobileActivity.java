@@ -10,20 +10,28 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
+import cn.com.wh.ring.MainApplication;
 import cn.com.wh.ring.R;
+import cn.com.wh.ring.database.bean.UserInfo;
+import cn.com.wh.ring.database.dao.UserInfoDao;
 import cn.com.wh.ring.database.sp.DataCenter;
+import cn.com.wh.ring.event.UserInfoEvent;
 import cn.com.wh.ring.network.request.LoginMobile;
 import cn.com.wh.ring.network.request.TerminalDetailInfo;
+import cn.com.wh.ring.network.response.LoginUser;
 import cn.com.wh.ring.network.response.Response;
 import cn.com.wh.ring.network.retrofit.ListenerCallBack;
 import cn.com.wh.ring.network.retrofit.NetWorkException;
 import cn.com.wh.ring.network.retrofit.Server;
 import cn.com.wh.ring.network.service.Services;
 import cn.com.wh.ring.ui.activity.base.TitleActivity;
+import cn.com.wh.ring.utils.LogUtils;
 import cn.com.wh.ring.utils.RSAUtils;
 import cn.com.wh.ring.utils.ToastUtils;
 import retrofit2.Call;
@@ -33,6 +41,8 @@ import retrofit2.Call;
  */
 
 public class LoginMobileActivity extends TitleActivity {
+    private static final String TAG = LoginMobileActivity.class.getName();
+
     @BindView(R.id.mobile_et)
     EditText mMobileEt;
     @BindView(R.id.password_et)
@@ -90,14 +100,22 @@ public class LoginMobileActivity extends TitleActivity {
         loginMobile.setPassword(RSAUtils.encrypt(password));
         loginMobile.setTerminalDetailInfo(terminalDetailInfo);
 
-        Call<Response<String>> call = Services.accountService.loginMobile(loginMobile);
-        call.enqueue(new ListenerCallBack<String>(this) {
+        Call<Response<LoginUser>> call = Services.accountService.loginMobile(loginMobile);
+        call.enqueue(new ListenerCallBack<LoginUser>(this) {
             @Override
-            public void onSuccess(String s) {
-                if (!TextUtils.isEmpty(s)) {
-                    Server.TOKEN = s;
-                    DataCenter.getInstance().setToken(s);
+            public void onSuccess(LoginUser loginUser) {
+                if (loginUser != null && !TextUtils.isEmpty(loginUser.getToken()) && loginUser.getUserInfo() != null) {
+                    Server.TOKEN = loginUser.getToken();
+                    DataCenter.getInstance().setToken(loginUser.getToken());
                     DataCenter.getInstance().setLogin(true);
+
+                    UserInfo userInfo = loginUser.getUserInfo();
+                    LogUtils.logI(TAG, "用户信息 = " + userInfo.toString());
+                    UserInfoDao userInfoDao = MainApplication.getInstance().getDaoSession().getUserInfoDao();
+                    userInfoDao.insertOrReplace(userInfo);
+
+                    EventBus.getDefault().post(new UserInfoEvent());
+
                     MainActivity.start(LoginMobileActivity.this);
                     ToastUtils.showLongToast(R.string.tip_success_login);
                 } else {

@@ -35,4 +35,5 @@ public class MainApplication extends Application {
     public DaoSession getDaoSession() {
         return daoSession;
     }
+    
 }

@@ -49,7 +49,7 @@ public abstract class TitleActivity extends DarkStatusBarActivity {
         mBackIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                finish();
             }
         });
     }
@@ -93,5 +93,10 @@ public abstract class TitleActivity extends DarkStatusBarActivity {
             mRootLl.addView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT));
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

@@ -138,7 +138,7 @@ public class PublishActivity extends TitleActivity implements PTSortableNinePhot
     @OnClick(R.id.photo_tv)
     void onPhoto() {
         ArrayList<String> selectedImages = mPTSortableNinePhotoLayout.getData();
-        PhotoPickerActivity.startForResult(this, new File(Environment.getExternalStorageDirectory(), "BGAPhotoPickerTakePhoto"),
+        PhotoPickerActivity.startMultipleForResult(this, new File(Environment.getExternalStorageDirectory(), "BGAPhotoPickerTakePhoto"),
                 mPTSortableNinePhotoLayout.getMaxItemCount(), selectedImages, true, REQUEST_CODE_SELECT_PHOTO);
     }
 

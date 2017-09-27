@@ -4,25 +4,102 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--<LinearLayout-->
-        <!--style="@style/me_bar_style"-->
-        <!--android:layout_marginTop=""></LinearLayout>-->
+    <View style="@style/line_division_horizontal" />
 
-    <!--<View style="@style/line_division_horizontal" />-->
+    <LinearLayout
+        android:id="@+id/info_avatar_ll"
+        style="@style/me_bar_style"
+        android:layout_height="80dp"
+        android:layout_marginTop="20dp">
 
-    <!--<LinearLayout style="@style/me_bar_style"></LinearLayout>-->
+        <TextView
+            style="@style/me_bar_main_textStyle"
+            android:text="@string/avatar" />
 
-    <!--<View style="@style/line_division_horizontal" />-->
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
-    <!--<LinearLayout style="@style/me_bar_style"></LinearLayout>-->
+        <ImageView
+            android:id="@+id/info_avatar_iv"
+            android:layout_width="60dp"
+            android:layout_height="60dp"/>
+    </LinearLayout>
 
-    <!--<View style="@style/line_division_horizontal" />-->
+    <View style="@style/line_division_horizontal" />
 
+    <LinearLayout
+        android:id="@+id/info_account_ll"
+        style="@style/me_bar_style">
 
-    <!--<LinearLayonut style="@style/me_bar_style"></LinearLayonut>-->
+        <TextView
+            style="@style/me_bar_main_textStyle"
+            android:text="@string/app_account" />
 
-    <!--<View style="@style/line_division_horizontal" />-->
+        <TextView
+            android:id="@+id/info_app_account_tv"
+            style="@style/me_info_bar_content_textStyle" />
+    </LinearLayout>
 
-    <!--<LinearLayout style="@style/me_bar_style"></LinearLayout>-->
+    <View style="@style/line_division_horizontal" />
+
+    <LinearLayout
+        android:id="@+id/info_nickname_ll"
+        style="@style/me_bar_style">\
+
+        <TextView
+            style="@style/me_bar_main_textStyle"
+            android:text="@string/nickname" />
+
+        <TextView
+            android:id="@+id/info_nickname_tv"
+            style="@style/me_info_bar_content_textStyle" />
+    </LinearLayout>
+
+    <View style="@style/line_division_horizontal" />
+
+    <LinearLayout
+        android:id="@+id/info_sex_ll"
+        style="@style/me_bar_style">
+
+        <TextView
+            style="@style/me_bar_main_textStyle"
+            android:text="@string/sex" />
+
+        <TextView
+            android:id="@+id/info_sex_tv"
+            style="@style/me_info_bar_content_textStyle" />
+    </LinearLayout>
+
+    <View style="@style/line_division_horizontal" />
+
+    <LinearLayout
+        android:id="@+id/info_address_ll"
+        style="@style/me_bar_style">
+
+        <TextView
+            style="@style/me_bar_main_textStyle"
+            android:text="@string/address" />
+
+        <TextView
+            android:id="@+id/info_address_tv"
+            style="@style/me_info_bar_content_textStyle" />
+    </LinearLayout>
+
+    <View style="@style/line_division_horizontal" />
+
+    <LinearLayout
+        android:id="@+id/info_signature_ll"
+        style="@style/me_bar_style">
+
+        <TextView
+            style="@style/me_bar_main_textStyle"
+            android:text="@string/signature" />
+
+        <TextView
+            android:id="@+id/info_signature_tv"
+            style="@style/me_info_bar_content_textStyle" />
+    </LinearLayout>
 
 </LinearLayout>

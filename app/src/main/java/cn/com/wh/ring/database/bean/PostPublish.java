@@ -13,7 +13,7 @@ public class PostPublish {
     public static final int STATE_SUCCESS = 1; //发布成功
     public static final int STATE_FAIL = 2; //发布失败
 
-    @Id
+    @Id(autoincrement = true)
     private Long id;
 
     @NotNull
