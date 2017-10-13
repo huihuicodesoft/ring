@@ -3,16 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingLeft="@dimen/panel_left_right"
-    android:paddingRight="@dimen/panel_left_right"
     android:paddingTop="15dp">
+
+    <View style="@style/line_division_horizontal" />
 
     <EditText
         android:id="@+id/edit_signature_et"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="top|left"
+        android:layout_height="50dp"
+        android:background="@color/white"
         android:hint="@string/hint_signature"
-        android:minLines="6"
-        android:textColorHint="@color/hint" />
+        android:maxLines="1"
+        android:paddingLeft="@dimen/panel_left_right"
+        android:paddingRight="@dimen/panel_left_right"
+        android:textColor="@color/font_black"
+        android:textColorHint="@color/hint"
+        android:textSize="16sp" />
+
+    <View style="@style/line_division_horizontal" />
 </LinearLayout>
