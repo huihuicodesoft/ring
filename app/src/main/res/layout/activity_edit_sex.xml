@@ -2,8 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingTop="15dp">
+    
+    <View style="@style/line_division_horizontal" />
 
     <LinearLayout
         android:id="@+id/edit_sex_man_ll"
@@ -54,4 +56,5 @@
             android:src="@drawable/agree_protocol_check_selector" />
     </LinearLayout>
 
+    <View style="@style/line_division_horizontal" />
 </LinearLayout>

@@ -92,10 +92,13 @@ public class EditMeActivity extends TitleActivity {
 
         int resId = R.string.un_select;
         Integer sex = userInfo.getSex();
-        if (sex != null && sex.intValue() == UserInfo.SEX_MAN) {
-            resId = R.string.man;
-        } else if (sex != null && sex.intValue() == UserInfo.SEX_WOMAN) {
-            resId = R.string.man;
+        if (sex != null) {
+            int sexValue = sex.intValue();
+            if (sexValue == UserInfo.SEX_MAN) {
+                resId = R.string.man;
+            } else if (sexValue == UserInfo.SEX_WOMAN){
+                resId = R.string.woman;
+            }
         }
         mSexTv.setText(resId);
 
@@ -173,7 +176,7 @@ public class EditMeActivity extends TitleActivity {
 
     @OnClick(R.id.info_sex_ll)
     void onSexEdit() {
-
+        EditSexActivity.start(this);
     }
 
     @OnClick(R.id.info_address_ll)

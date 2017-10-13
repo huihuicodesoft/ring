@@ -101,6 +101,7 @@
     <string name="toast_nickname_not_null">昵称不能为空</string>
     <string name="toast_nickname_update_success">昵称设置成功</string>
     <string name="toast_signature_update_success">签名设置成功</string>
+    <string name="toast_sex_update_success">性别设置成功</string>
 
     <string name="dialog_upload_avatar">正在上传头像...</string>
     <string name="dialog_abandon_edit">放弃编辑？</string>
