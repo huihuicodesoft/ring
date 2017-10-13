@@ -17,15 +17,15 @@ public class UserInfo {
     private Long id;
 
     @Unique
-    private long userId;
+    private Long userId;
     private Long infoId;
     private String nickname;
     private Long birthday;
-    private int sex;
+    private Integer sex;
     private String avatar;
     private String signature;
     private String addressCode;
-    private long lastModifiedTime;
+    private Long lastModifiedTime;
 
     @Generated(hash = 1279772520)
     public UserInfo() {
@@ -35,8 +35,8 @@ public class UserInfo {
         this.id = id;
     }
 
-    @Generated(hash = 79733303)
-    public UserInfo(Long id, long userId, Long infoId, String nickname, Long birthday, int sex, String avatar, String signature, String addressCode, long lastModifiedTime) {
+    @Generated(hash = 1747870196)
+    public UserInfo(Long id, Long userId, Long infoId, String nickname, Long birthday, Integer sex, String avatar, String signature, String addressCode, Long lastModifiedTime) {
         this.id = id;
         this.userId = userId;
         this.infoId = infoId;
@@ -57,11 +57,11 @@ public class UserInfo {
         this.id = id;
     }
 
-    public long getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -89,11 +89,11 @@ public class UserInfo {
         this.birthday = birthday;
     }
 
-    public int getSex() {
+    public Integer getSex() {
         return sex;
     }
 
-    public void setSex(int sex) {
+    public void setSex(Integer sex) {
         this.sex = sex;
     }
 
@@ -121,11 +121,11 @@ public class UserInfo {
         this.addressCode = addressCode;
     }
 
-    public long getLastModifiedTime() {
+    public Long getLastModifiedTime() {
         return lastModifiedTime;
     }
 
-    public void setLastModifiedTime(long lastModifiedTime) {
+    public void setLastModifiedTime(Long lastModifiedTime) {
         this.lastModifiedTime = lastModifiedTime;
     }
 

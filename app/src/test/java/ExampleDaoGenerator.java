@@ -34,15 +34,15 @@ public class ExampleDaoGenerator {
     private static void addUserInfo(Schema schema) {
         Entity note = schema.addEntity("UserInfo");
         note.addIdProperty().primaryKey().autoincrement();
-        note.addLongProperty("userId").unique().notNull();
+        note.addLongProperty("userId").unique();
         note.addLongProperty("infoId");
         note.addStringProperty("nickname");
         note.addLongProperty("birthday");
-        note.addIntProperty("sex").notNull();
+        note.addIntProperty("sex");
         note.addStringProperty("avatar");
         note.addStringProperty("signature");
         note.addStringProperty("addressCode");
-        note.addLongProperty("lastModifiedTime").notNull();
+        note.addLongProperty("lastModifiedTime");
     }
 
     private static void addCustomerOrder(Schema schema) {
