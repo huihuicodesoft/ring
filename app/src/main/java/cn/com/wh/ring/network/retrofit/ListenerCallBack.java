@@ -32,12 +32,16 @@ public abstract class ListenerCallBack<T> implements Callback<Response<T>> {
 
         if (response.isSuccessful()) {
             Response<T> resp = response.body();
-            if (resp.getCode() == ReturnCode.OK) {
+            int respCode = resp.getCode();
+            if (respCode == ReturnCode.OK) {
                 onSuccess(resp.getPayload());
-            } else if (resp.getCode() == ReturnCode.ERROR_TOKEN) {
+            } else if (respCode == ReturnCode.ERROR_TOKEN) {
                 onFailure(new NetWorkException(ReturnCode.ERROR_TOKEN, mContext.getString(R.string.tip_illegal_request))); //请求不合法
             } else {
-                if (resp.getCode() == ReturnCode.ERROR_PERMISSION) {
+                if (respCode == ReturnCode.ERROR_PERMISSION || respCode == ReturnCode.ERROR_TOKEN
+                        || respCode == ReturnCode.ERROR_TOKEN_INVALID
+                        || respCode == ReturnCode.ERROR_TOKEN_ERROR
+                        || respCode == ReturnCode.ERROR_TOKEN_NULL) {
                     LoginActivity.start(mContext);
                     onFailure(new NetWorkException(resp.getCode(), mContext.getString(R.string.tip_please_login)));
                 } else {
