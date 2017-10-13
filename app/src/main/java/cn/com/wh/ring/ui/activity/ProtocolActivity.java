@@ -14,7 +14,6 @@ import cn.com.wh.ring.ui.activity.base.TitleActivity;
  */
 
 public class ProtocolActivity extends TitleActivity {
-    public static final int REQUEST_CODE_LOGIN = 0x12;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

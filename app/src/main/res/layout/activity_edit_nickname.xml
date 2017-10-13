@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="15dp">
+
+    <View style="@style/line_division_horizontal" />
+
+    <EditText
+        android:id="@+id/edit_nickname_et"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:hint="@string/hint_nickname"
+        android:maxLines="1"
+        android:paddingLeft="@dimen/panel_left_right"
+        android:paddingRight="@dimen/panel_left_right"
+        android:textColor="@color/font_black"
+        android:textColorHint="@color/hint"
+        android:textSize="16sp" />
+
+    <View style="@style/line_division_horizontal" />
+</LinearLayout>

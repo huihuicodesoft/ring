@@ -42,8 +42,8 @@ import retrofit2.Call;
  * Created by Hui on 2017/9/13.
  */
 
-public class MeEditActivity extends TitleActivity {
-    private static final String TAG = MeEditActivity.class.getName();
+public class EditMeActivity extends TitleActivity {
+    private static final String TAG = EditMeActivity.class.getName();
     private static final int REQUEST_CODE_SELECT_AVATAR = 0X23;
 
     @BindView(R.id.info_avatar_iv)
@@ -64,7 +64,7 @@ public class MeEditActivity extends TitleActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_me_edit);
+        setContentView(R.layout.activity_edit_me);
         unbinder = ButterKnife.bind(this);
         EventBus.getDefault().register(this);
 
@@ -90,13 +90,12 @@ public class MeEditActivity extends TitleActivity {
         mAddressTv.setText(userInfo.getAddressCode());
         mSignatureTv.setText(String.valueOf(userInfo.getSignature()));
 
-        int resId;
-        if (userInfo.getSex() == UserInfo.SEX_MAN) {
+        int resId = R.string.un_select;
+        Integer sex = userInfo.getSex();
+        if (sex != null && sex.intValue() == UserInfo.SEX_MAN) {
             resId = R.string.man;
-        } else if (userInfo.getSex() == UserInfo.SEX_WOMAN) {
-            resId = R.string.woman;
-        } else {
-            resId = R.string.un_select;
+        } else if (sex != null && sex.intValue() == UserInfo.SEX_WOMAN) {
+            resId = R.string.man;
         }
         mSexTv.setText(resId);
 
@@ -110,7 +109,7 @@ public class MeEditActivity extends TitleActivity {
             if (requestCode == REQUEST_CODE_SELECT_AVATAR) {
                 ArrayList<String> images = PhotoPickerActivity.getSelectedImages(data);
                 if (images != null && images.size() > 0) {
-                    LogUtils.logI(TAG, "头像图片 = " + images.get(0) + " : "+ new File(images.get(0)).length());
+                    LogUtils.logI(TAG, "头像图片 = " + images.get(0) + " : " + new File(images.get(0)).length());
                     uploadAvatar(images);
                 }
             }
@@ -124,12 +123,12 @@ public class MeEditActivity extends TitleActivity {
 
         MultipartBody body = RequestHelper.filesToMultipartBody(images);
         Call<Response<String>> call = Services.userService.uploadAvatar(body);
-        call.enqueue(new ListenerCallBack<String>(MeEditActivity.this) {
+        call.enqueue(new ListenerCallBack<String>(EditMeActivity.this) {
             @Override
             public void onSuccess(String s) {
                 UserInfoDao userInfoDao = MainApplication.getInstance().getDaoSession().getUserInfoDao();
                 List<UserInfo> userInfoList = userInfoDao.queryBuilder().list();
-                if (userInfoList.size() > 0){
+                if (userInfoList.size() > 0) {
                     UserInfo userInfo = userInfoList.get(0);
                     userInfo.setAvatar(s);
                     userInfoDao.update(userInfo);
@@ -151,22 +150,6 @@ public class MeEditActivity extends TitleActivity {
         });
     }
 
-//    private void updateUserInfo(final UserInfo userInfo) {
-//        Call<Response<Object>> call = Services.userService.uploadUserInfo(userInfo);
-//        call.enqueue(new ListenerCallBack<Object>(MeEditActivity.this) {
-//            @Override
-//            public void onSuccess(Object o) {
-//                UserInfoDao userInfoDao = MainApplication.getInstance().getDaoSession().getUserInfoDao();
-//                userInfoDao.update(userInfo);
-//            }
-//
-//            @Override
-//            public void onFailure(NetWorkException e) {
-//                ToastUtils.showShortToast(e.getMessage());
-//            }
-//        });
-//    }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUserInfoEvent(UserInfoEvent event) {
         bindInfoUI();
@@ -185,7 +168,7 @@ public class MeEditActivity extends TitleActivity {
 
     @OnClick(R.id.info_nickname_ll)
     void onNicknameEdit() {
-
+        EditNicknameActivity.start(this);
     }
 
     @OnClick(R.id.info_sex_ll)
@@ -200,7 +183,7 @@ public class MeEditActivity extends TitleActivity {
 
     @OnClick(R.id.info_signature_ll)
     void onSignatureEdit() {
-
+        EditSignatureActivity.start(this);
     }
 
     @Override
@@ -210,7 +193,7 @@ public class MeEditActivity extends TitleActivity {
     }
 
     public static void start(Context context) {
-        Intent intent = new Intent(context, MeEditActivity.class);
+        Intent intent = new Intent(context, EditMeActivity.class);
         context.startActivity(intent);
     }
 }

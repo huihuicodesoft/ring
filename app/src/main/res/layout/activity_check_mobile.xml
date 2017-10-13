@@ -20,6 +20,7 @@
             android:id="@+id/mobile_number_et"
             style="@style/bar_input_et"
             android:hint="@string/hint_mobile_number"
+            android:textColorHint="@color/hint"
             android:inputType="number"
             android:maxLength="11" />
 

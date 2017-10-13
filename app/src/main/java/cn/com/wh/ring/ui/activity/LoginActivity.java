@@ -18,6 +18,9 @@ import cn.com.wh.ring.ui.activity.base.TitleActivity;
  */
 
 public class LoginActivity extends TitleActivity {
+    public static final int REQUEST_CODE_PROTOCOL = 0x12;
+    public static final int REQUEST_CODE_LOGIN_MOBILE = 0x13;
+
     @BindView(R.id.agree_protocol_iv)
     ImageView mAgreeProtocolIv;
 
@@ -25,7 +28,11 @@ public class LoginActivity extends TitleActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         unbinder = ButterKnife.bind(this);
+
+        //清空token
+        DataCenter.getInstance().setToken(null);
 
         boolean isAgree = DataCenter.getInstance().isAgreeProtocol();
         if (!isAgree) {
@@ -37,19 +44,22 @@ public class LoginActivity extends TitleActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ProtocolActivity.REQUEST_CODE_LOGIN) {
+        if (requestCode == REQUEST_CODE_PROTOCOL) {
             boolean isAgree = DataCenter.getInstance().isAgreeProtocol();
             if (isAgree) {
                 mAgreeProtocolIv.setSelected(isAgree);
             } else {
                 onBackPressed();
             }
+        } else if (requestCode == REQUEST_CODE_LOGIN_MOBILE){
+            finish();
         }
     }
 
     @OnClick(R.id.mobile_ll)
     void onMobile() {
-        LoginMobileActivity.start(this);
+        Intent intent = new Intent(this, LoginMobileActivity.class);
+        startActivityForResult(intent, REQUEST_CODE_LOGIN_MOBILE);
     }
 
     @OnClick(R.id.wx_ll)
@@ -74,11 +84,12 @@ public class LoginActivity extends TitleActivity {
 
     public void startProtocol() {
         Intent intent = new Intent(this, ProtocolActivity.class);
-        startActivityForResult(intent, ProtocolActivity.REQUEST_CODE_LOGIN);
+        startActivityForResult(intent, REQUEST_CODE_PROTOCOL);
     }
 
     public static void start(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 }

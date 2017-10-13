@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/edit_sex_man_ll"
+        style="@style/common_panel_module_style"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/man"
+            android:textColor="@color/font_black"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/edit_sex_man_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/agree_protocol_check_selector" />
+
+    </LinearLayout>
+
+    <View style="@style/line_division_horizontal" />
+
+    <LinearLayout
+        android:id="@+id/edit_sex_woman_ll"
+        style="@style/common_panel_module_style"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/woman"
+            android:textColor="@color/font_black"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/edit_sex_woman_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/agree_protocol_check_selector" />
+    </LinearLayout>
+
+</LinearLayout>

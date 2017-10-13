@@ -116,7 +116,8 @@ public class LoginMobileActivity extends TitleActivity {
 
                     EventBus.getDefault().post(new UserInfoEvent());
 
-                    MainActivity.start(LoginMobileActivity.this);
+                    setResult(RESULT_OK);
+                    finish();
                     ToastUtils.showLongToast(R.string.tip_success_login);
                 } else {
                     ToastUtils.showLongToast(R.string.tip_fail_login);
@@ -136,11 +137,6 @@ public class LoginMobileActivity extends TitleActivity {
 
         boolean isNoNull = !TextUtils.isEmpty(password) && !TextUtils.isEmpty(mobile);
         mLoginTv.setEnabled(isNoNull);
-    }
-
-    public static void start(Context context) {
-        Intent intent = new Intent(context, LoginMobileActivity.class);
-        context.startActivity(intent);
     }
 
     public static void startClearTop(Context context) {

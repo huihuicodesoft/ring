@@ -28,9 +28,9 @@ import cn.com.wh.ring.event.LogoutEvent;
 import cn.com.wh.ring.event.UserInfoEvent;
 import cn.com.wh.ring.helper.LoginHelper;
 import cn.com.wh.ring.helper.UserHelper;
+import cn.com.wh.ring.ui.activity.EditMeActivity;
 import cn.com.wh.ring.ui.activity.MeAttentionActivity;
 import cn.com.wh.ring.ui.activity.MeCollectionActivity;
-import cn.com.wh.ring.ui.activity.MeEditActivity;
 import cn.com.wh.ring.ui.activity.MeFanActivity;
 import cn.com.wh.ring.ui.activity.MeInteractionActivity;
 import cn.com.wh.ring.ui.activity.MeMessageActivity;
@@ -106,7 +106,7 @@ public class MainMeFragment extends TitleFragment {
     @OnClick(R.id.me_info_ll)
     void toMeEditActivity() {
         if (LoginHelper.isNoIntercept2Login(getContext())) {
-            MeEditActivity.start(getContext());
+            EditMeActivity.start(getContext());
         }
     }
 

@@ -32,4 +32,6 @@
     <color name="pressed_green">#118f20</color>
     <color name="pressed_blue">#2c4ebd</color>
     <color name="pressed_main">#ad3d19</color>
+
+    <color name="hint">#999999</color>
 </resources>

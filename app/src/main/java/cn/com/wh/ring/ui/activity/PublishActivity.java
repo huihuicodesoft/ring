@@ -120,6 +120,7 @@ public class PublishActivity extends TitleActivity implements PTSortableNinePhot
         mPTSortableNinePhotoLayout.setDelegate(this);
         mPTSortableNinePhotoLayout.setPlusEnable(false);
 
+        mRightTv.setText(R.string.publish);
         mRightTv.setOnClickListener(mPublishListener);
 
     }

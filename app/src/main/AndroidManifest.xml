@@ -51,13 +51,17 @@
             android:launchMode="singleTask" />
         <activity
             android:name=".ui.activity.LoginActivity"
-            android:label="@string/login" />
+            android:label="@string/login">
+            <intent-filter>
+                <action android:name="app.intent.action.LOGIN_CLOSE" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.activity.ProtocolActivity"
-            android:label="@string/app_protocol" />
+            android:label="@string/app_protocol"/>
         <activity
             android:name=".ui.activity.LoginMobileActivity"
-            android:label="@string/login_mobile" />
+            android:label="@string/login_mobile"/>
         <activity android:name=".ui.activity.CheckMobileActivity" />
         <activity android:name=".ui.activity.SettingPasswordActivity" />
         <activity
@@ -73,11 +77,27 @@
             android:theme="@style/WindowTransparent"/>
         <activity
             android:name=".ui.activity.PublishActivity"
-            android:label="@string/publish"
+            android:label="@string/publish_post"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".ui.activity.MeEditActivity"
+            android:name=".ui.activity.EditMeActivity"
+            android:label="@string/personal_information" />
+
+        <activity
+            android:name=".ui.activity.EditNicknameActivity"
+            android:label="@string/nickname" />
+
+        <activity
+            android:name=".ui.activity.EditSexActivity"
+            android:label="@string/sex" />
+
+        <activity
+            android:name=".ui.activity.SelectAddressActivity"
+            android:label="@string/address" />
+
+        <activity
+            android:name=".ui.activity.EditSignatureActivity"
             android:label="@string/personal_information" />
         <activity
             android:name=".ui.activity.MeAttentionActivity"
