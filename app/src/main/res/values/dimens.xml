@@ -11,4 +11,6 @@
     <dimen name="height_item_handler_bar">40dp</dimen>
     <dimen name="height_item_info_bar">40dp</dimen>
     <dimen name="height_me_bar">50dp</dimen>
+
+    <dimen name="photo_widget_itemWidth">2dp</dimen>
 </resources>

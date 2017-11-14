@@ -5,6 +5,14 @@ apply plugin: 'org.greenrobot.greendao'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
+    signingConfigs {
+        debug {
+            keyAlias  'wh'
+            keyPassword 'wh00033159'
+            storeFile file('E:/project/android/fuduoduo.jks')
+            storePassword 'wh00033159'
+        }
+    }
     defaultConfig {
         applicationId "cn.com.wh.ring"
         minSdkVersion rootProject.ext.minSdkVersion

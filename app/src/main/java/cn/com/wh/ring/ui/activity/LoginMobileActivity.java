@@ -79,7 +79,6 @@ public class LoginMobileActivity extends TitleActivity {
         checkAllEt();
     }
 
-
     @OnClick(R.id.forget_password_tv)
     void onForgetPassword() {
         CheckMobileActivity.start(this, CheckMobileActivity.TYPE_BACK_PASSWORD);
@@ -129,6 +128,12 @@ public class LoginMobileActivity extends TitleActivity {
                 ToastUtils.showLongToast(e.getMessage());
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_CANCELED);
+        finish();
     }
 
     private void checkAllEt() {

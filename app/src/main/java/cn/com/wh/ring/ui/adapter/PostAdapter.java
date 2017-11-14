@@ -1,16 +1,21 @@
 package cn.com.wh.ring.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+
+import cn.com.wh.ring.R;
 
 /**
  * Created by Hui on 2017/7/14.
  */
 
-public class AttentionAdapter extends RecyclerView.Adapter{
+public class PostAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post_text, parent, false);
+        return new RecyclerView.ViewHolder(view) {};
     }
 
     @Override
@@ -20,6 +25,6 @@ public class AttentionAdapter extends RecyclerView.Adapter{
 
     @Override
     public int getItemCount() {
-        return 0;
+        return 20;
     }
 }

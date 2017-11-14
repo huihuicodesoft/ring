@@ -27,7 +27,7 @@ public class ExampleDaoGenerator {
         note.addStringProperty("type").notNull();
         note.addBooleanProperty("anonymous");
         note.addIntProperty("state");
-        note.addStringProperty("addressCode");
+        note.addStringProperty("address");
         note.addLongProperty("time").notNull();
     }
 
@@ -41,7 +41,7 @@ public class ExampleDaoGenerator {
         note.addIntProperty("sex");
         note.addStringProperty("avatar");
         note.addStringProperty("signature");
-        note.addStringProperty("addressCode");
+        note.addStringProperty("address");
         note.addLongProperty("lastModifiedTime");
     }
 

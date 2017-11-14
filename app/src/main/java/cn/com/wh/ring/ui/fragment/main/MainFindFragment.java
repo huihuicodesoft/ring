@@ -1,132 +1,91 @@
 package cn.com.wh.ring.ui.fragment.main;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.flyco.tablayout.SlidingTabLayout;
+import java.util.ArrayList;
+import java.util.List;
 
-import butterknife.BindString;
+import butterknife.BindColor;
+import butterknife.BindDimen;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.com.wh.photo.photopicker.decoration.LineItemDecoration;
 import cn.com.wh.ring.R;
-import cn.com.wh.ring.ui.fragment.base.TitleFragment;
-import cn.com.wh.ring.ui.fragment.find.ActivityFragment;
-import cn.com.wh.ring.ui.fragment.find.FunnyCircleFragment;
-import cn.com.wh.ring.ui.fragment.find.TalentFragment;
+import cn.com.wh.ring.network.response.BannerItem;
+import cn.com.wh.ring.network.response.Help;
+import cn.com.wh.ring.ui.adapter.HelpAdapter;
+import cn.com.wh.ring.ui.fragment.base.ButterKnifeFragment;
+import cn.com.wh.ring.ui.view.ListSwipeRefreshLayout;
 
 /**
  * Created by Hui on 2017/7/13.
  */
 
-public class MainFindFragment extends TitleFragment {
-    private static final String CLASS_SIMPLE_NAME = MainFindFragment.class.getSimpleName();
-    private static final String SAVE_STATE_KEY_PAGE_ADAPTER = CLASS_SIMPLE_NAME + "pagerAdapter";
+public class MainFindFragment extends ButterKnifeFragment {
+    @BindView(R.id.listSwipeRefreshLayout)
+    ListSwipeRefreshLayout mListSwipeRefreshLayout;
 
-    @BindView(R.id.commonTabLayout)
-    SlidingTabLayout mTabLayout;
-    @BindView(R.id.viewPager)
-    ViewPager mViewPager;
-    ViewPageAdapter mViewPageAdapter;
+    @BindDimen(R.dimen.height_line_division_horizontal)
+    int divisionLineHeight;
+    @BindColor(R.color.line_division)
+    int divisionLineColor;
 
-    @BindString(R.string.funny_circle)
-    String funnyCircleStr;
-    @BindString(R.string.talent)
-    String talentStr;
-    @BindString(R.string.activity)
-    String activityStr;
+    HelpAdapter mAdapter;
+    List<BannerItem> mBannerItems = new ArrayList<>();
+    List<Help> mHelps = new ArrayList<>();
+
+    public static String[] titles = new String[]{
+            "伪装者:胡歌演绎'痞子特工'",
+            "无心法师:生死离别!月牙遭虐杀",
+            "花千骨:尊上沦为花千骨",
+            "综艺饭:胖轩偷看夏天洗澡掀波澜",
+            "碟中谍4:阿汤哥高塔命悬一线,超越不可能",
+    };
+    public static String[] urls = new String[]{//640*360 360/640=0.5625
+            "http://photocdn.sohu.com/tvmobilemvms/20150907/144160323071011277.jpg",//伪装者:胡歌演绎"痞子特工"
+            "http://photocdn.sohu.com/tvmobilemvms/20150907/144158380433341332.jpg",//无心法师:生死离别!月牙遭虐杀
+            "http://photocdn.sohu.com/tvmobilemvms/20150907/144160286644953923.jpg",//花千骨:尊上沦为花千骨
+            "http://photocdn.sohu.com/tvmobilemvms/20150902/144115156939164801.jpg",//综艺饭:胖轩偷看夏天洗澡掀波澜
+            "http://photocdn.sohu.com/tvmobilemvms/20150907/144159406950245847.jpg",//碟中谍4:阿汤哥高塔命悬一线,超越不可能
+    };
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = super.onCreateView(inflater, container, savedInstanceState);
+        View root = inflater.inflate(R.layout.fragment_main_find, container, false);
         unbinder = ButterKnife.bind(this, root);
         return root;
     }
 
     @Override
-    public View getTitleView() {
-        return View.inflate(getContext(), R.layout.title_main, null);
-    }
-
-    @Override
-    public View getContentView() {
-        return View.inflate(getContext(), R.layout.fragment_main_find, null);
-    }
-
-    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        initView(savedInstanceState);
+        initView();
     }
 
-    private void initView(@Nullable Bundle savedInstanceState) {
-        mViewPageAdapter = new ViewPageAdapter(getChildFragmentManager());
+    private void initView() {
+        mListSwipeRefreshLayout.setLayoutManager(new LinearLayoutManager(getContext()));
+        mAdapter = new HelpAdapter(mBannerItems, mHelps);
+        mListSwipeRefreshLayout.setAdapter(mAdapter);
+        LineItemDecoration lineItemDecoration = new LineItemDecoration(getContext(), LinearLayoutManager.HORIZONTAL,
+                divisionLineHeight, divisionLineColor);
+        mListSwipeRefreshLayout.addItemDecoration(lineItemDecoration);
 
-        initRestoreState(savedInstanceState);
-
-        mViewPager.setAdapter(mViewPageAdapter);
-        mTabLayout.setViewPager(mViewPager);
-    }
-
-    private void initRestoreState(Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            Parcelable pagerAdapterParcel = savedInstanceState.getParcelable(SAVE_STATE_KEY_PAGE_ADAPTER);
-            if (pagerAdapterParcel != null)
-                mViewPageAdapter.restoreState(pagerAdapterParcel, ClassLoader.getSystemClassLoader());
+        for (int i = 0; i < titles.length; i++) {
+            BannerItem item = new BannerItem();
+            item.setImageUrl(urls[i]);
+            item.setText(titles[i]);
+            mBannerItems.add(item);
         }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (mViewPageAdapter != null) {
-            outState.putParcelable(SAVE_STATE_KEY_PAGE_ADAPTER, mViewPageAdapter.saveState());
+        for (int i = 0; i < 10; i++) {
+            mHelps.add(new Help());
         }
-    }
-
-    private class ViewPageAdapter extends FragmentStatePagerAdapter {
-
-        public ViewPageAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            String className;
-            if (position == 0) {
-                className = FunnyCircleFragment.class.getName();
-            } else if (position == 1) {
-                className = ActivityFragment.class.getName();
-            } else {
-                className = TalentFragment.class.getName();
-            }
-            return Fragment.instantiate(getContext(), className);
-        }
-
-        @Override
-        public int getCount() {
-            return 3;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            String title;
-            if (position == 0) {
-                title = funnyCircleStr;
-            } else if (position == 1) {
-                title = talentStr;
-            } else {
-                title = activityStr;
-            }
-            return title;
-        }
+        mAdapter.notifyDataSetChanged();
     }
 }

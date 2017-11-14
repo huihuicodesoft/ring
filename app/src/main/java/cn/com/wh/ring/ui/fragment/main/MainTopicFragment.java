@@ -17,45 +17,48 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.wh.ring.R;
-import cn.com.wh.ring.ui.fragment.base.TitleFragment;
-import cn.com.wh.ring.ui.fragment.help.HelpFragment;
-import cn.com.wh.ring.ui.fragment.help.HelpMeFragment;
+import cn.com.wh.ring.ui.activity.base.DarkStatusBarActivity;
+import cn.com.wh.ring.ui.fragment.base.ButterKnifeFragment;
+import cn.com.wh.ring.ui.fragment.topic.TopicAttentionFragment;
+import cn.com.wh.ring.ui.fragment.topic.TopicFragment;
+import cn.com.wh.ring.utils.SystemBarUtils;
 
 /**
  * Created by Hui on 2017/7/13.
  */
 
-public class MainHelpFragment extends TitleFragment {
-    private static final String CLASS_SIMPLE_NAME = MainHelpFragment.class.getSimpleName();
+public class MainTopicFragment extends ButterKnifeFragment {
+    private static final String CLASS_SIMPLE_NAME = MainTopicFragment.class.getSimpleName();
     private static final String SAVE_STATE_KEY_PAGE_ADAPTER = CLASS_SIMPLE_NAME + "pagerAdapter";
 
-    @BindView(R.id.commonTabLayout)
+    @BindView(R.id.statusBar)
+    View mStatusBar;
+    @BindView(R.id.slidingTabLayout)
     SlidingTabLayout mTabLayout;
     @BindView(R.id.viewPager)
     ViewPager mViewPager;
-    ViewPageAdapter mViewPageAdapter;
+    MainTopicFragment.ViewPageAdapter mViewPageAdapter;
 
-    @BindString(R.string.help)
-    String helpStr;
-    @BindString(R.string.me)
-    String meStr;
+    @BindString(R.string.topic)
+    String topicStr;
+    @BindString(R.string.attention)
+    String attentionStr;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = super.onCreateView(inflater, container, savedInstanceState);
+        View root = inflater.inflate(R.layout.fragment_main_topic, container, false);
         unbinder = ButterKnife.bind(this, root);
+        initStatusBar();
         return root;
     }
 
-    @Override
-    public View getTitleView() {
-        return View.inflate(getContext(), R.layout.title_main, null);
-    }
-
-    @Override
-    public View getContentView() {
-        return View.inflate(getContext(), R.layout.fragment_main_help, null);
+    public void initStatusBar() {
+        SystemBarUtils.initStatusBarHeight(getResources(), mStatusBar);
+        if (getActivity() != null && getActivity() instanceof DarkStatusBarActivity) {
+            mStatusBar.setBackgroundColor(((DarkStatusBarActivity) getActivity()).isStatusBarDark ?
+                    getResources().getColor(R.color.status_title_back) : getResources().getColor(R.color.status_gray));
+        }
     }
 
     @Override
@@ -65,12 +68,13 @@ public class MainHelpFragment extends TitleFragment {
     }
 
     private void initView(@Nullable Bundle savedInstanceState) {
-        mViewPageAdapter = new ViewPageAdapter(getChildFragmentManager());
+        mViewPageAdapter = new MainTopicFragment.ViewPageAdapter(getChildFragmentManager());
 
         initRestoreState(savedInstanceState);
 
         mViewPager.setAdapter(mViewPageAdapter);
         mTabLayout.setViewPager(mViewPager);
+
     }
 
     private void initRestoreState(Bundle savedInstanceState) {
@@ -89,7 +93,6 @@ public class MainHelpFragment extends TitleFragment {
         }
     }
 
-
     private class ViewPageAdapter extends FragmentStatePagerAdapter {
 
         public ViewPageAdapter(FragmentManager fm) {
@@ -98,11 +101,14 @@ public class MainHelpFragment extends TitleFragment {
 
         @Override
         public Fragment getItem(int position) {
-            String className;
-            if (position == 0) {
-                className = HelpFragment.class.getName();
-            } else {
-                className = HelpMeFragment.class.getName();
+            String className = Fragment.class.getName();
+            switch (position) {
+                case 0:
+                    className = TopicFragment.class.getName();
+                    break;
+                case 1:
+                    className = TopicAttentionFragment.class.getName();
+                    break;
             }
             return Fragment.instantiate(getContext(), className);
         }
@@ -114,11 +120,14 @@ public class MainHelpFragment extends TitleFragment {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            String title;
-            if (position == 0) {
-                title = helpStr;
-            } else {
-                title = meStr;
+            String title = "";
+            switch (position) {
+                case 0:
+                    title = topicStr;
+                    break;
+                case 1:
+                    title = attentionStr;
+                    break;
             }
             return title;
         }

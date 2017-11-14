@@ -34,4 +34,6 @@
     <color name="pressed_main">#ad3d19</color>
 
     <color name="hint">#999999</color>
+
+    <color name="nine_photo_default">#999999</color>
 </resources>

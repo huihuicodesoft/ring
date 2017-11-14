@@ -15,6 +15,6 @@ public abstract class DarkStatusBarActivity extends FullScreenActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        isStatusBarDark = SystemBarUtils.changeStatusIcon(this, true);
+        isStatusBarDark = SystemBarUtils.setStatusIcon(this, true);
     }
 }

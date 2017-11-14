@@ -115,16 +115,25 @@ public final class SystemBarUtils {
         return result;
     }
 
-    public static boolean changeStatusIcon(@NonNull Activity activity, boolean isDark) {
+    public static boolean setStatusIcon(@NonNull Activity activity, boolean isDark) {
+        boolean result = false;
         Window window = activity.getWindow();
-        if (window == null) {
-            return false;
-        } else {
-            return changeStatusIconOfOfMiui(window, isDark) || changeStatusIconOfOfMeizu(window, isDark);
+        if (window != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | (isDark ? View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR : View.SYSTEM_UI_FLAG_VISIBLE));
+                result = true;
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    result = setStatusIconOfOfMiui(window, isDark) || setStatusIconOfOfMeizu(window, isDark);
+                } else {
+                    result = false;
+                }
+            }
         }
+        return result;
     }
 
-    private static boolean changeStatusIconOfOfMeizu(@NonNull Window window, boolean isDark) {
+    private static boolean setStatusIconOfOfMeizu(@NonNull Window window, boolean isDark) {
         WindowManager.LayoutParams lp = window.getAttributes();
         try {
             Class<?> instance = Class.forName("android.view.WindowManager$LayoutParams");
@@ -143,7 +152,7 @@ public final class SystemBarUtils {
         }
     }
 
-    private static boolean changeStatusIconOfOfMiui(@NonNull Window window, boolean isDark) {
+    private static boolean setStatusIconOfOfMiui(@NonNull Window window, boolean isDark) {
         Class<? extends Window> clazz = window.getClass();
         try {
             int darkModeFlag;

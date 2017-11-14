@@ -58,10 +58,10 @@
         </activity>
         <activity
             android:name=".ui.activity.ProtocolActivity"
-            android:label="@string/app_protocol"/>
+            android:label="@string/app_protocol" />
         <activity
             android:name=".ui.activity.LoginMobileActivity"
-            android:label="@string/login_mobile"/>
+            android:label="@string/login_mobile" />
         <activity android:name=".ui.activity.CheckMobileActivity" />
         <activity android:name=".ui.activity.SettingPasswordActivity" />
         <activity
@@ -74,7 +74,7 @@
             android:label="@string/select_post_type" />
         <activity
             android:name=".ui.activity.MenuActivity"
-            android:theme="@style/WindowTransparent"/>
+            android:theme="@style/WindowTransparent" />
         <activity
             android:name=".ui.activity.PublishActivity"
             android:label="@string/publish_post"
@@ -117,6 +117,7 @@
         <activity
             android:name=".ui.activity.SettingActivity"
             android:label="@string/setting" />
+
     </application>
 
 </manifest>

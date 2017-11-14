@@ -18,19 +18,25 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.wh.ring.R;
-import cn.com.wh.ring.ui.fragment.base.TitleFragment;
-import cn.com.wh.ring.ui.fragment.home.AttentionFragment;
-import cn.com.wh.ring.ui.fragment.home.RecommendFragment;
+import cn.com.wh.ring.ui.activity.base.DarkStatusBarActivity;
+import cn.com.wh.ring.ui.fragment.base.ButterKnifeFragment;
+import cn.com.wh.ring.ui.fragment.home.HomeAttentionFragment;
+import cn.com.wh.ring.ui.fragment.home.HomeChoiceFragment;
+import cn.com.wh.ring.ui.fragment.home.HomeDynamicFragment;
+import cn.com.wh.ring.ui.fragment.home.HomeNewsFragment;
+import cn.com.wh.ring.utils.SystemBarUtils;
 
 /**
  * Created by Hui on 2017/7/13.
  */
 
-public class MainHomeFragment extends TitleFragment {
+public class MainHomeFragment extends ButterKnifeFragment {
     private static final String CLASS_SIMPLE_NAME = MainHomeFragment.class.getSimpleName();
     private static final String SAVE_STATE_KEY_PAGE_ADAPTER = CLASS_SIMPLE_NAME + "pagerAdapter";
 
-    @BindView(R.id.commonTabLayout)
+    @BindView(R.id.statusBar)
+    View mStatusBar;
+    @BindView(R.id.slidingTabLayout)
     SlidingTabLayout mTabLayout;
     @BindView(R.id.viewPager)
     ViewPager mViewPager;
@@ -38,25 +44,28 @@ public class MainHomeFragment extends TitleFragment {
 
     @BindString(R.string.attention)
     String attentionStr;
-    @BindString(R.string.recommend)
-    String recommendStr;
+    @BindString(R.string.choice)
+    String choiceStr;
+    @BindString(R.string.news)
+    String newsStr;
+    @BindString(R.string.dynamic)
+    String dynamicStr;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = super.onCreateView(inflater, container, savedInstanceState);
+        View root = inflater.inflate(R.layout.fragment_main_home, container, false);
         unbinder = ButterKnife.bind(this, root);
+        initStatusBar();
         return root;
     }
 
-    @Override
-    public View getTitleView() {
-        return View.inflate(getContext(), R.layout.title_main, null);
-    }
-
-    @Override
-    public View getContentView() {
-        return View.inflate(getContext(), R.layout.fragment_main_home, null);
+    public void initStatusBar() {
+        SystemBarUtils.initStatusBarHeight(getResources(), mStatusBar);
+        if (getActivity() != null && getActivity() instanceof DarkStatusBarActivity) {
+            mStatusBar.setBackgroundColor(((DarkStatusBarActivity) getActivity()).isStatusBarDark ?
+                    getResources().getColor(R.color.status_title_back) :  getResources().getColor(R.color.status_gray));
+        }
     }
 
     @Override
@@ -91,7 +100,6 @@ public class MainHomeFragment extends TitleFragment {
         }
     }
 
-
     private class ViewPageAdapter extends FragmentStatePagerAdapter {
 
         public ViewPageAdapter(FragmentManager fm) {
@@ -100,27 +108,45 @@ public class MainHomeFragment extends TitleFragment {
 
         @Override
         public Fragment getItem(int position) {
-            String className;
-            if (position == 0) {
-                className = RecommendFragment.class.getName();
-            } else {
-                className = AttentionFragment.class.getName();
+            String className = Fragment.class.getName();
+            switch (position) {
+                case 0:
+                    className = HomeAttentionFragment.class.getName();
+                    break;
+                case 1:
+                    className = HomeChoiceFragment.class.getName();
+                    break;
+                case 2:
+                    className = HomeNewsFragment.class.getName();
+                    break;
+                case 3:
+                    className = HomeDynamicFragment.class.getName();
+                    break;
             }
             return Fragment.instantiate(getContext(), className);
         }
 
         @Override
         public int getCount() {
-            return 2;
+            return 4;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            String title;
-            if (position == 0) {
-                title = recommendStr;
-            } else {
-                title = attentionStr;
+            String title = "";
+            switch (position) {
+                case 0:
+                    title = attentionStr;
+                    break;
+                case 1:
+                    title = choiceStr;
+                    break;
+                case 2:
+                    title = newsStr;
+                    break;
+                case 3:
+                    title = dynamicStr;
+                    break;
             }
             return title;
         }

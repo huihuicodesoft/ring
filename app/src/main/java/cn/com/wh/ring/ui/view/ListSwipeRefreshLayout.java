@@ -27,21 +27,6 @@ public class ListSwipeRefreshLayout extends SwipeRefreshLayout {
         createRecyclerView();
     }
 
-    public void notifyRefresh() {
-        if (!isRefreshing()) {
-            setRefreshing(true);
-            if (onRefreshListener != null) {
-                onRefreshListener.onRefresh();
-            }
-        }
-    }
-
-    @Override
-    public void setOnRefreshListener(OnRefreshListener listener) {
-        onRefreshListener = listener;
-        super.setOnRefreshListener(onRefreshListener);
-    }
-
     private void createRecyclerView() {
         recyclerView = new RecyclerView(getContext());
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -74,12 +59,48 @@ public class ListSwipeRefreshLayout extends SwipeRefreshLayout {
         addView(recyclerView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
     }
 
-    public RecyclerView getRecyclerView() {
-        return recyclerView;
+    public void setAdapter(RecyclerView.Adapter adapter) {
+        if (recyclerView != null) {
+            recyclerView.setAdapter(adapter);
+        } else {
+            throw new RuntimeException("recyclerView isn't created！");
+        }
+    }
+
+    public void setLayoutManager(RecyclerView.LayoutManager layout) {
+        if (recyclerView != null) {
+            recyclerView.setLayoutManager(layout);
+        } else {
+            throw new RuntimeException("recyclerView isn't created！");
+        }
+    }
+
+    public void addItemDecoration(RecyclerView.ItemDecoration decor) {
+        if (recyclerView != null) {
+            recyclerView.addItemDecoration(decor);
+        } else {
+            throw new RuntimeException("recyclerView isn't created！");
+        }
     }
 
     public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
         this.onLoadMoreListener = onLoadMoreListener;
+    }
+
+    @Override
+    public void setOnRefreshListener(OnRefreshListener onRefreshListener) {
+        this.onRefreshListener = onRefreshListener;
+        super.setOnRefreshListener(onRefreshListener);
+    }
+
+    public boolean toRefresh() {
+        if (isRefreshing()) {
+            return false;
+        } else {
+            setRefreshing(true);
+            onRefreshListener.onRefresh();
+            return true;
+        }
     }
 
     public void finishLoadingMore() {

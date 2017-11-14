@@ -7,10 +7,11 @@
     android:paddingLeft="@dimen/panel_left_right"
     android:paddingRight="@dimen/panel_left_right">
 
-    <ImageView
+    <cn.com.wh.ring.ui.view.CircleImageView
         android:id="@+id/item_info_avatar_iv"
         android:layout_width="30dp"
-        android:layout_height="30dp" />
+        android:layout_height="30dp"
+        android:src="@mipmap/ic_launcher"/>
 
     <TextView
         android:id="@+id/item_info_nickname_tv"
@@ -20,7 +21,8 @@
         android:layout_weight="1"
         android:maxLines="1"
         android:textColor="@color/font_black"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:text="昵称"/>
 
     <ImageView
         android:id="@+id/item_info_delete"

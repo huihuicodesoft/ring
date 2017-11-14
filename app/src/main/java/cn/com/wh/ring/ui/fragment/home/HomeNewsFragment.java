@@ -1,4 +1,4 @@
-package cn.com.wh.ring.ui.fragment.find;
+package cn.com.wh.ring.ui.fragment.home;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,14 +10,14 @@ import android.view.ViewGroup;
 import cn.com.wh.ring.R;
 
 /**
- * Created by Hui on 2017/9/12.
+ * Created by Hui on 2017/11/10.
  */
 
-public class ActivityFragment extends Fragment {
+public class HomeNewsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_activity, container, false);
+        View root = inflater.inflate(R.layout.fragment_home_news, container, false);
         return root;
     }
 }

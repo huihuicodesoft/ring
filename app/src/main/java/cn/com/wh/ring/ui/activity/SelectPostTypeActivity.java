@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -53,12 +52,11 @@ public class SelectPostTypeActivity extends TitleActivity implements LoadHelper.
         setContentView(loadHelper.generateRoot(this, R.layout.activity_select_post_type));
         unbinder = ButterKnife.bind(this);
 
-        RecyclerView recyclerView = mListSwipeRefreshLayout.getRecyclerView();
-        recyclerView.addItemDecoration(new LineItemDecoration(this, LinearLayoutManager.HORIZONTAL));
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mListSwipeRefreshLayout.addItemDecoration(new LineItemDecoration(this, LinearLayoutManager.HORIZONTAL));
+        mListSwipeRefreshLayout.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new SelectPostTypeAdapter(mData);
         mAdapter.setOnItemClickListener(this);
-        recyclerView.setAdapter(mAdapter);
+        mListSwipeRefreshLayout.setAdapter(mAdapter);
 
         mListSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

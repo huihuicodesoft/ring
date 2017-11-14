@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingTop="15dp">
-    
+
     <View style="@style/line_division_horizontal" />
 
     <LinearLayout

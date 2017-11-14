@@ -26,17 +26,29 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.wh.permission.AndPermission;
 import cn.com.wh.permission.PermissionListener;
+import cn.com.wh.ring.MainApplication;
 import cn.com.wh.ring.R;
+import cn.com.wh.ring.database.bean.UserInfo;
+import cn.com.wh.ring.database.dao.UserInfoDao;
+import cn.com.wh.ring.database.sp.DataCenter;
 import cn.com.wh.ring.event.PostPublishEvent;
+import cn.com.wh.ring.event.UserInfoEvent;
 import cn.com.wh.ring.helper.LoginHelper;
+import cn.com.wh.ring.network.response.Response;
+import cn.com.wh.ring.network.retrofit.ListenerCallBack;
+import cn.com.wh.ring.network.retrofit.NetWorkException;
+import cn.com.wh.ring.network.service.Services;
 import cn.com.wh.ring.ui.activity.base.DarkStatusBarActivity;
+import cn.com.wh.ring.ui.fragment.main.MainTopicFragment;
 import cn.com.wh.ring.ui.fragment.main.MainFindFragment;
-import cn.com.wh.ring.ui.fragment.main.MainHelpFragment;
 import cn.com.wh.ring.ui.fragment.main.MainHomeFragment;
 import cn.com.wh.ring.ui.fragment.main.MainMeFragment;
+import cn.com.wh.ring.utils.LogUtils;
 import cn.com.wh.ring.utils.ToastUtils;
+import retrofit2.Call;
 
 public class MainActivity extends DarkStatusBarActivity {
+    private static final String TAG = MainActivity.class.getName();
     private static final String SAVE_STATE_KEY_PAGE_ADAPTER = "pagerAdapter";
 
     @BindView(R.id.unTouchViewPager)
@@ -56,9 +68,9 @@ public class MainActivity extends DarkStatusBarActivity {
             if (position == 0) {
                 className = MainHomeFragment.class.getName();
             } else if (position == 1) {
-                className = MainHelpFragment.class.getName();
-            } else if (position == 2) {
                 className = MainFindFragment.class.getName();
+            } else if (position == 2) {
+                className = MainTopicFragment.class.getName();
             } else {
                 className = MainMeFragment.class.getName();
             }
@@ -108,13 +120,15 @@ public class MainActivity extends DarkStatusBarActivity {
         mLocationClient = new AMapLocationClient(getApplicationContext());
         AMapLocationListener mAMapLocationListener = new AMapLocationListener() {
             @Override
-            public void onLocationChanged(AMapLocation amapLocation) {
+            public void onLocationChanged(final AMapLocation amapLocation) {
                 if (amapLocation != null) {
                     if (amapLocation.getErrorCode() == 0) {
                         //解析定位结果
-                        ToastUtils.showShortToast(amapLocation.getAdCode());
+                        if (DataCenter.getInstance().isLogin()) {
+                            updateUserAddress(amapLocation.getCity());
+                        }
                     } else {
-                        ToastUtils.showShortToast("" + amapLocation.getErrorCode());
+                        LogUtils.logV(TAG, "定位失败错误码 = " + amapLocation.getErrorCode());
                     }
                 }
                 mLocationClient.stopLocation();
@@ -122,6 +136,29 @@ public class MainActivity extends DarkStatusBarActivity {
         };
         mLocationClient.setLocationListener(mAMapLocationListener);
         mLocationClient.startLocation();
+    }
+
+    private void updateUserAddress(final String city) {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setAddressCode(city);
+        Call<Response<Object>> call = Services.userService.uploadUserInfo(userInfo);
+        call.enqueue(new ListenerCallBack<Object>(MainActivity.this) {
+            @Override
+            public void onSuccess(Object o) {
+                UserInfoDao userInfoDao = MainApplication.getInstance().getDaoSession().getUserInfoDao();
+                List<UserInfo> userInfoList = userInfoDao.queryBuilder().list();
+                if (userInfoList.size() > 0) {
+                    UserInfo dbUserInfo = userInfoList.get(0);
+                    dbUserInfo.setAddressCode(city);
+                    userInfoDao.update(dbUserInfo);
+                    EventBus.getDefault().post(new UserInfoEvent());
+                }
+            }
+
+            @Override
+            public void onFailure(NetWorkException e) {
+            }
+        });
     }
 
     private void initView(Bundle savedInstanceState) {
@@ -161,8 +198,8 @@ public class MainActivity extends DarkStatusBarActivity {
         mViewPager.setCurrentItem(0, false);
     }
 
-    @OnClick(R.id.bottom_activity_ll)
-    void onActivity() {
+    @OnClick(R.id.bottom_find_ll)
+    void onFind() {
         mViewPager.setCurrentItem(1, false);
     }
 
@@ -173,8 +210,8 @@ public class MainActivity extends DarkStatusBarActivity {
         }
     }
 
-    @OnClick(R.id.bottom_find_ll)
-    void onFind() {
+    @OnClick(R.id.bottom_topic_ll)
+    void onTopic() {
         mViewPager.setCurrentItem(2, false);
     }
 

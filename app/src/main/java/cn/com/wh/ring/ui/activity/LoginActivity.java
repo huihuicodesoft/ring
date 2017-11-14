@@ -51,7 +51,7 @@ public class LoginActivity extends TitleActivity {
             } else {
                 onBackPressed();
             }
-        } else if (requestCode == REQUEST_CODE_LOGIN_MOBILE){
+        } else if (requestCode == REQUEST_CODE_LOGIN_MOBILE && resultCode == RESULT_OK){
             finish();
         }
     }

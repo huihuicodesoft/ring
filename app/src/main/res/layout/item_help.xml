@@ -8,7 +8,7 @@
     android:paddingBottom="10dp"
     android:paddingTop="10dp">
 
-    <include layout="@layout/item_info_bar" />
+    <include layout="@layout/item_post_user_bar" />
 
     <TextView
         android:id="@+id/content_tv"

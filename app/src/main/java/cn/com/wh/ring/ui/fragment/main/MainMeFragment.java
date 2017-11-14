@@ -36,16 +36,19 @@ import cn.com.wh.ring.ui.activity.MeInteractionActivity;
 import cn.com.wh.ring.ui.activity.MeMessageActivity;
 import cn.com.wh.ring.ui.activity.SettingActivity;
 import cn.com.wh.ring.ui.activity.base.DarkStatusBarActivity;
-import cn.com.wh.ring.ui.fragment.base.TitleFragment;
+import cn.com.wh.ring.ui.fragment.base.ButterKnifeFragment;
 import cn.com.wh.ring.utils.LogUtils;
+import cn.com.wh.ring.utils.SystemBarUtils;
 
 /**
  * Created by Hui on 2017/7/13.
  */
 
-public class MainMeFragment extends TitleFragment {
+public class MainMeFragment extends ButterKnifeFragment {
     private static final String TAG = MainMeFragment.class.getName();
 
+    @BindView(R.id.statusBar)
+    View mStatusBar;
     @BindView(R.id.me_info_ll)
     LinearLayout mInfoLl;
     @BindView(R.id.me_nickname_tv)
@@ -65,25 +68,15 @@ public class MainMeFragment extends TitleFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = super.onCreateView(inflater, container, savedInstanceState);
+        View root = inflater.inflate(R.layout.fragment_main_me, container, false);
         unbinder = ButterKnife.bind(this, root);
         EventBus.getDefault().register(this);
+        initStatusBar();
         return root;
     }
 
-    @Override
-    public View getTitleView() {
-        return null;
-    }
-
-    @Override
-    public View getContentView() {
-        return View.inflate(getContext(), R.layout.fragment_main_me, null);
-    }
-
-    @Override
     public void initStatusBar() {
-        super.initStatusBar();
+        SystemBarUtils.initStatusBarHeight(getResources(), mStatusBar);
         if (getActivity() != null && getActivity() instanceof DarkStatusBarActivity) {
             mStatusBar.setBackgroundColor(((DarkStatusBarActivity) getActivity()).isStatusBarDark ?
                     getResources().getColor(R.color.status_white) : getResources().getColor(R.color.status_gray));
