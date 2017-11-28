@@ -98,7 +98,8 @@ public class MainActivity extends DarkStatusBarActivity {
     private void requestPermission() {
         AndPermission.with(this)
                 .requestCode(200)
-                .permission(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+                .permission(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.READ_PHONE_STATE)
                 .callback(new PermissionListener() {
                     @Override
                     public void onSucceed(int requestCode, List<String> grantedPermissions) {

@@ -1,8 +1,8 @@
 package cn.com.wh.ring.utils;
 
-import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.net.wifi.WifiManager;
+import android.telephony.TelephonyManager;
 
 import java.util.UUID;
 
@@ -13,8 +13,23 @@ import cn.com.wh.ring.MainApplication;
  */
 
 public class TerminalMarkUtils {
+
     /**
-     * wifi
+     * 获取IMEI
+     *
+     * @return
+     */
+    public static String getImei() {
+        String result = null;
+        if (MainApplication.getInstance() != null) {
+            result = ((TelephonyManager) MainApplication.getInstance().getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE))
+                    .getDeviceId();
+        }
+        return result;
+    }
+
+    /**
+     * mac地址
      *
      * @return
      */
@@ -25,15 +40,6 @@ public class TerminalMarkUtils {
             result = wm.getConnectionInfo().getMacAddress();
         }
         return result;
-    }
-
-    /**
-     * 蓝牙
-     *
-     * @return
-     */
-    public static String getBluetoothAddress() {
-        return BluetoothAdapter.getDefaultAdapter().getAddress();
     }
 
     /**
