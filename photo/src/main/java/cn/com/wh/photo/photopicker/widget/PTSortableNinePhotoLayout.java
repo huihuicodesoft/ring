@@ -19,8 +19,14 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
+import android.support.annotation.RestrictTo;
+import android.support.v4.os.ParcelableCompat;
+import android.support.v4.os.ParcelableCompatCreatorCallbacks;
+import android.support.v4.view.AbsSavedState;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,6 +37,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cn.com.wh.photo.R;
 import cn.com.wh.photo.adapter.RecyclerViewAdapter;
@@ -38,11 +45,12 @@ import cn.com.wh.photo.adapter.RecyclerViewHolder;
 import cn.com.wh.photo.adapter.ViewHolderHelper;
 import cn.com.wh.photo.adapter.listener.OnItemChildClickListener;
 import cn.com.wh.photo.adapter.listener.OnRVItemClickListener;
+import cn.com.wh.photo.photopicker.decoration.SpaceItemDecoration;
 import cn.com.wh.photo.photopicker.imageloader.Image;
 import cn.com.wh.photo.photopicker.util.FileTypeUtils;
 import cn.com.wh.photo.photopicker.util.PhotoPickerUtils;
-import cn.com.wh.photo.photopicker.decoration.SpaceItemDecoration;
 
+import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
 import static android.support.v7.widget.helper.ItemTouchHelper.ACTION_STATE_IDLE;
 
 /**
@@ -465,10 +473,10 @@ public class PTSortableNinePhotoLayout extends RecyclerView implements OnItemChi
                 }
                 Image.display(helper.getImageView(R.id.iv_item_nine_photo_photo), mPlaceholderDrawableResId, model, mImageSize);
                 if (FileTypeUtils.isGif(model)) {
-                    helper.setVisibility(R.id.iv_item_nine_photo_photo_type,View.VISIBLE);
+                    helper.setVisibility(R.id.iv_item_nine_photo_photo_type, View.VISIBLE);
                     helper.setImageResource(R.id.iv_item_nine_photo_photo_type, R.mipmap.ic_delete);
                 } else {
-                    helper.setVisibility(R.id.iv_item_nine_photo_photo_type,View.GONE);
+                    helper.setVisibility(R.id.iv_item_nine_photo_photo_type, View.GONE);
                 }
             }
         }
@@ -533,11 +541,127 @@ public class PTSortableNinePhotoLayout extends RecyclerView implements OnItemChi
         }
     }
 
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+        SavedState savedState = new SavedState(superState);
+        savedState.booleanArray =  new boolean[]{mPlusEnable, mSortable, mDeleteDrawableOverlapQuarter, mEditable};
+        savedState.deleteDrawableResId = mDeleteDrawableResId;
+        savedState.photoTopRightMargin = mPhotoTopRightMargin;
+        savedState.maxItemCount = mMaxItemCount;
+        savedState.itemSpanCount = mItemSpanCount;
+        savedState.plusDrawableResId = mPlusDrawableResId;
+        savedState.itemCornerRadius = mItemCornerRadius;
+        savedState.itemWhiteSpacing = mItemWhiteSpacing;
+        savedState.otherWhiteSpacing = mOtherWhiteSpacing;
+        savedState.placeholderDrawableResId = mPlaceholderDrawableResId;
+        savedState.itemWidth = mItemWidth;
+        savedState.data = mPhotoAdapter.getData();
+        return savedState;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        SavedState savedState = (SavedState) state;
+        super.onRestoreInstanceState(savedState.getSuperState());
+        mPlusEnable = savedState.booleanArray[0];
+        mSortable = savedState.booleanArray[1];
+        mDeleteDrawableOverlapQuarter = savedState.booleanArray[2];
+        mEditable = savedState.booleanArray[3];
+        mDeleteDrawableResId = savedState.deleteDrawableResId;
+        mMaxItemCount = savedState.maxItemCount;
+        mItemSpanCount = savedState.itemSpanCount;
+        mItemWidth = savedState.itemWidth;
+        mItemCornerRadius = savedState.itemCornerRadius;
+        mPlusDrawableResId = savedState.plusDrawableResId;
+        mItemWhiteSpacing = savedState.itemWhiteSpacing;
+        mPlaceholderDrawableResId = savedState.placeholderDrawableResId;
+        mOtherWhiteSpacing = savedState.otherWhiteSpacing;
+        setData((ArrayList<String>)savedState.data);
+    }
+
     public interface Delegate {
         void onClickAddNinePhotoItem(PTSortableNinePhotoLayout sortableNinePhotoLayout, View view, int position, ArrayList<String> models);
 
         void onClickDeleteNinePhotoItem(PTSortableNinePhotoLayout sortableNinePhotoLayout, View view, int position, String model, ArrayList<String> models);
 
         void onClickNinePhotoItem(PTSortableNinePhotoLayout sortableNinePhotoLayout, View view, int position, String model, ArrayList<String> models);
+    }
+
+    /**
+     * This is public so that the CREATOR can be access on cold launch.
+     *
+     * @hide
+     */
+    @RestrictTo(LIBRARY_GROUP)
+    public static class SavedState extends AbsSavedState {
+        private boolean[] booleanArray = new boolean[4];
+        private int deleteDrawableResId;
+        private int photoTopRightMargin;
+        private int maxItemCount;
+        private int itemSpanCount;
+        private int plusDrawableResId;
+        private int itemCornerRadius;
+        private int itemWhiteSpacing;
+        private int otherWhiteSpacing;
+        private int placeholderDrawableResId;
+        private int itemWidth;
+        private List data = new ArrayList();
+
+        /**
+         * called by CREATOR
+         */
+        SavedState(Parcel in, ClassLoader loader) {
+            super(in, loader);
+            in.readBooleanArray(booleanArray);
+            deleteDrawableResId = in.readInt();
+            photoTopRightMargin = in.readInt();
+            maxItemCount = in.readInt();
+            itemSpanCount = in.readInt();
+            plusDrawableResId = in.readInt();
+            itemCornerRadius = in.readInt();
+            itemWhiteSpacing = in.readInt();
+            otherWhiteSpacing = in.readInt();
+            placeholderDrawableResId = in.readInt();
+            itemWidth = in.readInt();
+            in.readList(data, loader);
+        }
+
+        /**
+         * Called by onSaveInstanceState
+         */
+        SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            super.writeToParcel(dest, flags);
+            dest.writeBooleanArray(booleanArray);
+            dest.writeInt(deleteDrawableResId);
+            dest.writeInt(photoTopRightMargin);
+            dest.writeInt(maxItemCount);
+            dest.writeInt(itemSpanCount);
+            dest.writeInt(plusDrawableResId);
+            dest.writeInt(itemCornerRadius);
+            dest.writeInt(itemWhiteSpacing);
+            dest.writeInt(otherWhiteSpacing);
+            dest.writeInt(placeholderDrawableResId);
+            dest.writeInt(itemWidth);
+            dest.writeList(data);
+        }
+
+        public static final Creator<SavedState> CREATOR = ParcelableCompat.newCreator(
+                new ParcelableCompatCreatorCallbacks<SavedState>() {
+                    @Override
+                    public SavedState createFromParcel(Parcel in, ClassLoader loader) {
+                        return new SavedState(in, loader);
+                    }
+
+                    @Override
+                    public SavedState[] newArray(int size) {
+                        return new SavedState[size];
+                    }
+                });
     }
 }
