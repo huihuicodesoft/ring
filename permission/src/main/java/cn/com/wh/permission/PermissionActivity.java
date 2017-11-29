@@ -22,6 +22,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 /**
  * <p>Request permission.</p>
@@ -40,6 +43,7 @@ public final class PermissionActivity extends Activity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        initActivity(this);
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         String[] permissions = intent.getStringArrayExtra(KEY_INPUT_PERMISSIONS);
@@ -59,5 +63,29 @@ public final class PermissionActivity extends Activity {
 
     interface PermissionListener {
         void onRequestPermissionsResult(@NonNull String[] permissions, @NonNull int[] grantResults);
+    }
+
+    /**
+     * 设置activity全屏,状态栏透明（4.4以上）
+     *
+     * @param activity
+     */
+    private void initActivity(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            //设置全屏
+            activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+            activity.getWindow().setStatusBarColor(activity.getResources().getColor(android.R.color.transparent));
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                //4.4以上
+                Window win = activity.getWindow();
+                WindowManager.LayoutParams winParams = win.getAttributes();
+                final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS; //魅族手机会变灰
+                winParams.flags |= bits;
+                win.setAttributes(winParams);
+            }
+        }
     }
 }
