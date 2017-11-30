@@ -25,7 +25,9 @@ public class PostPublish {
     private String type;
     private Boolean anonymous;
     private Integer state;
-    private String addressCode;
+    private String region;
+    private Double lng;
+    private Double lat;
     private long time;
 
     @Generated(hash = 521198697)
@@ -36,9 +38,9 @@ public class PostPublish {
         this.id = id;
     }
 
-    @Generated(hash = 519946840)
-    public PostPublish(Long id, @NotNull String token, String content, String mediaContent, @NotNull String type, Boolean anonymous, Integer state,
-            String addressCode, long time) {
+    @Generated(hash = 1119546552)
+    public PostPublish(Long id, @NotNull String token, String content, String mediaContent, @NotNull String type, Boolean anonymous, Integer state, String region, Double lng,
+            Double lat, long time) {
         this.id = id;
         this.token = token;
         this.content = content;
@@ -46,7 +48,9 @@ public class PostPublish {
         this.type = type;
         this.anonymous = anonymous;
         this.state = state;
-        this.addressCode = addressCode;
+        this.region = region;
+        this.lng = lng;
+        this.lat = lat;
         this.time = time;
     }
 
@@ -110,12 +114,28 @@ public class PostPublish {
         this.state = state;
     }
 
-    public String getAddressCode() {
-        return addressCode;
+    public String getRegion() {
+        return region;
     }
 
-    public void setAddressCode(String addressCode) {
-        this.addressCode = addressCode;
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public Double getLng() {
+        return lng;
+    }
+
+    public void setLng(Double lng) {
+        this.lng = lng;
+    }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
     }
 
     public long getTime() {

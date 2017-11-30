@@ -8,6 +8,7 @@ public class LoginMobile {
     private String mobile;
     private String password;
     private TerminalDetailInfo terminalDetailInfo;
+    private Address address;
 
     public String getMobile() {
         return mobile;
@@ -31,5 +32,13 @@ public class LoginMobile {
 
     public void setTerminalDetailInfo(TerminalDetailInfo terminalDetailInfo) {
         this.terminalDetailInfo = terminalDetailInfo;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }

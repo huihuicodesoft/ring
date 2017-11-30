@@ -1,6 +1,8 @@
 package cn.com.wh.ring;
 
 import android.app.Application;
+import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import org.greenrobot.greendao.database.Database;
 
@@ -30,6 +32,12 @@ public class MainApplication extends Application {
         Database db = ENCRYPTED ? helper.getEncryptedWritableDb("super-secret") : helper.getWritableDb();
         daoSession = new DaoMaster(db).newSession();
 
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
     public DaoSession getDaoSession() {

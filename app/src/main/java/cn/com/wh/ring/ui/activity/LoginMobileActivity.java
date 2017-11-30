@@ -2,6 +2,7 @@ package cn.com.wh.ring.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -9,6 +10,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.amap.api.location.AMapLocation;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -22,6 +25,8 @@ import cn.com.wh.ring.database.bean.UserInfo;
 import cn.com.wh.ring.database.dao.UserInfoDao;
 import cn.com.wh.ring.database.sp.DataCenter;
 import cn.com.wh.ring.event.UserInfoEvent;
+import cn.com.wh.ring.helper.LocationHelper;
+import cn.com.wh.ring.network.request.Address;
 import cn.com.wh.ring.network.request.LoginMobile;
 import cn.com.wh.ring.network.request.TerminalDetailInfo;
 import cn.com.wh.ring.network.response.LoginUser;
@@ -50,6 +55,9 @@ public class LoginMobileActivity extends TitleActivity {
     @BindView(R.id.login_tv)
     TextView mLoginTv;
 
+    private static final String SAVE_KEY_MAP = "save_key_map";
+    private AMapLocation mAmapLocation;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +66,26 @@ public class LoginMobileActivity extends TitleActivity {
         unbinder = ButterKnife.bind(this);
 
         initListener();
+
+        LocationHelper.location(getApplicationContext(), new LocationHelper.AMapLocationAdapter() {
+            @Override
+            public void onSuccess(AMapLocation amapLocation) {
+                mAmapLocation = amapLocation;
+            }
+        });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mAmapLocation != null)
+            outState.putParcelable(SAVE_KEY_MAP, mAmapLocation);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mAmapLocation = savedInstanceState.getParcelable(SAVE_KEY_MAP);
     }
 
     private void initListener() {
@@ -90,14 +118,18 @@ public class LoginMobileActivity extends TitleActivity {
         String password = mPasswordEt.getText().toString();
 
         TerminalDetailInfo terminalDetailInfo = new TerminalDetailInfo();
-        terminalDetailInfo.setModel(android.os.Build.MODEL);
-        terminalDetailInfo.setSdk(String.valueOf(android.os.Build.VERSION.SDK_INT));
-        terminalDetailInfo.setSystem(android.os.Build.VERSION.RELEASE);
+        terminalDetailInfo.setModel(Build.MODEL);
+        terminalDetailInfo.setSdk(String.valueOf(Build.VERSION.SDK_INT));
+        terminalDetailInfo.setSystem(Build.VERSION.RELEASE);
 
         LoginMobile loginMobile = new LoginMobile();
         loginMobile.setMobile(mobile);
         loginMobile.setPassword(RSAUtils.encrypt(password));
         loginMobile.setTerminalDetailInfo(terminalDetailInfo);
+
+        if (mAmapLocation != null) {
+            loginMobile.setAddress(new Address(mAmapLocation));
+        }
 
         Call<Response<LoginUser>> call = Services.accountService.loginMobile(loginMobile);
         call.enqueue(new ListenerCallBack<LoginUser>(this) {
@@ -148,5 +180,15 @@ public class LoginMobileActivity extends TitleActivity {
         Intent intent = new Intent(context, LoginMobileActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
     }
 }

@@ -8,7 +8,7 @@ import java.util.List;
 public class PostPublish {
     private String description;
     private List<String> mediaContent;
-    private String addressCode;
+    private Address address;
     private int postType;
     private boolean anonymous;
 
@@ -28,12 +28,12 @@ public class PostPublish {
         this.mediaContent = mediaContent;
     }
 
-    public String getAddressCode() {
-        return addressCode;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setAddressCode(String addressCode) {
-        this.addressCode = addressCode;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public int getPostType() {

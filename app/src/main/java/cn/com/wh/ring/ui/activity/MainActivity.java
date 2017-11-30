@@ -11,9 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
-import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
-import com.amap.api.location.AMapLocationListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -26,26 +24,16 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.wh.permission.AndPermission;
 import cn.com.wh.permission.PermissionListener;
-import cn.com.wh.ring.MainApplication;
 import cn.com.wh.ring.R;
-import cn.com.wh.ring.database.bean.UserInfo;
-import cn.com.wh.ring.database.dao.UserInfoDao;
-import cn.com.wh.ring.database.sp.DataCenter;
 import cn.com.wh.ring.event.PostPublishEvent;
-import cn.com.wh.ring.event.UserInfoEvent;
+import cn.com.wh.ring.helper.LocationHelper;
 import cn.com.wh.ring.helper.LoginHelper;
-import cn.com.wh.ring.network.response.Response;
-import cn.com.wh.ring.network.retrofit.ListenerCallBack;
-import cn.com.wh.ring.network.retrofit.NetWorkException;
-import cn.com.wh.ring.network.service.Services;
 import cn.com.wh.ring.ui.activity.base.DarkStatusBarActivity;
-import cn.com.wh.ring.ui.fragment.main.MainTopicFragment;
 import cn.com.wh.ring.ui.fragment.main.MainFindFragment;
 import cn.com.wh.ring.ui.fragment.main.MainHomeFragment;
 import cn.com.wh.ring.ui.fragment.main.MainMeFragment;
-import cn.com.wh.ring.utils.LogUtils;
+import cn.com.wh.ring.ui.fragment.main.MainTopicFragment;
 import cn.com.wh.ring.utils.ToastUtils;
-import retrofit2.Call;
 
 public class MainActivity extends DarkStatusBarActivity {
     private static final String TAG = MainActivity.class.getName();
@@ -104,7 +92,8 @@ public class MainActivity extends DarkStatusBarActivity {
                     @Override
                     public void onSucceed(int requestCode, List<String> grantedPermissions) {
                         if (requestCode == 200) {
-                            location();
+                            LocationHelper.location(getApplicationContext(), new LocationHelper.AMapLocationAdapter() {
+                            });
                         }
                     }
 
@@ -115,51 +104,6 @@ public class MainActivity extends DarkStatusBarActivity {
                         }
                     }
                 }).start();
-    }
-
-    private void location() {
-        mLocationClient = new AMapLocationClient(getApplicationContext());
-        AMapLocationListener mAMapLocationListener = new AMapLocationListener() {
-            @Override
-            public void onLocationChanged(final AMapLocation amapLocation) {
-                if (amapLocation != null) {
-                    if (amapLocation.getErrorCode() == 0) {
-                        //解析定位结果
-                        if (DataCenter.getInstance().isLogin()) {
-                            updateUserAddress(amapLocation.getCity());
-                        }
-                    } else {
-                        LogUtils.logV(TAG, "定位失败错误码 = " + amapLocation.getErrorCode());
-                    }
-                }
-                mLocationClient.stopLocation();
-            }
-        };
-        mLocationClient.setLocationListener(mAMapLocationListener);
-        mLocationClient.startLocation();
-    }
-
-    private void updateUserAddress(final String city) {
-        UserInfo userInfo = new UserInfo();
-        userInfo.setAddressCode(city);
-        Call<Response<Object>> call = Services.userService.uploadUserInfo(userInfo);
-        call.enqueue(new ListenerCallBack<Object>(MainActivity.this) {
-            @Override
-            public void onSuccess(Object o) {
-                UserInfoDao userInfoDao = MainApplication.getInstance().getDaoSession().getUserInfoDao();
-                List<UserInfo> userInfoList = userInfoDao.queryBuilder().list();
-                if (userInfoList.size() > 0) {
-                    UserInfo dbUserInfo = userInfoList.get(0);
-                    dbUserInfo.setAddressCode(city);
-                    userInfoDao.update(dbUserInfo);
-                    EventBus.getDefault().post(new UserInfoEvent());
-                }
-            }
-
-            @Override
-            public void onFailure(NetWorkException e) {
-            }
-        });
     }
 
     private void initView(Bundle savedInstanceState) {

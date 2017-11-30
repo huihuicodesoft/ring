@@ -9,6 +9,7 @@ public class LoginThird {
     private String accessToken;
     private String refreshToken;
     private TerminalDetailInfo terminalDetailInfo;
+    private Address address;
 
     public String getAccount() {
         return account;
@@ -48,5 +49,13 @@ public class LoginThird {
 
     public void setTerminalDetailInfo(TerminalDetailInfo terminalDetailInfo) {
         this.terminalDetailInfo = terminalDetailInfo;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }

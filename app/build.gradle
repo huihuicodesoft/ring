@@ -19,6 +19,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -38,6 +39,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile deps.multidex
     compile deps.appcompatv7
     compile deps.butterknife
     annotationProcessor deps.butterknife_annotationProcessor
@@ -56,4 +58,5 @@ dependencies {
     compile project(path: ':permission')
     compile project(path: ':photo')
     compile project(':banner')
+    compile 'com.google.android.gms:play-services-appindexing:8.4.0'
 }

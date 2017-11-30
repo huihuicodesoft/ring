@@ -10,6 +10,7 @@ import java.util.List;
 
 import cn.com.wh.ring.event.PostPublishEvent;
 import cn.com.wh.ring.helper.RequestHelper;
+import cn.com.wh.ring.network.request.Address;
 import cn.com.wh.ring.network.response.Post;
 import cn.com.wh.ring.network.response.PostType;
 import cn.com.wh.ring.network.response.Response;
@@ -89,7 +90,8 @@ public class PostPublishTask extends Thread {
         if (mediaContent != null)
             postPublish.setMediaContent(mediaContent);
         postPublish.setAnonymous(mPost.isAnonymous());
-        postPublish.setAddressCode(mPost.getAddressCode());
+
+        postPublish.setAddress(new Address(mAmapLocation));
 
         PostType postType = mPost.getPostType();
         if (postType != null)

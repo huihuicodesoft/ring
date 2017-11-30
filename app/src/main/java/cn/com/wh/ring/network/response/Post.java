@@ -14,7 +14,9 @@ public class Post {
     private String description;
     private List<String> mediaList;
     private PostType postType;
-    private String addressCode;
+    private String region;
+    private Double lng;
+    private Double lat;
     private int praiseNumber;
     private int criticizeNumber;
     private int commentNumber;
@@ -63,12 +65,28 @@ public class Post {
         this.postType = postType;
     }
 
-    public String getAddressCode() {
-        return addressCode;
+    public String getRegion() {
+        return region;
     }
 
-    public void setAddressCode(String addressCode) {
-        this.addressCode = addressCode;
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public Double getLng() {
+        return lng;
+    }
+
+    public void setLng(Double lng) {
+        this.lng = lng;
+    }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
     }
 
     public int getPraiseNumber() {

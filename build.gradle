@@ -38,6 +38,7 @@ ext {
 }
 
 ext.deps = [
+        multidex               : 'com.android.support:multidex:1.0.0',
         // Android
         supportv4              : 'com.android.support:support-v4:' + supportVersion,
         appcompatv7            : 'com.android.support:appcompat-v7:' + supportVersion,

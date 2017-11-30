@@ -9,11 +9,15 @@ import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.amap.api.location.AMapLocation;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import cn.com.wh.ring.R;
+import cn.com.wh.ring.helper.LocationHelper;
+import cn.com.wh.ring.network.request.Address;
 import cn.com.wh.ring.network.request.RegisterMobile;
 import cn.com.wh.ring.network.request.SmsCode;
 import cn.com.wh.ring.network.response.Response;
@@ -54,12 +58,22 @@ public class SettingPasswordActivity extends TitleActivity {
     private boolean isWaitGetVerificationCode;
     private Runnable mTimeRunnable;
 
+    private static final String SAVE_KEY_MAP = "save_key_map";
+    private AMapLocation mAmapLocation;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_password);
         unbinder = ButterKnife.bind(this);
         initView();
+
+        LocationHelper.location(getApplicationContext(), new LocationHelper.AMapLocationAdapter() {
+            @Override
+            public void onSuccess(AMapLocation amapLocation) {
+                mAmapLocation = amapLocation;
+            }
+        });
     }
 
     private void initView() {
@@ -76,6 +90,19 @@ public class SettingPasswordActivity extends TitleActivity {
                 mNextTv.setText(R.string.ok);
                 break;
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mAmapLocation != null)
+            outState.putParcelable(SAVE_KEY_MAP, mAmapLocation);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mAmapLocation = savedInstanceState.getParcelable(SAVE_KEY_MAP);
     }
 
     @OnTextChanged(R.id.password_et)
@@ -140,6 +167,9 @@ public class SettingPasswordActivity extends TitleActivity {
         registerMobile.setMobile(mobile);
         registerMobile.setPassword(RSAUtils.encrypt(password));
         registerMobile.setCode(verificationCode);
+        if (mAmapLocation != null) {
+            registerMobile.setAddress(new Address(mAmapLocation));
+        }
 
         int type = getIntent().getIntExtra(KEY_TYPE, 0);
         switch (type) {

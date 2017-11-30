@@ -7,6 +7,7 @@ public class RegisterMobile {
     private String mobile;
     private String password;
     private String code;
+    private Address address;
 
     public String getMobile() {
         return mobile;
@@ -32,4 +33,11 @@ public class RegisterMobile {
         this.code = code;
     }
 
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 }

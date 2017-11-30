@@ -31,9 +31,6 @@ public class LoginActivity extends TitleActivity {
 
         unbinder = ButterKnife.bind(this);
 
-        //清空token
-        DataCenter.getInstance().setToken(null);
-
         boolean isAgree = DataCenter.getInstance().isAgreeProtocol();
         if (!isAgree) {
             startProtocol();
@@ -88,6 +85,8 @@ public class LoginActivity extends TitleActivity {
     }
 
     public static void start(Context context) {
+        //清空token
+        DataCenter.getInstance().setToken("");
         Intent intent = new Intent(context, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);

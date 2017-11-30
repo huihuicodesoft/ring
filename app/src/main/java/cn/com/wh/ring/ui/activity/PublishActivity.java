@@ -18,6 +18,8 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
 import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
@@ -38,6 +40,7 @@ import cn.com.wh.ring.database.bean.PostPublish;
 import cn.com.wh.ring.database.dao.PostPublishDao;
 import cn.com.wh.ring.database.sp.DataCenter;
 import cn.com.wh.ring.event.PostPublishEvent;
+import cn.com.wh.ring.helper.LocationHelper;
 import cn.com.wh.ring.network.response.PostType;
 import cn.com.wh.ring.ui.activity.base.TitleActivity;
 import cn.com.wh.ring.utils.InputMethodUtils;
@@ -48,6 +51,7 @@ import cn.com.wh.ring.utils.ToastUtils;
  */
 
 public class PublishActivity extends TitleActivity implements PTSortableNinePhotoLayout.Delegate, InputMethodUtils.OnKeyBoardChangeListener {
+    private static final String TAG = PublishActivity.class.getName();
     private static final int REQUEST_CODE_SELECT_PHOTO = 0X23;
     private static final int REQUEST_CODE_PREVIEW_PHOTO = 0X24;
     private static final int REQUEST_CODE_SELECT_TYPE = 0x19;
@@ -59,6 +63,10 @@ public class PublishActivity extends TitleActivity implements PTSortableNinePhot
     private static final int FILE_STATE_IMAGE_GIF = 0x97; //选择媒体资源只有图片和GIF
     private static final int FILE_STATE_VIDEO = 0x22; //选择媒体资源只有视频
     private static final int FILE_STATE_UNKOWN = 0x21; //选择媒体资源 不支持格式
+
+    private static final String SAVE_KEY_MAP = "save_key_map";
+    private static final String SAVE_KEY_TOPIC = "save_key_topic";
+    private static final String SAVE_KEY_ANONYMOUS = "save_key_anonymous";
 
     @BindView(R.id.root_publish_rl)
     RelativeLayout mRootPublishRl;
@@ -73,8 +81,10 @@ public class PublishActivity extends TitleActivity implements PTSortableNinePhot
     @BindView(R.id.select_type_tv)
     TextView mSelectTypeTv;
 
-    InputMethodUtils mInputMethodUtils;
+    private InputMethodUtils mInputMethodUtils;
     private PostType mPostType;
+    private AMapLocationClient mLocationClient;
+    private AMapLocation mAmapLocation;
 
 
     private View.OnClickListener mPublishListener = new View.OnClickListener() {
@@ -100,6 +110,12 @@ public class PublishActivity extends TitleActivity implements PTSortableNinePhot
         postPublish.setAnonymous(mAnonymousIv.isSelected());
         postPublish.setState(PostPublish.STATE_PUBLISHING);
 
+        if (mAmapLocation != null) {
+            postPublish.setRegion(mAmapLocation.getCity());
+            postPublish.setLng(mAmapLocation.getLongitude());
+            postPublish.setLat(mAmapLocation.getAltitude());
+        }
+
         return postPublishDao.insert(postPublish);
     }
 
@@ -123,6 +139,34 @@ public class PublishActivity extends TitleActivity implements PTSortableNinePhot
         mRightTv.setText(R.string.publish);
         mRightTv.setOnClickListener(mPublishListener);
 
+        LocationHelper.location(getApplicationContext(), new LocationHelper.AMapLocationAdapter() {
+            @Override
+            public void onSuccess(AMapLocation amapLocation) {
+                mAmapLocation = amapLocation;
+            }
+        });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mAmapLocation != null) {
+            outState.putParcelable(SAVE_KEY_MAP, mAmapLocation);
+            if (mPostType != null)
+                outState.putSerializable(SAVE_KEY_TOPIC, mPostType);
+            outState.putBoolean(SAVE_KEY_ANONYMOUS, mAnonymousIv.isSelected());
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mAmapLocation = savedInstanceState.getParcelable(SAVE_KEY_MAP);
+        mPostType = (PostType) savedInstanceState.getSerializable(SAVE_KEY_TOPIC);
+        if (mPostType != null) {
+            mSelectTypeTv.setText(mPostType.getName());
+        }
+        mAnonymousIv.setSelected(savedInstanceState.getBoolean(SAVE_KEY_ANONYMOUS));
     }
 
     @OnClick(R.id.publish_content_ll)

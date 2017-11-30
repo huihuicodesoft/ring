@@ -32,8 +32,10 @@ public class PostPublishDao extends AbstractDao<PostPublish, Long> {
         public final static Property Type = new Property(4, String.class, "type", false, "TYPE");
         public final static Property Anonymous = new Property(5, Boolean.class, "anonymous", false, "ANONYMOUS");
         public final static Property State = new Property(6, Integer.class, "state", false, "STATE");
-        public final static Property AddressCode = new Property(7, String.class, "addressCode", false, "ADDRESS_CODE");
-        public final static Property Time = new Property(8, long.class, "time", false, "TIME");
+        public final static Property Region = new Property(7, String.class, "region", false, "REGION");
+        public final static Property Lng = new Property(8, Double.class, "lng", false, "LNG");
+        public final static Property Lat = new Property(9, Double.class, "lat", false, "LAT");
+        public final static Property Time = new Property(10, long.class, "time", false, "TIME");
     }
 
 
@@ -56,8 +58,10 @@ public class PostPublishDao extends AbstractDao<PostPublish, Long> {
                 "\"TYPE\" TEXT NOT NULL ," + // 4: type
                 "\"ANONYMOUS\" INTEGER," + // 5: anonymous
                 "\"STATE\" INTEGER," + // 6: state
-                "\"ADDRESS_CODE\" TEXT," + // 7: addressCode
-                "\"TIME\" INTEGER NOT NULL );"); // 8: time
+                "\"REGION\" TEXT," + // 7: region
+                "\"LNG\" REAL," + // 8: lng
+                "\"LAT\" REAL," + // 9: lat
+                "\"TIME\" INTEGER NOT NULL );"); // 10: time
     }
 
     /** Drops the underlying database table. */
@@ -97,11 +101,21 @@ public class PostPublishDao extends AbstractDao<PostPublish, Long> {
             stmt.bindLong(7, state);
         }
  
-        String addressCode = entity.getAddressCode();
-        if (addressCode != null) {
-            stmt.bindString(8, addressCode);
+        String region = entity.getRegion();
+        if (region != null) {
+            stmt.bindString(8, region);
         }
-        stmt.bindLong(9, entity.getTime());
+ 
+        Double lng = entity.getLng();
+        if (lng != null) {
+            stmt.bindDouble(9, lng);
+        }
+ 
+        Double lat = entity.getLat();
+        if (lat != null) {
+            stmt.bindDouble(10, lat);
+        }
+        stmt.bindLong(11, entity.getTime());
     }
 
     @Override
@@ -135,11 +149,21 @@ public class PostPublishDao extends AbstractDao<PostPublish, Long> {
             stmt.bindLong(7, state);
         }
  
-        String addressCode = entity.getAddressCode();
-        if (addressCode != null) {
-            stmt.bindString(8, addressCode);
+        String region = entity.getRegion();
+        if (region != null) {
+            stmt.bindString(8, region);
         }
-        stmt.bindLong(9, entity.getTime());
+ 
+        Double lng = entity.getLng();
+        if (lng != null) {
+            stmt.bindDouble(9, lng);
+        }
+ 
+        Double lat = entity.getLat();
+        if (lat != null) {
+            stmt.bindDouble(10, lat);
+        }
+        stmt.bindLong(11, entity.getTime());
     }
 
     @Override
@@ -157,8 +181,10 @@ public class PostPublishDao extends AbstractDao<PostPublish, Long> {
             cursor.getString(offset + 4), // type
             cursor.isNull(offset + 5) ? null : cursor.getShort(offset + 5) != 0, // anonymous
             cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6), // state
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // addressCode
-            cursor.getLong(offset + 8) // time
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // region
+            cursor.isNull(offset + 8) ? null : cursor.getDouble(offset + 8), // lng
+            cursor.isNull(offset + 9) ? null : cursor.getDouble(offset + 9), // lat
+            cursor.getLong(offset + 10) // time
         );
         return entity;
     }
@@ -172,8 +198,10 @@ public class PostPublishDao extends AbstractDao<PostPublish, Long> {
         entity.setType(cursor.getString(offset + 4));
         entity.setAnonymous(cursor.isNull(offset + 5) ? null : cursor.getShort(offset + 5) != 0);
         entity.setState(cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6));
-        entity.setAddressCode(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
-        entity.setTime(cursor.getLong(offset + 8));
+        entity.setRegion(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setLng(cursor.isNull(offset + 8) ? null : cursor.getDouble(offset + 8));
+        entity.setLat(cursor.isNull(offset + 9) ? null : cursor.getDouble(offset + 9));
+        entity.setTime(cursor.getLong(offset + 10));
      }
     
     @Override
