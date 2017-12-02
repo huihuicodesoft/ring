@@ -11,12 +11,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
-import com.amap.api.location.AMapLocationClient;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
 import java.util.List;
 
 import butterknife.BindView;
@@ -25,7 +19,6 @@ import butterknife.OnClick;
 import cn.com.wh.permission.AndPermission;
 import cn.com.wh.permission.PermissionListener;
 import cn.com.wh.ring.R;
-import cn.com.wh.ring.event.PostPublishEvent;
 import cn.com.wh.ring.helper.LocationHelper;
 import cn.com.wh.ring.helper.LoginHelper;
 import cn.com.wh.ring.ui.activity.base.DarkStatusBarActivity;
@@ -42,7 +35,6 @@ public class MainActivity extends DarkStatusBarActivity {
     @BindView(R.id.unTouchViewPager)
     ViewPager mViewPager;
 
-    private AMapLocationClient mLocationClient;
     private ViewPagerAdapter mViewPagerAdapter;
 
     private class ViewPagerAdapter extends FragmentStatePagerAdapter {
@@ -76,8 +68,6 @@ public class MainActivity extends DarkStatusBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         unbinder = ButterKnife.bind(this);
-        EventBus.getDefault().register(this);
-
         initView(savedInstanceState);
 
         requestPermission();
@@ -163,22 +153,6 @@ public class MainActivity extends DarkStatusBarActivity {
     @OnClick(R.id.bottom_me_ll)
     void onMe() {
         mViewPager.setCurrentItem(3, false);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(PostPublishEvent event) {
-        if (event.type == PostPublishEvent.TYPE_SKIP_ME && isTaskRoot()) {
-            if (mViewPager != null) {
-                mViewPager.setCurrentItem(4, false);
-                EventBus.getDefault().post(new PostPublishEvent(PostPublishEvent.TYPE_SKIP_POST, event.id));
-            }
-        }
     }
 
     public static void start(Context context) {

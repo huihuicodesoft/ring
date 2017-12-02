@@ -27,15 +27,14 @@ public class PostPublishDao extends AbstractDao<PostPublish, Long> {
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Token = new Property(1, String.class, "token", false, "TOKEN");
-        public final static Property Content = new Property(2, String.class, "content", false, "CONTENT");
-        public final static Property MediaContent = new Property(3, String.class, "mediaContent", false, "MEDIA_CONTENT");
-        public final static Property Type = new Property(4, String.class, "type", false, "TYPE");
-        public final static Property Anonymous = new Property(5, Boolean.class, "anonymous", false, "ANONYMOUS");
-        public final static Property State = new Property(6, Integer.class, "state", false, "STATE");
-        public final static Property Region = new Property(7, String.class, "region", false, "REGION");
-        public final static Property Lng = new Property(8, Double.class, "lng", false, "LNG");
-        public final static Property Lat = new Property(9, Double.class, "lat", false, "LAT");
-        public final static Property Time = new Property(10, long.class, "time", false, "TIME");
+        public final static Property Uuid = new Property(2, String.class, "uuid", false, "UUID");
+        public final static Property Content = new Property(3, String.class, "content", false, "CONTENT");
+        public final static Property MediaContent = new Property(4, String.class, "mediaContent", false, "MEDIA_CONTENT");
+        public final static Property Type = new Property(5, String.class, "type", false, "TYPE");
+        public final static Property Anonymous = new Property(6, Boolean.class, "anonymous", false, "ANONYMOUS");
+        public final static Property State = new Property(7, Integer.class, "state", false, "STATE");
+        public final static Property AddressId = new Property(8, Long.class, "addressId", false, "ADDRESS_ID");
+        public final static Property Time = new Property(9, long.class, "time", false, "TIME");
     }
 
 
@@ -53,15 +52,14 @@ public class PostPublishDao extends AbstractDao<PostPublish, Long> {
         db.execSQL("CREATE TABLE " + constraint + "\"POST_PUBLISH\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "\"TOKEN\" TEXT NOT NULL ," + // 1: token
-                "\"CONTENT\" TEXT," + // 2: content
-                "\"MEDIA_CONTENT\" TEXT," + // 3: mediaContent
-                "\"TYPE\" TEXT NOT NULL ," + // 4: type
-                "\"ANONYMOUS\" INTEGER," + // 5: anonymous
-                "\"STATE\" INTEGER," + // 6: state
-                "\"REGION\" TEXT," + // 7: region
-                "\"LNG\" REAL," + // 8: lng
-                "\"LAT\" REAL," + // 9: lat
-                "\"TIME\" INTEGER NOT NULL );"); // 10: time
+                "\"UUID\" TEXT NOT NULL ," + // 2: uuid
+                "\"CONTENT\" TEXT," + // 3: content
+                "\"MEDIA_CONTENT\" TEXT," + // 4: mediaContent
+                "\"TYPE\" TEXT NOT NULL ," + // 5: type
+                "\"ANONYMOUS\" INTEGER," + // 6: anonymous
+                "\"STATE\" INTEGER," + // 7: state
+                "\"ADDRESS_ID\" INTEGER," + // 8: addressId
+                "\"TIME\" INTEGER NOT NULL );"); // 9: time
     }
 
     /** Drops the underlying database table. */
@@ -79,43 +77,34 @@ public class PostPublishDao extends AbstractDao<PostPublish, Long> {
             stmt.bindLong(1, id);
         }
         stmt.bindString(2, entity.getToken());
+        stmt.bindString(3, entity.getUuid());
  
         String content = entity.getContent();
         if (content != null) {
-            stmt.bindString(3, content);
+            stmt.bindString(4, content);
         }
  
         String mediaContent = entity.getMediaContent();
         if (mediaContent != null) {
-            stmt.bindString(4, mediaContent);
+            stmt.bindString(5, mediaContent);
         }
-        stmt.bindString(5, entity.getType());
+        stmt.bindString(6, entity.getType());
  
         Boolean anonymous = entity.getAnonymous();
         if (anonymous != null) {
-            stmt.bindLong(6, anonymous ? 1L: 0L);
+            stmt.bindLong(7, anonymous ? 1L: 0L);
         }
  
         Integer state = entity.getState();
         if (state != null) {
-            stmt.bindLong(7, state);
+            stmt.bindLong(8, state);
         }
- 
-        String region = entity.getRegion();
-        if (region != null) {
-            stmt.bindString(8, region);
+
+        Long addressId = entity.getAddressId();
+        if (addressId != null) {
+            stmt.bindLong(9, addressId);
         }
- 
-        Double lng = entity.getLng();
-        if (lng != null) {
-            stmt.bindDouble(9, lng);
-        }
- 
-        Double lat = entity.getLat();
-        if (lat != null) {
-            stmt.bindDouble(10, lat);
-        }
-        stmt.bindLong(11, entity.getTime());
+        stmt.bindLong(10, entity.getTime());
     }
 
     @Override
@@ -127,43 +116,34 @@ public class PostPublishDao extends AbstractDao<PostPublish, Long> {
             stmt.bindLong(1, id);
         }
         stmt.bindString(2, entity.getToken());
+        stmt.bindString(3, entity.getUuid());
  
         String content = entity.getContent();
         if (content != null) {
-            stmt.bindString(3, content);
+            stmt.bindString(4, content);
         }
  
         String mediaContent = entity.getMediaContent();
         if (mediaContent != null) {
-            stmt.bindString(4, mediaContent);
+            stmt.bindString(5, mediaContent);
         }
-        stmt.bindString(5, entity.getType());
+        stmt.bindString(6, entity.getType());
  
         Boolean anonymous = entity.getAnonymous();
         if (anonymous != null) {
-            stmt.bindLong(6, anonymous ? 1L: 0L);
+            stmt.bindLong(7, anonymous ? 1L: 0L);
         }
  
         Integer state = entity.getState();
         if (state != null) {
-            stmt.bindLong(7, state);
+            stmt.bindLong(8, state);
         }
- 
-        String region = entity.getRegion();
-        if (region != null) {
-            stmt.bindString(8, region);
+
+        Long addressId = entity.getAddressId();
+        if (addressId != null) {
+            stmt.bindLong(9, addressId);
         }
- 
-        Double lng = entity.getLng();
-        if (lng != null) {
-            stmt.bindDouble(9, lng);
-        }
- 
-        Double lat = entity.getLat();
-        if (lat != null) {
-            stmt.bindDouble(10, lat);
-        }
-        stmt.bindLong(11, entity.getTime());
+        stmt.bindLong(10, entity.getTime());
     }
 
     @Override
@@ -176,15 +156,14 @@ public class PostPublishDao extends AbstractDao<PostPublish, Long> {
         PostPublish entity = new PostPublish( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.getString(offset + 1), // token
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // content
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // mediaContent
-            cursor.getString(offset + 4), // type
-            cursor.isNull(offset + 5) ? null : cursor.getShort(offset + 5) != 0, // anonymous
-            cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6), // state
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // region
-            cursor.isNull(offset + 8) ? null : cursor.getDouble(offset + 8), // lng
-            cursor.isNull(offset + 9) ? null : cursor.getDouble(offset + 9), // lat
-            cursor.getLong(offset + 10) // time
+            cursor.getString(offset + 2), // uuid
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // content
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // mediaContent
+            cursor.getString(offset + 5), // type
+            cursor.isNull(offset + 6) ? null : cursor.getShort(offset + 6) != 0, // anonymous
+            cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7), // state
+            cursor.isNull(offset + 8) ? null : cursor.getLong(offset + 8), // addressId
+            cursor.getLong(offset + 9) // time
         );
         return entity;
     }
@@ -193,15 +172,14 @@ public class PostPublishDao extends AbstractDao<PostPublish, Long> {
     public void readEntity(Cursor cursor, PostPublish entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setToken(cursor.getString(offset + 1));
-        entity.setContent(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setMediaContent(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setType(cursor.getString(offset + 4));
-        entity.setAnonymous(cursor.isNull(offset + 5) ? null : cursor.getShort(offset + 5) != 0);
-        entity.setState(cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6));
-        entity.setRegion(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
-        entity.setLng(cursor.isNull(offset + 8) ? null : cursor.getDouble(offset + 8));
-        entity.setLat(cursor.isNull(offset + 9) ? null : cursor.getDouble(offset + 9));
-        entity.setTime(cursor.getLong(offset + 10));
+        entity.setUuid(cursor.getString(offset + 2));
+        entity.setContent(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setMediaContent(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setType(cursor.getString(offset + 5));
+        entity.setAnonymous(cursor.isNull(offset + 6) ? null : cursor.getShort(offset + 6) != 0);
+        entity.setState(cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7));
+        entity.setAddressId(cursor.isNull(offset + 8) ? null : cursor.getLong(offset + 8));
+        entity.setTime(cursor.getLong(offset + 9));
      }
     
     @Override

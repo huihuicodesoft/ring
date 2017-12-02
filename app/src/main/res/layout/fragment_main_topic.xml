@@ -8,7 +8,7 @@
 
     <include layout="@layout/view_status_bar" />
 
-    <com.flyco.tablayout.SlidingTabLayout
+    <cn.com.wh.tablelayout.SlidingTabLayout
         android:id="@+id/slidingTabLayout"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/title_height"

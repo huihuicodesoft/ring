@@ -36,7 +36,9 @@ import cn.com.wh.photo.photopicker.util.FileTypeUtils;
 import cn.com.wh.photo.photopicker.widget.PTSortableNinePhotoLayout;
 import cn.com.wh.ring.MainApplication;
 import cn.com.wh.ring.R;
+import cn.com.wh.ring.database.bean.Address;
 import cn.com.wh.ring.database.bean.PostPublish;
+import cn.com.wh.ring.database.dao.AddressDao;
 import cn.com.wh.ring.database.dao.PostPublishDao;
 import cn.com.wh.ring.database.sp.DataCenter;
 import cn.com.wh.ring.event.PostPublishEvent;
@@ -44,6 +46,7 @@ import cn.com.wh.ring.helper.LocationHelper;
 import cn.com.wh.ring.network.response.PostType;
 import cn.com.wh.ring.ui.activity.base.TitleActivity;
 import cn.com.wh.ring.utils.InputMethodUtils;
+import cn.com.wh.ring.utils.TerminalMarkUtils;
 import cn.com.wh.ring.utils.ToastUtils;
 
 /**
@@ -101,19 +104,22 @@ public class PublishActivity extends TitleActivity implements PTSortableNinePhot
         PostPublishDao postPublishDao = MainApplication.getInstance().getDaoSession().getPostPublishDao();
         PostPublish postPublish = new PostPublish();
         postPublish.setToken(DataCenter.getInstance().getToken());
+        postPublish.setUuid(TerminalMarkUtils.getUUID());
         postPublish.setContent(getContent());
 
         List<String> list = mPTSortableNinePhotoLayout.getData();
-        postPublish.setMediaContent(new Gson().toJson(list));
-        postPublish.setType(new Gson().toJson(mPostType));
+        Gson gson = new Gson();
+        postPublish.setMediaContent(gson.toJson(list));
+        postPublish.setType(gson.toJson(mPostType));
         postPublish.setTime(System.currentTimeMillis());
         postPublish.setAnonymous(mAnonymousIv.isSelected());
         postPublish.setState(PostPublish.STATE_PUBLISHING);
 
         if (mAmapLocation != null) {
-            postPublish.setRegion(mAmapLocation.getCity());
-            postPublish.setLng(mAmapLocation.getLongitude());
-            postPublish.setLat(mAmapLocation.getAltitude());
+            AddressDao addressDao = MainApplication.getInstance().getDaoSession().getAddressDao();
+            Address address = new Address(mAmapLocation);
+            long addressId = addressDao.insertOrReplace(address);
+            postPublish.setAddressId(addressId);
         }
 
         return postPublishDao.insert(postPublish);

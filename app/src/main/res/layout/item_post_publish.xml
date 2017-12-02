@@ -28,7 +28,6 @@
         android:textColor="@color/font_black"
         android:textSize="18sp" />
 
-
     <cn.com.wh.photo.photopicker.widget.PTNinePhotoLayout
         android:id="@+id/ptSortableNinePhotoLayout"
         android:layout_width="match_parent"
@@ -36,6 +35,12 @@
         app:npl_otherWhiteSpacing="50dp"
         app:npl_showAsLargeWhenOnlyOne="false" />
 
+    <TextView
+        android:id="@+id/address_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/font_black"
+        android:textSize="18sp" />
 
     <include layout="@layout/item_handler_bar" />
 

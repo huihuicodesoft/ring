@@ -52,11 +52,11 @@ dependencies {
     compile deps.converter_gson
     compile deps.logging_interceptor
     compile deps.okhttp
-    compile deps.flycoTabLayout
     compile deps.dialog
     compile deps.thumbnailator
     compile project(path: ':permission')
     compile project(path: ':photo')
     compile project(':banner')
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
+    compile project(':tablelayout')
 }

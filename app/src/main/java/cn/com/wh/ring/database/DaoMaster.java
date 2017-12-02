@@ -12,6 +12,7 @@ import org.greenrobot.greendao.database.StandardDatabase;
 import org.greenrobot.greendao.identityscope.IdentityScopeType;
 
 import cn.com.wh.ring.MainApplication;
+import cn.com.wh.ring.database.dao.AddressDao;
 import cn.com.wh.ring.database.dao.PostPublishDao;
 import cn.com.wh.ring.database.dao.UserInfoDao;
 import cn.com.wh.ring.helper.MigrationHelper;
@@ -27,12 +28,14 @@ public class DaoMaster extends AbstractDaoMaster {
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(Database db, boolean ifNotExists) {
         PostPublishDao.createTable(db, ifNotExists);
+        AddressDao.createTable(db, ifNotExists);
         UserInfoDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
     public static void dropAllTables(Database db, boolean ifExists) {
         PostPublishDao.dropTable(db, ifExists);
+        AddressDao.dropTable(db, ifExists);
         UserInfoDao.dropTable(db, ifExists);
     }
 
@@ -53,6 +56,7 @@ public class DaoMaster extends AbstractDaoMaster {
     public DaoMaster(Database db) {
         super(db, SCHEMA_VERSION);
         registerDaoClass(PostPublishDao.class);
+        registerDaoClass(AddressDao.class);
         registerDaoClass(UserInfoDao.class);
     }
 
@@ -97,6 +101,7 @@ public class DaoMaster extends AbstractDaoMaster {
         public void onUpgrade(Database db, int oldVersion, int newVersion) {
             Log.i("greenDAO", "Upgrading schema from version " + oldVersion + " to " + newVersion + " by dropping all tables");
             MigrationHelper.getInstance().migrate(db, PostPublishDao.class);
+            MigrationHelper.getInstance().migrate(db, AddressDao.class);
             MigrationHelper.getInstance().migrate(db, UserInfoDao.class);
         }
     }

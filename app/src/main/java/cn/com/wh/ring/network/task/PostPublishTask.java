@@ -2,16 +2,20 @@ package cn.com.wh.ring.network.task;
 
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
+
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import cn.com.wh.ring.MainApplication;
+import cn.com.wh.ring.database.bean.Address;
+import cn.com.wh.ring.database.bean.PostPublish;
+import cn.com.wh.ring.database.dao.AddressDao;
 import cn.com.wh.ring.event.PostPublishEvent;
 import cn.com.wh.ring.helper.RequestHelper;
-import cn.com.wh.ring.network.request.Address;
-import cn.com.wh.ring.network.response.Post;
 import cn.com.wh.ring.network.response.PostType;
 import cn.com.wh.ring.network.response.Response;
 import cn.com.wh.ring.network.retrofit.ReturnCode;
@@ -27,20 +31,20 @@ import retrofit2.Call;
 public class PostPublishTask extends Thread {
     private static final String TAG = PostPublishTask.class.getName();
 
-    private Post mPost;
+    private PostPublish mPostPublish;
 
 
-    public PostPublishTask(Post post) {
+    public PostPublishTask(PostPublish postPublish) {
         super();
-        this.mPost = post;
+        this.mPostPublish = postPublish;
     }
 
     @Override
     public void run() {
-        if (mPost == null)
+        if (mPostPublish == null)
             return;
 
-        List<String> mediaList = mPost.getMediaList();
+        List<String> mediaList = new Gson().fromJson(mPostPublish.getMediaContent(), List.class);
         if (mediaList == null || mediaList.isEmpty()) {
             postPublish(null);
         } else {
@@ -86,14 +90,16 @@ public class PostPublishTask extends Thread {
 
     private void postPublish(List<String> mediaContent) {
         cn.com.wh.ring.network.request.PostPublish postPublish = new cn.com.wh.ring.network.request.PostPublish();
-        postPublish.setDescription(mPost.getDescription());
+        postPublish.setDescription(mPostPublish.getContent());
+        postPublish.setAnonymous(mPostPublish.getAnonymous());
         if (mediaContent != null)
             postPublish.setMediaContent(mediaContent);
-        postPublish.setAnonymous(mPost.isAnonymous());
 
-        postPublish.setAddress(new Address(mAmapLocation));
+        AddressDao addressDao = MainApplication.getInstance().getDaoSession().getAddressDao();
+        Address address = addressDao.queryRaw("where _id = ?", new String[]{String.valueOf(mPostPublish.getId())}).get(0);
+        postPublish.setAddress(new cn.com.wh.ring.network.request.Address(address));
 
-        PostType postType = mPost.getPostType();
+        PostType postType = new Gson().fromJson(mPostPublish.getType(), PostType.class);
         if (postType != null)
             postPublish.setPostType(postType.getId());
 
@@ -104,18 +110,18 @@ public class PostPublishTask extends Thread {
                 Response<Object> temp = response.body();
                 if (temp != null && temp.getCode() == ReturnCode.OK) {
                     //发布成功
-                    EventBus.getDefault().post(new PostPublishEvent(PostPublishEvent.TYPE_REQUEST_SUCCESS, mPost.getId()));
+                    EventBus.getDefault().post(new PostPublishEvent(PostPublishEvent.TYPE_REQUEST_SUCCESS, mPostPublish.getId()));
                 } else {
                     //发布失败
-                    EventBus.getDefault().post(new PostPublishEvent(PostPublishEvent.TYPE_REQUEST_FAIL, mPost.getId()));
+                    EventBus.getDefault().post(new PostPublishEvent(PostPublishEvent.TYPE_REQUEST_FAIL, mPostPublish.getId()));
                 }
             } else {
                 //发布失败
-                EventBus.getDefault().post(new PostPublishEvent(PostPublishEvent.TYPE_REQUEST_FAIL, mPost.getId()));
+                EventBus.getDefault().post(new PostPublishEvent(PostPublishEvent.TYPE_REQUEST_FAIL, mPostPublish.getId()));
             }
         } catch (Exception e) {
             //发布失败
-            EventBus.getDefault().post(new PostPublishEvent(PostPublishEvent.TYPE_REQUEST_FAIL, mPost.getId()));
+            EventBus.getDefault().post(new PostPublishEvent(PostPublishEvent.TYPE_REQUEST_FAIL, mPostPublish.getId()));
         }
     }
 }

@@ -14,10 +14,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.wh.photo.photopicker.widget.PTNinePhotoLayout;
 import cn.com.wh.ring.R;
-import cn.com.wh.ring.database.bean.PostPublish;
 import cn.com.wh.ring.network.response.Post;
+import cn.com.wh.ring.network.response.PostPublish;
 import cn.com.wh.ring.network.response.PostType;
-import cn.com.wh.ring.network.task.PostPublishTask;
 import cn.com.wh.ring.utils.NumberUtils;
 import cn.com.wh.ring.utils.TimeUtils;
 
@@ -26,10 +25,10 @@ import cn.com.wh.ring.utils.TimeUtils;
  */
 
 public class PostPublishAdapter extends RecyclerView.Adapter<PostPublishAdapter.ViewHolder> {
-    private List<Post> mData;
+    private List<PostPublish> mData;
     private OnItemClickListener mOnItemClickListener;
 
-    public PostPublishAdapter(List<Post> data) {
+    public PostPublishAdapter(List<PostPublish> data) {
         mData = data;
     }
 
@@ -48,19 +47,15 @@ public class PostPublishAdapter extends RecyclerView.Adapter<PostPublishAdapter.
         if (mData == null)
             return;
 
-        final Post post = mData.get(position);
-        holder.bindData(post);
+        final PostPublish postPublish = mData.get(position);
+        holder.bindData(postPublish);
         if (mOnItemClickListener != null) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mOnItemClickListener.onItemClick(v, post);
-                }
-            });
-        }
-
-        if (post.getState() == PostPublish.STATE_PUBLISHING) {
-            new PostPublishTask(post).start();
+//            holder.itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    mOnItemClickListener.onItemClick(v, post);
+//                }
+//            });
         }
     }
 
@@ -78,6 +73,8 @@ public class PostPublishAdapter extends RecyclerView.Adapter<PostPublishAdapter.
         TextView mContentTv;
         @BindView(R.id.ptSortableNinePhotoLayout)
         PTNinePhotoLayout mPTNinePhotoLayout;
+        @BindView(R.id.address_tv)
+        TextView mAddressTv;
 
         @BindView(R.id.item_handler_praise_tv)
         TextView mPraiseTv;
@@ -94,41 +91,42 @@ public class PostPublishAdapter extends RecyclerView.Adapter<PostPublishAdapter.
             ButterKnife.bind(this, itemView);
         }
 
-        public void bindData(final Post post) {
+        public void bindData(final PostPublish postPublish) {
             String stateText;
             mStateTv.setOnClickListener(null);
-            if (post.getState() == PostPublish.STATE_PUBLISHING) {
+            if (postPublish.getState() == cn.com.wh.ring.database.bean.PostPublish.STATE_PUBLISHING) {
                 stateText = "发布中";
-            } else if (post.getState() == PostPublish.STATE_SUCCESS) {
+            } else if (postPublish.getState() == cn.com.wh.ring.database.bean.PostPublish.STATE_SUCCESS) {
                 stateText = "发布成功";
             } else {
                 stateText = "发布失败";
                 mStateTv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        new PostPublishTask(post).start();
+                        //new PostPublishTask(post).start();
                     }
                 });
             }
 
             mStateTv.setText(stateText);
-            mTimeTv.setText(TimeUtils.getFormatTimeString(post.getCreationTime(), System.currentTimeMillis()));
-            PostType postType = post.getPostType();
-            String content = post.getDescription();
+            mTimeTv.setText(TimeUtils.getFormatTimeString(postPublish.getCreationTime(), System.currentTimeMillis()));
+            PostType postType = postPublish.getPostType();
+            String content = postPublish.getDescription();
             if (postType != null) {
                 content = content + "#" + (TextUtils.isEmpty(postType.getName()) ? "" : postType.getName()) + "#";
             }
             mContentTv.setText(content);
-            List<String> mediaList = post.getMediaList();
+            List<String> mediaList = postPublish.getMediaList();
             if (mediaList == null || mediaList.isEmpty()) {
                 mPTNinePhotoLayout.setData(Collections.<String>emptyList());
             } else {
                 mPTNinePhotoLayout.setData(mediaList);
             }
+            mAddressTv.setText(postPublish.getRegion());
 
-            mPraiseTv.setText(NumberUtils.getString(post.getPraiseNumber()));
-            mCriticizeTv.setText(NumberUtils.getString(post.getCriticizeNumber()));
-            mCommentTv.setText(NumberUtils.getString(post.getCommentNumber()));
+            mPraiseTv.setText(NumberUtils.getString(postPublish.getPraiseNumber()));
+            mCriticizeTv.setText(NumberUtils.getString(postPublish.getCriticizeNumber()));
+            mCommentTv.setText(NumberUtils.getString(postPublish.getCommentNumber()));
         }
     }
 

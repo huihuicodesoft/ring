@@ -9,15 +9,18 @@ import org.greenrobot.greendao.annotation.*;
  */
 @Entity
 public class PostPublish {
-    public static final int STATE_PUBLISHING = 0; //发布中
-    public static final int STATE_SUCCESS = 1; //发布成功
-    public static final int STATE_FAIL = 2; //发布失败
+    public static final int STATE_PUBLISHING = -1; //发布中
+    public static final int STATE_SUCCESS = -2; //发布成功
+    public static final int STATE_FAIL = -3; //发布失败
 
     @Id(autoincrement = true)
     private Long id;
 
     @NotNull
     private String token;
+
+    @NotNull
+    private String uuid;
     private String content;
     private String mediaContent;
 
@@ -25,9 +28,7 @@ public class PostPublish {
     private String type;
     private Boolean anonymous;
     private Integer state;
-    private String region;
-    private Double lng;
-    private Double lat;
+    private Long addressId;
     private long time;
 
     @Generated(hash = 521198697)
@@ -38,19 +39,18 @@ public class PostPublish {
         this.id = id;
     }
 
-    @Generated(hash = 1119546552)
-    public PostPublish(Long id, @NotNull String token, String content, String mediaContent, @NotNull String type, Boolean anonymous, Integer state, String region, Double lng,
-            Double lat, long time) {
+    @Generated(hash = 380020328)
+    public PostPublish(Long id, @NotNull String token, @NotNull String uuid, String content, String mediaContent, @NotNull String type, Boolean anonymous, Integer state,
+            Long addressId, long time) {
         this.id = id;
         this.token = token;
+        this.uuid = uuid;
         this.content = content;
         this.mediaContent = mediaContent;
         this.type = type;
         this.anonymous = anonymous;
         this.state = state;
-        this.region = region;
-        this.lng = lng;
-        this.lat = lat;
+        this.addressId = addressId;
         this.time = time;
     }
 
@@ -70,6 +70,16 @@ public class PostPublish {
     /** Not-null value; ensure this value is available before it is saved to the database. */
     public void setToken(@NotNull String token) {
         this.token = token;
+    }
+
+    @NotNull
+    public String getUuid() {
+        return uuid;
+    }
+
+    /** Not-null value; ensure this value is available before it is saved to the database. */
+    public void setUuid(@NotNull String uuid) {
+        this.uuid = uuid;
     }
 
     public String getContent() {
@@ -114,28 +124,12 @@ public class PostPublish {
         this.state = state;
     }
 
-    public String getRegion() {
-        return region;
+    public Long getAddressId() {
+        return addressId;
     }
 
-    public void setRegion(String region) {
-        this.region = region;
-    }
-
-    public Double getLng() {
-        return lng;
-    }
-
-    public void setLng(Double lng) {
-        this.lng = lng;
-    }
-
-    public Double getLat() {
-        return lat;
-    }
-
-    public void setLat(Double lat) {
-        this.lat = lat;
+    public void setAddressId(Long addressId) {
+        this.addressId = addressId;
     }
 
     public long getTime() {
