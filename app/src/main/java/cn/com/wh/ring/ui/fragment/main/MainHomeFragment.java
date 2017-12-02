@@ -12,8 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.flyco.tablayout.SlidingTabLayout;
-
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,6 +23,7 @@ import cn.com.wh.ring.ui.fragment.home.HomeChoiceFragment;
 import cn.com.wh.ring.ui.fragment.home.HomeDynamicFragment;
 import cn.com.wh.ring.ui.fragment.home.HomeNewsFragment;
 import cn.com.wh.ring.utils.SystemBarUtils;
+import cn.com.wh.tablelayout.SlidingTabLayout;
 
 /**
  * Created by Hui on 2017/7/13.
@@ -81,7 +80,6 @@ public class MainHomeFragment extends ButterKnifeFragment {
 
         mViewPager.setAdapter(mViewPageAdapter);
         mTabLayout.setViewPager(mViewPager);
-
     }
 
     private void initRestoreState(Bundle savedInstanceState) {

@@ -10,11 +10,12 @@ import org.greenrobot.greendao.generator.ToMany;
 
 public class ExampleDaoGenerator {
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(1, "cn.com.wh.ring.database");
+        Schema schema = new Schema(1, "cn.com.wh.ring.database.bean");
 
         addPostPublish(schema);
-        addUserInfo(schema);
-
+//        addAddress(schema);
+//        addUserInfo(schema);
+        schema.setDefaultJavaPackageDao("cn.com.wh.ring.database.dao");
         new DaoGenerator().generateAll(schema, "E:\\project\\developer\\android\\ring\\app\\src\\test");
     }
 
@@ -22,13 +23,25 @@ public class ExampleDaoGenerator {
         Entity note = schema.addEntity("PostPublish");
         note.addIdProperty().primaryKey().autoincrement();
         note.addStringProperty("token").notNull();
+        note.addStringProperty("uuid").notNull();
         note.addStringProperty("content");
         note.addStringProperty("mediaContent");
         note.addStringProperty("type").notNull();
         note.addBooleanProperty("anonymous");
         note.addIntProperty("state");
-        note.addStringProperty("address");
+        note.addLongProperty("addressId");
         note.addLongProperty("time").notNull();
+    }
+
+    private static void addAddress(Schema schema) {
+        Entity note = schema.addEntity("Address");
+        note.addIdProperty().primaryKey().autoincrement();
+        note.addStringProperty("country");
+        note.addStringProperty("province");
+        note.addStringProperty("city");
+        note.addStringProperty("district");
+        note.addDoubleProperty("lng").notNull();
+        note.addDoubleProperty("lat").notNull();
     }
 
     private static void addUserInfo(Schema schema) {
@@ -41,7 +54,7 @@ public class ExampleDaoGenerator {
         note.addIntProperty("sex");
         note.addStringProperty("avatar");
         note.addStringProperty("signature");
-        note.addStringProperty("address");
+        note.addStringProperty("region");
         note.addLongProperty("lastModifiedTime");
     }
 
