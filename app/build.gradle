@@ -9,7 +9,7 @@ android {
         debug {
             keyAlias  'wh'
             keyPassword 'wh00033159'
-            storeFile file('E:/project/android/fuduoduo.jks')
+            storeFile file('../fuduoduo.jks')
             storePassword 'wh00033159'
         }
     }
