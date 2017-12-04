@@ -8,13 +8,21 @@ import java.util.List;
  */
 public class Page<T> implements Serializable {
     public static final int DEFAULT_PAGE_SIZE = 20;
-
+    private long maxId;        //最大ID
     private long total;        //总记录数
     private int pageNum;    // 第几页
     private int pageSize;    // 每页记录数
     private int pages;        // 总页数
     private int size;        // 当前页的数量 <= pageSize，该属性来自ArrayList的size属性
     private List<T> list;    //结果集
+
+    public long getMaxId() {
+        return maxId;
+    }
+
+    public void setMaxId(long maxId) {
+        this.maxId = maxId;
+    }
 
     public long getTotal() {
         return total;

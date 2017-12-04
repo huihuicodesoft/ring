@@ -18,13 +18,12 @@ public class UserInfo {
 
     @Unique
     private Long userId;
-    private Long infoId;
     private String nickname;
     private Long birthday;
     private Integer sex;
     private String avatar;
     private String signature;
-    private String addressCode;
+    private String region;
     private Long lastModifiedTime;
 
     @Generated(hash = 1279772520)
@@ -35,17 +34,16 @@ public class UserInfo {
         this.id = id;
     }
 
-    @Generated(hash = 1747870196)
-    public UserInfo(Long id, Long userId, Long infoId, String nickname, Long birthday, Integer sex, String avatar, String signature, String addressCode, Long lastModifiedTime) {
+    @Generated(hash = 951725279)
+    public UserInfo(Long id, Long userId, String nickname, Long birthday, Integer sex, String avatar, String signature, String region, Long lastModifiedTime) {
         this.id = id;
         this.userId = userId;
-        this.infoId = infoId;
         this.nickname = nickname;
         this.birthday = birthday;
         this.sex = sex;
         this.avatar = avatar;
         this.signature = signature;
-        this.addressCode = addressCode;
+        this.region = region;
         this.lastModifiedTime = lastModifiedTime;
     }
 
@@ -63,14 +61,6 @@ public class UserInfo {
 
     public void setUserId(Long userId) {
         this.userId = userId;
-    }
-
-    public Long getInfoId() {
-        return infoId;
-    }
-
-    public void setInfoId(Long infoId) {
-        this.infoId = infoId;
     }
 
     public String getNickname() {
@@ -113,12 +103,12 @@ public class UserInfo {
         this.signature = signature;
     }
 
-    public String getAddressCode() {
-        return addressCode;
+    public String getRegion() {
+        return region;
     }
 
-    public void setAddressCode(String addressCode) {
-        this.addressCode = addressCode;
+    public void setRegion(String region) {
+        this.region = region;
     }
 
     public Long getLastModifiedTime() {
@@ -129,19 +119,4 @@ public class UserInfo {
         this.lastModifiedTime = lastModifiedTime;
     }
 
-    @Override
-    public String toString() {
-        return "UserInfo{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", infoId=" + infoId +
-                ", nickname='" + nickname + '\'' +
-                ", birthday=" + birthday +
-                ", sex=" + sex +
-                ", avatar='" + avatar + '\'' +
-                ", signature='" + signature + '\'' +
-                ", addressCode='" + addressCode + '\'' +
-                ", lastModifiedTime=" + lastModifiedTime +
-                '}';
-    }
 }

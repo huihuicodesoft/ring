@@ -87,7 +87,7 @@ public class EditMeActivity extends TitleActivity {
         mNicknameTv.setText(TextUtils.isEmpty(userInfo.getNickname()) ?
                 getResources().getString(R.string.format_default_nickname, String.valueOf(userInfo.getUserId())) : userInfo.getNickname());
         mAppAccountTv.setText(String.valueOf(userInfo.getUserId()));
-        mAddressTv.setText(userInfo.getAddressCode());
+        mAddressTv.setText(userInfo.getRegion());
         mSignatureTv.setText(String.valueOf(userInfo.getSignature()));
 
         int resId = R.string.un_select;

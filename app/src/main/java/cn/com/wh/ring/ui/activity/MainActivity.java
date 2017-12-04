@@ -11,6 +11,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -19,6 +22,7 @@ import butterknife.OnClick;
 import cn.com.wh.permission.AndPermission;
 import cn.com.wh.permission.PermissionListener;
 import cn.com.wh.ring.R;
+import cn.com.wh.ring.event.PostPublishEvent;
 import cn.com.wh.ring.helper.LocationHelper;
 import cn.com.wh.ring.helper.LoginHelper;
 import cn.com.wh.ring.ui.activity.base.DarkStatusBarActivity;
@@ -68,6 +72,7 @@ public class MainActivity extends DarkStatusBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         unbinder = ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
         initView(savedInstanceState);
 
         requestPermission();
@@ -153,6 +158,21 @@ public class MainActivity extends DarkStatusBarActivity {
     @OnClick(R.id.bottom_me_ll)
     void onMe() {
         mViewPager.setCurrentItem(3, false);
+    }
+
+    @Subscribe
+    public void onEvent(PostPublishEvent postPublishEvent) {
+        if (postPublishEvent.type == PostPublishEvent.TYPE_SKIP_POST) {
+            if (mViewPager != null)
+                mViewPager.setCurrentItem(3);
+            MeInteractionActivity.start(this);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     public static void start(Context context) {

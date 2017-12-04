@@ -2,8 +2,6 @@ package cn.com.wh.ring.network.task;
 
 import android.text.TextUtils;
 
-import com.google.gson.Gson;
-
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
@@ -14,12 +12,14 @@ import cn.com.wh.ring.MainApplication;
 import cn.com.wh.ring.database.bean.Address;
 import cn.com.wh.ring.database.bean.PostPublish;
 import cn.com.wh.ring.database.dao.AddressDao;
+import cn.com.wh.ring.database.dao.PostPublishDao;
 import cn.com.wh.ring.event.PostPublishEvent;
 import cn.com.wh.ring.helper.RequestHelper;
 import cn.com.wh.ring.network.response.PostType;
 import cn.com.wh.ring.network.response.Response;
 import cn.com.wh.ring.network.retrofit.ReturnCode;
 import cn.com.wh.ring.network.service.Services;
+import cn.com.wh.ring.utils.GsonUtils;
 import cn.com.wh.ring.utils.LogUtils;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -28,15 +28,15 @@ import retrofit2.Call;
  * Created by Hui on 2017/8/18.
  */
 
-public class PostPublishTask extends Thread {
-    private static final String TAG = PostPublishTask.class.getName();
+public class PostPublishRunnable implements Runnable {
+    private static final String TAG = PostPublishRunnable.class.getName();
 
     private PostPublish mPostPublish;
 
-
-    public PostPublishTask(PostPublish postPublish) {
+    public PostPublishRunnable(Long postDbId) {
         super();
-        this.mPostPublish = postPublish;
+        PostPublishDao dao = MainApplication.getInstance().getDaoSession().getPostPublishDao();
+        mPostPublish = dao.load(postDbId);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class PostPublishTask extends Thread {
         if (mPostPublish == null)
             return;
 
-        List<String> mediaList = new Gson().fromJson(mPostPublish.getMediaContent(), List.class);
+        List<String> mediaList = GsonUtils.fromJson(mPostPublish.getMediaContent(), List.class);
         if (mediaList == null || mediaList.isEmpty()) {
             postPublish(null);
         } else {
@@ -90,16 +90,19 @@ public class PostPublishTask extends Thread {
 
     private void postPublish(List<String> mediaContent) {
         cn.com.wh.ring.network.request.PostPublish postPublish = new cn.com.wh.ring.network.request.PostPublish();
+        postPublish.setUuid(mPostPublish.getUuid());
         postPublish.setDescription(mPostPublish.getContent());
         postPublish.setAnonymous(mPostPublish.getAnonymous());
         if (mediaContent != null)
             postPublish.setMediaContent(mediaContent);
 
         AddressDao addressDao = MainApplication.getInstance().getDaoSession().getAddressDao();
-        Address address = addressDao.queryRaw("where _id = ?", new String[]{String.valueOf(mPostPublish.getId())}).get(0);
-        postPublish.setAddress(new cn.com.wh.ring.network.request.Address(address));
+        List<Address> list = addressDao.queryRaw("where _id = ?", new String[]{String.valueOf(mPostPublish.getAddressId())});
+        if (list != null && !list.isEmpty()) {
+            postPublish.setAddress(new cn.com.wh.ring.network.request.Address(list.get(0)));
+        }
 
-        PostType postType = new Gson().fromJson(mPostPublish.getType(), PostType.class);
+        PostType postType = GsonUtils.fromJson(mPostPublish.getType(), PostType.class);
         if (postType != null)
             postPublish.setPostType(postType.getId());
 
@@ -109,19 +112,39 @@ public class PostPublishTask extends Thread {
             if (response.isSuccessful()) {
                 Response<Object> temp = response.body();
                 if (temp != null && temp.getCode() == ReturnCode.OK) {
-                    //发布成功
-                    EventBus.getDefault().post(new PostPublishEvent(PostPublishEvent.TYPE_REQUEST_SUCCESS, mPostPublish.getId()));
+                    publishSuccess();
                 } else {
-                    //发布失败
-                    EventBus.getDefault().post(new PostPublishEvent(PostPublishEvent.TYPE_REQUEST_FAIL, mPostPublish.getId()));
+                    publishFail();
                 }
             } else {
-                //发布失败
-                EventBus.getDefault().post(new PostPublishEvent(PostPublishEvent.TYPE_REQUEST_FAIL, mPostPublish.getId()));
+                publishFail();
             }
         } catch (Exception e) {
-            //发布失败
-            EventBus.getDefault().post(new PostPublishEvent(PostPublishEvent.TYPE_REQUEST_FAIL, mPostPublish.getId()));
+            publishFail();
         }
+    }
+
+    private void publishSuccess() {
+        LogUtils.logV(TAG, "发布帖子成功 = " + mPostPublish.getId());
+        PostPublishDao dao = MainApplication.getInstance().getDaoSession().getPostPublishDao();
+        dao.deleteByKey(mPostPublish.getId());
+
+        Executor.deleteId(mPostPublish.getId());
+
+        EventBus.getDefault().post(new PostPublishEvent(PostPublishEvent.TYPE_REQUEST_SUCCESS, mPostPublish.getId()));
+    }
+
+    private void publishFail() {
+
+        LogUtils.logV(TAG, "发布帖子失败 = " + mPostPublish.getId());
+
+        PostPublishDao dao = MainApplication.getInstance().getDaoSession().getPostPublishDao();
+        PostPublish postPublish = dao.load(mPostPublish.getId());
+        postPublish.setState(PostPublish.STATE_FAIL);
+        dao.update(postPublish);
+
+        Executor.deleteId(mPostPublish.getId());
+
+        EventBus.getDefault().post(new PostPublishEvent(PostPublishEvent.TYPE_REQUEST_FAIL, mPostPublish.getId()));
     }
 }

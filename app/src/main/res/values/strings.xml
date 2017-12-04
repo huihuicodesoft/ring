@@ -135,4 +135,10 @@
     <string name="format_app_account">范范号：%1$s</string>
     <string name="format_signature">个性签名：%1$s</string>
     <string name="format_default_nickname">用户%1$s</string>
+
+    <string name="publishing">发布中</string>
+    <string name="publish_fail">发布失败</string>
+    <string name="publish_checking">审核中</string>
+    <string name="publish_check_fail">审核失败</string>
+    <string name="publish_check_success">已审核</string>
 </resources>

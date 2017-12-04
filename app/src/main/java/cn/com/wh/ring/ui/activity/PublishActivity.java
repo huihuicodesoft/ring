@@ -19,8 +19,6 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.amap.api.location.AMapLocation;
-import com.amap.api.location.AMapLocationClient;
-import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -45,6 +43,7 @@ import cn.com.wh.ring.event.PostPublishEvent;
 import cn.com.wh.ring.helper.LocationHelper;
 import cn.com.wh.ring.network.response.PostType;
 import cn.com.wh.ring.ui.activity.base.TitleActivity;
+import cn.com.wh.ring.utils.GsonUtils;
 import cn.com.wh.ring.utils.InputMethodUtils;
 import cn.com.wh.ring.utils.TerminalMarkUtils;
 import cn.com.wh.ring.utils.ToastUtils;
@@ -86,7 +85,6 @@ public class PublishActivity extends TitleActivity implements PTSortableNinePhot
 
     private InputMethodUtils mInputMethodUtils;
     private PostType mPostType;
-    private AMapLocationClient mLocationClient;
     private AMapLocation mAmapLocation;
 
 
@@ -95,8 +93,9 @@ public class PublishActivity extends TitleActivity implements PTSortableNinePhot
         public void onClick(View v) {
             if (interceptByType()) return;
             long id = insertDatabase();
+            ToastUtils.showShortToast("已发布");
+            EventBus.getDefault().post(new PostPublishEvent(PostPublishEvent.TYPE_SKIP_POST, id));
             finish();
-            EventBus.getDefault().post(new PostPublishEvent(PostPublishEvent.TYPE_SKIP_ME, id));
         }
     };
 
@@ -108,9 +107,8 @@ public class PublishActivity extends TitleActivity implements PTSortableNinePhot
         postPublish.setContent(getContent());
 
         List<String> list = mPTSortableNinePhotoLayout.getData();
-        Gson gson = new Gson();
-        postPublish.setMediaContent(gson.toJson(list));
-        postPublish.setType(gson.toJson(mPostType));
+        postPublish.setMediaContent(GsonUtils.toJson(list));
+        postPublish.setType(GsonUtils.toJson(mPostType));
         postPublish.setTime(System.currentTimeMillis());
         postPublish.setAnonymous(mAnonymousIv.isSelected());
         postPublish.setState(PostPublish.STATE_PUBLISHING);
@@ -156,12 +154,11 @@ public class PublishActivity extends TitleActivity implements PTSortableNinePhot
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (mAmapLocation != null) {
+        if (mAmapLocation != null)
             outState.putParcelable(SAVE_KEY_MAP, mAmapLocation);
-            if (mPostType != null)
-                outState.putSerializable(SAVE_KEY_TOPIC, mPostType);
-            outState.putBoolean(SAVE_KEY_ANONYMOUS, mAnonymousIv.isSelected());
-        }
+        if (mPostType != null)
+            outState.putSerializable(SAVE_KEY_TOPIC, mPostType);
+        outState.putBoolean(SAVE_KEY_ANONYMOUS, mAnonymousIv.isSelected());
     }
 
     @Override

@@ -169,7 +169,7 @@ public class MainMeFragment extends ButterKnifeFragment {
         mNicknameTv.setText(TextUtils.isEmpty(userInfo.getNickname()) ?
                 getResources().getString(R.string.format_default_nickname, String.valueOf(userInfo.getUserId())) : userInfo.getNickname());
         mAppAccountTv.setText(getResources().getString(R.string.format_app_account, String.valueOf(userInfo.getUserId())));
-        mAddressTv.setText(userInfo.getAddressCode());
+        mAddressTv.setText(userInfo.getRegion());
         mSignatureTv.setText(getResources().getString(R.string.format_signature, String.valueOf(userInfo.getSignature())));
         UserHelper.loadAvatar(mAvatarIv, userInfo.getAvatar());
     }

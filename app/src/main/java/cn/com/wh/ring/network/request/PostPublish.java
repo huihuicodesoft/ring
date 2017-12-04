@@ -6,11 +6,20 @@ import java.util.List;
  * Created by Hui on 2017/8/17.
  */
 public class PostPublish {
+    private String uuid;
     private String description;
     private List<String> mediaContent;
     private Address address;
     private int postType;
     private boolean anonymous;
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
 
     public String getDescription() {
         return description;

@@ -14,9 +14,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.wh.photo.photopicker.widget.PTNinePhotoLayout;
 import cn.com.wh.ring.R;
+import cn.com.wh.ring.database.bean.PostPublish;
 import cn.com.wh.ring.network.response.Post;
-import cn.com.wh.ring.network.response.PostPublish;
 import cn.com.wh.ring.network.response.PostType;
+import cn.com.wh.ring.network.task.Executor;
 import cn.com.wh.ring.utils.NumberUtils;
 import cn.com.wh.ring.utils.TimeUtils;
 
@@ -25,10 +26,10 @@ import cn.com.wh.ring.utils.TimeUtils;
  */
 
 public class PostPublishAdapter extends RecyclerView.Adapter<PostPublishAdapter.ViewHolder> {
-    private List<PostPublish> mData;
+    private List<Post> mData;
     private OnItemClickListener mOnItemClickListener;
 
-    public PostPublishAdapter(List<PostPublish> data) {
+    public PostPublishAdapter(List<Post> data) {
         mData = data;
     }
 
@@ -47,8 +48,8 @@ public class PostPublishAdapter extends RecyclerView.Adapter<PostPublishAdapter.
         if (mData == null)
             return;
 
-        final PostPublish postPublish = mData.get(position);
-        holder.bindData(postPublish);
+        final Post post = mData.get(position);
+        holder.bindData(post);
         if (mOnItemClickListener != null) {
 //            holder.itemView.setOnClickListener(new View.OnClickListener() {
 //                @Override
@@ -91,42 +92,45 @@ public class PostPublishAdapter extends RecyclerView.Adapter<PostPublishAdapter.
             ButterKnife.bind(this, itemView);
         }
 
-        public void bindData(final PostPublish postPublish) {
-            String stateText;
+        public void bindData(final Post post) {
             mStateTv.setOnClickListener(null);
-            if (postPublish.getState() == cn.com.wh.ring.database.bean.PostPublish.STATE_PUBLISHING) {
-                stateText = "发布中";
-            } else if (postPublish.getState() == cn.com.wh.ring.database.bean.PostPublish.STATE_SUCCESS) {
-                stateText = "发布成功";
-            } else {
-                stateText = "发布失败";
+
+            if (post.getState() == PostPublish.STATE_PUBLISHING) {
+                mStateTv.setText(R.string.publishing);
+            } else if (post.getState() == PostPublish.STATE_FAIL) {
+                mStateTv.setText(R.string.publish_fail);
                 mStateTv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //new PostPublishTask(post).start();
+                        Executor.execute(post.getId());
                     }
                 });
+            } else if (post.getState() == PostPublish.STATE_SUCCESS || post.getState() == Post.STATE_CHECKING) {
+                mStateTv.setText(R.string.publish_checking);
+            } else if (post.getState() == Post.STATE_CHECK_FAIL) {
+                mStateTv.setText(R.string.publish_check_fail);
+            } else {
+                mStateTv.setText(R.string.publish_check_success);
             }
 
-            mStateTv.setText(stateText);
-            mTimeTv.setText(TimeUtils.getFormatTimeString(postPublish.getCreationTime(), System.currentTimeMillis()));
-            PostType postType = postPublish.getPostType();
-            String content = postPublish.getDescription();
+            mTimeTv.setText(TimeUtils.getFormatTimeString(post.getCreationTime(), System.currentTimeMillis()));
+            PostType postType = post.getPostType();
+            String content = post.getDescription();
             if (postType != null) {
                 content = content + "#" + (TextUtils.isEmpty(postType.getName()) ? "" : postType.getName()) + "#";
             }
             mContentTv.setText(content);
-            List<String> mediaList = postPublish.getMediaList();
+            List<String> mediaList = post.getMediaList();
             if (mediaList == null || mediaList.isEmpty()) {
                 mPTNinePhotoLayout.setData(Collections.<String>emptyList());
             } else {
                 mPTNinePhotoLayout.setData(mediaList);
             }
-            mAddressTv.setText(postPublish.getRegion());
+            mAddressTv.setText(post.getRegion());
 
-            mPraiseTv.setText(NumberUtils.getString(postPublish.getPraiseNumber()));
-            mCriticizeTv.setText(NumberUtils.getString(postPublish.getCriticizeNumber()));
-            mCommentTv.setText(NumberUtils.getString(postPublish.getCommentNumber()));
+            mPraiseTv.setText(NumberUtils.getString(post.getPraiseNumber()));
+            mCriticizeTv.setText(NumberUtils.getString(post.getCriticizeNumber()));
+            mCommentTv.setText(NumberUtils.getString(post.getCommentNumber()));
         }
     }
 

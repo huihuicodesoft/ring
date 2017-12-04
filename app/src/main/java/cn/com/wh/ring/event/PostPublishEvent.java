@@ -5,10 +5,9 @@ package cn.com.wh.ring.event;
  */
 
 public class PostPublishEvent {
-    public static final int TYPE_SKIP_ME = 1;
-    public static final int TYPE_SKIP_POST = 2;
-    public static final int TYPE_REQUEST_FAIL = 3;
-    public static final int TYPE_REQUEST_SUCCESS = 4;
+    public static final int TYPE_SKIP_POST = 1;
+    public static final int TYPE_REQUEST_FAIL = 2;
+    public static final int TYPE_REQUEST_SUCCESS = 3;
 
     public final int type;
     public final Long id;

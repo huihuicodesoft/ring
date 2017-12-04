@@ -16,7 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.wh.ring.R;
 import cn.com.wh.ring.ui.activity.base.TitleActivity;
-import cn.com.wh.ring.ui.fragment.home.HomeAttentionFragment;
+import cn.com.wh.ring.ui.fragment.PostPublishFragment;
 import cn.com.wh.ring.ui.fragment.home.HomeChoiceFragment;
 import cn.com.wh.tablelayout.CommonTabLayout;
 import cn.com.wh.tablelayout.entity.TabEntity;
@@ -98,7 +98,7 @@ public class MeInteractionActivity extends TitleActivity {
             String className = Fragment.class.getName();
             switch (position) {
                 case 0:
-                    className = HomeAttentionFragment.class.getName();
+                    className = PostPublishFragment.class.getName();
                     break;
                 case 1:
                     className = HomeChoiceFragment.class.getName();

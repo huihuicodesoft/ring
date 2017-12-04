@@ -35,7 +35,6 @@ public class Address {
         this.lat = address.getLat();
     }
 
-
     public String getCountry() {
         return country;
     }
